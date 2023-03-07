@@ -61,7 +61,11 @@ const routes = [
     name: 'CustomerList',
     component: CustomerList
   },
-
+  {
+    path: '/codeMaster/codeMaster',
+    name: 'codeMaster',
+    component: codeMaster
+  },
   
 ]
 

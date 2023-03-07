@@ -27,7 +27,7 @@ public class BoardController {
         HttpSession session = request.getSession();
         //session.getAttribute(SessionConst.LOGIN_MEMBER);
         System.out.println("=====================");
-        System.out.println(session);
+        System.out.println(session.getAttribute("loginUser"));
        
         return boardService.getBoardList(); }
 

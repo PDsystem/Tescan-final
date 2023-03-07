@@ -65,9 +65,10 @@
      }
      this.$axios.post(this.$serverUrl+"/api/account/login",this.userInfo).then((res) => {
        console.log(res);
+       sessionStorage.setItem("id","세션");
        if(res.data!="0"){
         window.alert("로그인하였습니다.");
-        this.$router.push({path:"/board/list"});
+        this.$router.push({path:"/codeMaster/codeMaster"});
        }else{
         window.alert("로그인 정보가 존재하지 않습니다..");
        }

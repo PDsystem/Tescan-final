@@ -26,10 +26,10 @@ public class LoginController {
     public String getList(@RequestBody Map<String , String> params, HttpServletRequest request,Model model){
         System.out.println(params.get("contentId"));
         System.out.println(params.get("contentPw"));
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
          Login login= loginRepository.findByContentIdAndContentPw(params.get("contentId"),params.get("contentPw"));
         if(login != null){
-            //session.setAttribute(SessionConst.LOGIN_MEMBER, login);
+            session.setAttribute("loginUser",login.getContentId());
             System.out.println(session.getAttribute("loginUser"));
             System.out.println(session);
             
