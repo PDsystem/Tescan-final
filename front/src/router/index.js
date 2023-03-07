@@ -35,7 +35,9 @@ const routes = [
   {
     path: '/board/write',
     name: 'BoardWrite',
-    component: BoardWrite
+    component: BoardWrite,
+    meta: { hideeHeader: true, hideFooter: true},
+    
   },
   {
     path: '/emp',
