@@ -3,11 +3,9 @@ import PageHome from '@/views/PageHome.vue'
 import BoardList from '@/views/board/BoardList.vue'
 import BoardDetail from '@/views/board/BoardDetail.vue'
 import BoardWrite from '@/views/board/BoardWrite.vue'
-<<<<<<< HEAD
-import EmpForm from '@/views/emp/EmpForm.vue'
-=======
 import SalesOppo from '@/views/salesOppo/SalesOppo.vue'
->>>>>>> f3d4932c4dcdc4d253c699c6e56baa90baa8cd26
+import EmpForm from '@/views/ts_emp/EmpForm.vue'
+
 
 
 const routes = [
@@ -39,22 +37,17 @@ const routes = [
     name: 'BoardWrite',
     component: BoardWrite
   },
-<<<<<<< HEAD
   {
     path: '/emp',
     name: 'EmpForm',
     component: EmpForm
-}
-
-=======
+  },
   //영업기회
   {
     path: '/SalesOppo/Oppo',
     name: 'SalesOppo',
     component: SalesOppo
   },
->>>>>>> f3d4932c4dcdc4d253c699c6e56baa90baa8cd26
-  
 ]
 
 const router = createRouter({
