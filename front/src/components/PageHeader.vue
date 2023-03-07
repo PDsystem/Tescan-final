@@ -1,13 +1,4 @@
 <template>
-<<<<<<< HEAD
-    <header>
-      <div id="nav">
-        <router-link to="/">Home</router-link> |
-        <!-- <router-link to="/about">About</router-link> | -->
-        <router-link to="/board/list">board  </router-link> |
-        <!-- <router-link to="/attitudeBook/list">attitude book list</router-link> -->
-        <router-link to="/emp">사원등록</router-link> |
-=======
   <header>
     <!-- Homebtn -->
     <div class="homeBtn"><router-link to="/"><img alt="Tescan logo" src="../assets/tescanK_menu.jpg"></router-link></div>
@@ -69,11 +60,9 @@
             </li>
           </ui>
         </nav>
->>>>>>> f3d4932c4dcdc4d253c699c6e56baa90baa8cd26
       </div>
     </nav_wrap>
   </header>  
-<hr>
 </template>
 
 <script>

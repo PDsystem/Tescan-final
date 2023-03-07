@@ -24,9 +24,6 @@ public class BoardService {
 
     @Autowired
     private final BoardRepository boardRepository;
-    
-    @Autowired
-    // private final BoardMapper mapper;
 
     /**
      * 게시글 목록 가져오기

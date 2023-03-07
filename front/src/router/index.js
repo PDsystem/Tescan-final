@@ -5,7 +5,8 @@ import BoardDetail from '@/views/board/BoardDetail.vue'
 import BoardWrite from '@/views/board/BoardWrite.vue'
 import SalesOppo from '@/views/salesOppo/SalesOppo.vue'
 import EmpForm from '@/views/ts_emp/EmpForm.vue'
-
+import CustomerList from '@/views/customer/CustomerList.vue'
+import CustomerDetail from '@/views/customer/CustomerDetail.vue'
 
 
 const routes = [
@@ -50,6 +51,18 @@ const routes = [
     name: 'SalesOppo',
     component: SalesOppo
   },
+  {
+    path: '/customer/detail',
+    name: 'CustomerDetail',
+    component: CustomerDetail
+  },
+  {
+    path: '/customer/list',
+    name: 'CustomerList',
+    component: CustomerList
+  },
+
+  
 ]
 
 const router = createRouter({
