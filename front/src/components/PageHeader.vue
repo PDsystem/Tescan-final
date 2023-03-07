@@ -4,7 +4,8 @@
         <router-link to="/">Home</router-link> |
         <!-- <router-link to="/about">About</router-link> | -->
         <router-link to="/board/list">board  </router-link> |
-        <router-link to="/attitudeBook/list">attitude book list</router-link>
+        <!-- <router-link to="/attitudeBook/list">attitude book list</router-link> -->
+        <router-link to="/emp">사원등록</router-link> |
       </div>
     </header>
 

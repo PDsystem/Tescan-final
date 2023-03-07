@@ -3,6 +3,7 @@ import PageHome from '@/views/PageHome.vue'
 import BoardList from '@/views/board/BoardList.vue'
 import BoardDetail from '@/views/board/BoardDetail.vue'
 import BoardWrite from '@/views/board/BoardWrite.vue'
+import EmpForm from '@/views/emp/EmpForm.vue'
 
 
 const routes = [
@@ -34,6 +35,11 @@ const routes = [
     name: 'BoardWrite',
     component: BoardWrite
   },
+  {
+    path: '/emp',
+    name: 'EmpForm',
+    component: EmpForm
+}
 
   
 ]
