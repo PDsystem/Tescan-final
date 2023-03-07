@@ -7,7 +7,7 @@ import SalesOppo from '@/views/salesOppo/SalesOppo.vue'
 import EmpForm from '@/views/ts_emp/EmpForm.vue'
 import CustomerList from '@/views/customer/CustomerList.vue'
 import CustomerDetail from '@/views/customer/CustomerDetail.vue'
-
+import codeMaster from '@/views/codeMaster/codeMaster.vue'
 
 const routes = [
   {
