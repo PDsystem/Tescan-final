@@ -3,6 +3,7 @@ import PageHome from '@/views/PageHome.vue'
 import BoardList from '@/views/board/BoardList.vue'
 import BoardDetail from '@/views/board/BoardDetail.vue'
 import BoardWrite from '@/views/board/BoardWrite.vue'
+import SalesOppo from '@/views/salesOppo/SalesOppo.vue'
 
 
 const routes = [
@@ -34,7 +35,12 @@ const routes = [
     name: 'BoardWrite',
     component: BoardWrite
   },
-
+  //영업기회
+  {
+    path: '/SalesOppo/Oppo',
+    name: 'SalesOppo',
+    component: SalesOppo
+  },
   
 ]
 
