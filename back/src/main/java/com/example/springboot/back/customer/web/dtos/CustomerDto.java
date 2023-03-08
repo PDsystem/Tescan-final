@@ -39,8 +39,8 @@ public class CustomerDto implements Serializable {
    // /* rowNum */
    //  private int idx;
 
-    /* COR_REG_NO 사업자 등록번호(not null) */
-    private String cor_reg_no;
+    /* regno 사업자 등록번호(not null) */
+    private String regno;
    
     /* CUSTOMER_NAME 고객명(not null) */
     private String customer_name;

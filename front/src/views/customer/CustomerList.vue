@@ -1,7 +1,7 @@
 <template>
     <div class="customer-list">
         <!-- <caption><h1>거래처 현황</h1></caption> -->
-        <div class="common-buttons">
+        <div class="div-buttons">
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
             <button type="button" class="w3-button" v-on:click="fnSave">검색</button>        
             <button type="button" class="w3-button" v-on:click="fnSave">등록</button>        
@@ -119,10 +119,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(row,cor_reg_no) in list" :key="cor_reg_no">
+                <tr v-for="(row,regno) in list" :key="regno">
                     <td>{{ row.idx }}</td>
                     <!-- <td>1</td> -->
-                    <td>{{ row.cor_reg_no }}</td>
+                    <td>{{ row.regno }}</td>
                     <td>{{ row.customer_name }}</td>
                     <td>{{ row.typeCode }}</td>
                     <td>{{ row.email }}</td>
@@ -134,17 +134,29 @@
                     <td>{{ row.address2 }}</td>
                     <td>{{ row.high_customer }}</td>
                     <td>{{ row.tel }}</td>
-                    <!-- <td>{{ row.semail }}</td> -->
-                    <!-- <td>{{ row.content_id }}</td> -->
-                    <!-- <td>{{ row.content_pw }}</td> -->
                     <td>{{ row.note }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div>
-        <!-- 페이지 처리-->
-    </div>
+        <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
+        <span class="pg">
+        <a href="javascript:;" @click="fnPage(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
+        <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"
+           class="prev w3-button w3-bar-item w3-border">&lt;</a>
+        <template v-for=" (n,index) in paginavigation()">
+            <template v-if="paging.page==n">
+                <strong class="w3-button w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
+            </template>
+            <template v-else>
+                <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{ n }}</a>
+            </template>
+        </template>
+        <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
+           @click="fnPage(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
+        <a href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
+        </span>
+      </div>
 </template>
 <script>
   export default {
@@ -170,7 +182,7 @@
             size: this.$route.query.size ? this.$route.query.size : 10,
             keyword: this.$route.query.keyword,
             paginavigation: function () { //페이징 처리 for문 커스텀
-            alert();
+            // alert();
             let pageNumber = [] //;
             // let start_page = this.paging.start_page;
             // let end_page = this.paging.end_page;
@@ -196,19 +208,20 @@
             this.$axios.get(this.$serverUrl + "/customer/list", {
             params: this.requestBody,
             headers: {}
-            }).then((res) => {      
-            console.log(res);
-            this.list = res.data  //서버에서 데이터를 목록으로 보내므로 바로 할당하여 사용할 수 있다.
-            this.total_page_cnt =res.data.length;
-            console.log(this.total_page_cnt);
+            }).then((res) => {   
+                if (res.data.result_code === "OK") {
+                this.list = res.data.data
+                this.paging = res.data.pagination
+                this.no = this.paging.total_list_cnt - ((this.paging.page - 1) * this.paging.page_size)
+                }
             }).catch((err) => {
-            if (err.message.indexOf('Network Error') > -1) {
+                if (err.message.indexOf('Network Error') > -1) {
                 alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-            }
+                }
             })
         },
-        fnView(cor_reg_no) {
-            this.requestBody.cor_reg_no = cor_reg_no
+        fnView(regno) {
+            this.requestBody.regno = regno
             this.$router.push({
             path: './detail',
             query: this.requestBody
@@ -229,7 +242,7 @@
    }
 </script>
 <style>
-    .common-buttons {
+    .div-buttons {
         padding: 8px;
         text-align: right;
     }
@@ -280,5 +293,16 @@
     }
     .inputcss{
         width: 200px;
+    }
+    .w3-button {
+        padding: 2px 20px 2px 20px;
+        font-size: 13px;
+        font-weight: 900;
+        color: white;
+        background-color: #0078b3;
+        border: 0px;
+        border-radius: 4px;
+        border: 1px solid rgb(185, 185, 185);
+        margin-right: 5px;
     }
 </style>

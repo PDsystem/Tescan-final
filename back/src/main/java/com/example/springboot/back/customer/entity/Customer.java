@@ -8,6 +8,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,10 +47,10 @@ public class Customer implements Serializable {
     // /* rowNum */
     // private int idx;
 
-    /* COR_REG_NO 사업자 등록번호(not null) */
+    /* REGNO 사업자 등록번호(not null) */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private String cor_reg_no;
+    private String regno;
         
     // /* CUS_NO 고객번호(not null) */
     // private String cusNo;
