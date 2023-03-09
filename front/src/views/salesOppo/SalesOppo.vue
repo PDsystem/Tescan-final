@@ -41,7 +41,7 @@
         <table class="table">
             <thead class="thead">
                 <tr class="tr">
-                    <th class="th">No.</th>
+                    <!-- <th class="th">No.</th> -->
                     <th class="th">담당자</th>
                     <th class="th">등록일자</th>
                     <th class="th">장비명</th>
@@ -56,12 +56,12 @@
                     <th class="th">계약금액(달러)</th>
                     <th class="th">사유</th>
                     <th class="th">비고</th>
-                </tr> 
+                </tr>   
             </thead>
         <tbody class="tbody">
-            <tr v-for="d in state.data" :key="d.id" @click="edit(d.EMP_NO,d.EMP_NAME)">
-                <td>{{ d.ROWNUM }}</td>
-                <td>{{ d.EMP_NAME + '(' + d.EMP_NO + ')' }}</td>
+            <tr v-for="(d,EMPNO) in list" :key="EMPNO" @click="edit(d.EMPNO)">
+                <!-- <td>{{ d.ROWNUM }}</td> -->
+                <td>{{ d.EMPNO }}</td>
                 <td>{{ d.REG_DATE }}</td>
                 <td>{{ d.EQUIP_NO }}</td>
                 <td>{{ d.COR_REG_NO }}</td>
@@ -149,25 +149,7 @@
 </template>
 
 <script>
-import { reactive } from "vue";
-import axios from "axios";
 
-export default {
-  setup() {
-  const state = reactive({
-    data: [],
-    form: {
-        searchkey: "",
-        searchname:""
-      }
-  })
-  axios.get("/api/memos").then((res) => {
-    //console.log(res);
-    state.data = res.data;
-    })
-    return { state };
-    },
-};
 </script>
 
 <style scoped>
