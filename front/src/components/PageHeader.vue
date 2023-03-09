@@ -8,7 +8,7 @@
         <nav>
           <ui class="navbar">
             <li>
-              |<router-link to="/">Home</router-link> |
+              |<router-link to="/">Home</router-link>|
               <ul>
                 <li><router-link to="/board/list">board</router-link></li>
                 <li><router-link to="/attitudeBook/list">attitude book list</router-link></li>
