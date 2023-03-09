@@ -32,9 +32,10 @@ public class CustomerService {
         Page<Customer> customerEntities = customerRepository.findAllByOrderByRegnoDesc(pageable);
 
         List<CustomerDto> dtos = new ArrayList<>();
-        log.info("2");
+
         for (Customer entity : customerEntities) {
             CustomerDto dto = CustomerDto.builder()
+                    // .idx(entity.getIdx())
                     .regno(entity.getRegno())
                     .customer_name(entity.getCustomer_name())
                     .typeCode(entity.getTypeCode())
@@ -55,14 +56,12 @@ public class CustomerService {
 
             dtos.add(dto);
         }
-        // log.info("3");
         Pagination pagination = new Pagination(
             (int) customerEntities.getTotalElements()
             , pageable.getPageNumber() + 1
             , pageable.getPageSize()
             , 10
          );
-        //  log.info("4");
         return Header.OK(dtos, pagination);
     }
      /**
