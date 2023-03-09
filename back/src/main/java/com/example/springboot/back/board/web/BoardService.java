@@ -11,11 +11,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,28 +27,36 @@ public class BoardService {
 
     @Autowired
     private final BoardRepository boardRepository;
+    
+ 
+    // private final BoardMapper mapper;
 
     /**
      * 게시글 목록 가져오기
      */
-    public List<BoardDto> getBoardList() {
-        List<Board> boardEntities = boardRepository.findAll();
-        List<BoardDto> dtos = new ArrayList<>();
+    public Page<Board> getBoardList(Pageable pageable,int page) {
+        // List<Board> boardEntities = boardRepository.findAll();
+        // List<BoardDto> dtos = new ArrayList<>();
 
-        for (Board entity : boardEntities) {
-            BoardDto dto = BoardDto.builder()
-                    .idx(entity.getIdx())
-                    .author(entity.getAuthor())
-                    .title(entity.getTitle())
-                    .contents(entity.getContents())
-                    .createdAt(entity.getCreatedAt())
-                    // .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
-                    .build();
+        // for (Board entity : boardEntities) {
+        //     BoardDto dto = BoardDto.builder()
+        //             .idx(entity.getIdx())
+        //             .author(entity.getAuthor())
+        //             .title(entity.getTitle())
+        //             .contents(entity.getContents())
+        //             .createdAt(entity.getCreatedAt())
+        //             // .createdAt(entity.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")))
+        //             .build();
 
-            dtos.add(dto);
-        }
+        //     dtos.add(dto);
+        // }
 
-        return dtos;
+
+
+        return boardRepository.findAll(PageRequest.of(page, 10));
+    }
+    public Page<Board> boardSearchList(String searchKeyword,Pageable pageable,int page ){
+        return boardRepository.findByTitleContaining(searchKeyword,PageRequest.of(page, 10));
     }
 
     /**
