@@ -38,118 +38,144 @@
         <br>
         <!--리스트-->
         <hr class="line-basic">
-        <table class="table">
-            <thead class="thead">
-                <tr class="tr">
-                    <!-- <th class="th">No.</th> -->
-                    <th class="th">담당자</th>
-                    <th class="th">등록일자</th>
-                    <th class="th">장비명</th>
-                    <th class="th">거래처</th>
-                    <th class="th">프로젝트명</th>
-                    <th class="th">현황분류코드</th>
-                    <th class="th">예상금액</th>
-                    <th class="th">예상종료일자</th>
-                    <th class="th">가능성</th>
-                    <th class="th">완료일자</th>
-                    <th class="th">계약금액</th>
-                    <th class="th">계약금액(달러)</th>
-                    <th class="th">사유</th>
-                    <th class="th">비고</th>
+        <table>
+            <thead>
+                <tr>
+                    <th>담당자</th>
+                    <th>등록일자</th>
+                    <th>장비명</th>
+                    <th>거래처</th>
+                    <th>프로젝트명</th>
+                    <th>현황분류코드</th>
+                    <th>예상금액</th>
+                    <th>예상종료일자</th>
+                    <th>가능성</th>
+                    <th>완료일자</th>
+                    <th>계약금액</th>
+                    <th>계약금액(달러)</th>
+                    <th>사유</th>
+                    <th>비고</th>
+                    <!-- <th>No.</th> -->
                 </tr>   
             </thead>
-        <tbody class="tbody">
-            <tr v-for="(d,EMPNO) in list" :key="EMPNO" @click="edit(d.EMPNO)">
-                <!-- <td>{{ d.ROWNUM }}</td> -->
-                <td>{{ d.EMPNO }}</td>
-                <td>{{ d.REG_DATE }}</td>
-                <td>{{ d.EQUIP_NO }}</td>
-                <td>{{ d.COR_REG_NO }}</td>
-                <td>{{ d.PROJECT_NAME }}</td>
-                <td>{{ d.CONDITION_CODE }}</td>
-                <td>{{ d.SALES_FORECAST }}</td>
-                <td>{{ d.RETIRE_DATE }}</td>
-                <td>{{ d.POSSIBILITY }}</td>
-                <td>{{ d.END_DATE }}</td>
-                <td>{{ d.CON_PRICE }}</td>
-                <td>{{ d.CON_PRICE_DOL }}</td>
-                <td>{{ d.REASON }}</td>
-                <td>{{ d.NOTE }}</td>
+            <tbody>
+                <tr v-for="(row, empno) in list" :key="empno">
+                    <td>{{ row.empno }}</td>
+                    <td>{{ row.reg_date }}</td>
+                    <td>{{ row.equip_no }}</td>
+                    <td>{{ row.cor_reg_no }}</td>
+                    <td>{{ row.project_name }}</td>
+                    <td>{{ row.condition_code }}</td>
+                    <td>{{ row.sales_forecast }}</td>
+                    <td>{{ row.retire_date }}</td>
+                    <td>{{ row.possibility }}</td>
+                    <td>{{ row.end_date }}</td>
+                    <td>{{ row.con_price }}</td>
+                    <td>{{ row.con_price_dol }}</td>
+                    <td>{{ row.reason }}</td>
+                    <td>{{ row.note }}</td>
+                    <!-- <td>{{ d.ROWNUM }}</td> -->
+                </tr>
+            </tbody>
+        </table>
+        <hr class="line-basic">
+        <br>
+        <!--crud 등록,수정칸-->
+        <table>
+            <tr>
+                <td class="colText">사원명(사원번호)</td>
+                <td class="colData"><input type="text"></td>
+                <td class="colText">사업자등록번호</td>
+                <td class="colData"><input type="text"></td>
+                <td class="colText">등록일시</td>
+                <td class="colData"></td>
             </tr>
-        </tbody>
-    </table>
-    <hr class="line-basic">
-    <br>
-    <!--crud 등록,수정칸-->
-    <table>
-        <tr>
-            <td class="colText">사원명(사원번호)</td>
-            <td class="colData"><input type="text"></td>
-            <td class="colText">사업자등록번호</td>
-            <td class="colData"><input type="text"></td>
-            <td class="colText">등록일시</td>
-            <td class="colData"></td>
-        </tr>
-        <tr>
-            <td class="colText">프로젝트명</td>
-            <td class="colData"><input type="text"></td>
-            <td class="colText">현황분류코드</td>
-            <td class="colData">
-                <select class="dropList">
-                    <option>-</option>
-                    <option>잠재</option>
-                    <option>수주</option>
-                    <option>진행</option>
-                    <option>실패</option>
-                </select>
-            </td>
-            <td class="colText">가능성</td>
-            <td class="colData">
-                <select class="dropList">
-                    <option>%</option>
-                    <option>10%</option>
-                    <option>20%</option>
-                    <option>30%</option>
-                    <option>40%</option>
-                    <option>50%</option>
-                    <option>60%</option>
-                    <option>70%</option>
-                    <option>80%</option>
-                    <option>90%</option>
-                    <option>100%</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td class="colText">장비번호</td>
-            <td class="colData"></td>
-            <td class="colText">예상종료일자</td>
-            <td class="colData"><input class="calendar" type="date"></td>
-            <td class="colText">완료일자</td>
-            <td class="colData"><input class="calendar" type="date"></td>
-        </tr>
-        <tr>
-            <td class="colText">계약금액</td>
-            <td class="colData"><input type="text"></td>
-            <td class="colText">계약금액($)</td>
-            <td class="colData"><input type="text"></td>
-            <td class="colText">예상금액</td>
-            <td class="colData"><input type="text"></td>
-        </tr>
-        <tr>
-            <td class="colText">사유</td>
-            <td class="colData" colspan="6"><input type="text"></td>
-        </tr>
-        <tr>
-            <td class="colText">비고</td>
-            <td class="colData" colspan="6"></td>
-        </tr>
-    </table>
-</div>
+            <tr>
+                <td class="colText">프로젝트명</td>
+                <td class="colData"><input type="text"></td>
+                <td class="colText">현황분류코드</td>
+                <td class="colData">
+                    <select class="dropList">
+                        <option>-</option>
+                        <option>잠재</option>
+                        <option>수주</option>
+                        <option>진행</option>
+                        <option>실패</option>
+                    </select>
+                </td>
+                <td class="colText">가능성</td>
+                <td class="colData">
+                    <select class="dropList">
+                        <option>%</option>
+                        <option>10%</option>
+                        <option>20%</option>
+                        <option>30%</option>
+                        <option>40%</option>
+                        <option>50%</option>
+                        <option>60%</option>
+                        <option>70%</option>
+                        <option>80%</option>
+                        <option>90%</option>
+                        <option>100%</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="colText">장비번호</td>
+                <td class="colData"></td>
+                <td class="colText">예상종료일자</td>
+                <td class="colData"><input class="calendar" type="date"></td>
+                <td class="colText">완료일자</td>
+                <td class="colData"><input class="calendar" type="date"></td>
+            </tr>
+            <tr>
+                <td class="colText">계약금액</td>
+                <td class="colData"><input type="text"></td>
+                <td class="colText">계약금액($)</td>
+                <td class="colData"><input type="text"></td>
+                <td class="colText">예상금액</td>
+                <td class="colData"><input type="text"></td>
+            </tr>
+            <tr>
+                <td class="colText">사유</td>
+                <td class="colData" colspan="6"><input type="text"></td>
+            </tr>
+            <tr>
+                <td class="colText">비고</td>
+                <td class="colData" colspan="6"></td>
+            </tr>
+        </table>
+    </div>
 </template>
 
 <script>
+export default {
+    data() {
+        return {
+            list: {}
+        }
+    },
+    mounted() {    
+        this.GetOppoList();
+        // this.paginavigation();
+    },
+    methods: {     
+        GetOppoList() {
+            this.$axios.get(this.$serverUrl + "/oppo/list",
+            this.requestBody
+            ).then((res) => {    
+                console.log(res)
 
+                this.list = res.data
+                console.log(this.list)
+            }).catch((err) => {
+            if (err.message.indexOf('Network Error') > -1) {
+                alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+                }
+            })
+        }
+    }
+}
 </script>
 
 <style scoped>

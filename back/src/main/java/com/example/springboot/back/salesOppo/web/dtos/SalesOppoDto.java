@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class SalesOppoDto implements Serializable {
-    //private int rownum;	//페이징
 	private String empno; // 사원번호
 	private String reg_date; // 등록일
 	private String equip_no; // 장비번호
@@ -29,4 +28,5 @@ public class SalesOppoDto implements Serializable {
 	private String note; // 비고
 	private String name_emp_no; // 담당자(사원번호)
 	private String name_cor_reg_no; // 거래처(사업자등록번호)
+	// private int rownum;	//페이징
 }

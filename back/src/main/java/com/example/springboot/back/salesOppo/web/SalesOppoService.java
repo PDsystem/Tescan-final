@@ -25,11 +25,10 @@ public class SalesOppoService {
     public List<SalesOppoDto> getSalesOppoList() {
         List<SalesOppo> salesOppoEntities = salesOppoRepository.findAll();
             
-        System.out.println(salesOppoEntities);
             List<SalesOppoDto> dtos = new ArrayList<>();
             for (SalesOppo entity : salesOppoEntities) {
                 SalesOppoDto dto = SalesOppoDto.builder()
-                    //.rownum(entity.getRownum())
+                    // .rownum(entity.getRownum())
                     .empno(entity.getEmpno())
                     .reg_date(entity.getReg_date())
                     .equip_no(entity.getEquip_no())
@@ -49,6 +48,6 @@ public class SalesOppoService {
                 .build();
             dtos.add(dto);
             }
-        return null;
+        return dtos;
     }
 }

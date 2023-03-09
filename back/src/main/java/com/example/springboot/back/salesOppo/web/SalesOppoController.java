@@ -24,9 +24,9 @@ public class SalesOppoController {
     // 목록 조회하기
     @GetMapping("/oppo/list")
     public List<SalesOppoDto> oppoList(HttpServletRequest request) { 
-        HttpSession session = request.getSession();
-        //session.getAttribute(SessionConst.LOGIN_MEMBER);
-        System.out.println("=====================");
+        // HttpSession session = request.getSession();
+        // session.getAttribute(SessionConst.LOGIN_MEMBER);
+        // System.out.println("=====================");
         // System.out.println(session.getAttribute("loginUser"));
        
         return salesOppoService.getSalesOppoList();
