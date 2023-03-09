@@ -28,6 +28,8 @@ public class CustomerController {
     // public Header<List<CustomerDto>> customerList(Pageable pageable,HttpServletRequest request) { 
     public Header<List<CustomerDto>> customerList(@PageableDefault(sort = {"regno"}) Pageable pageable,HttpServletRequest request) { 
         HttpSession session = request.getSession();
+        // System.out.print(pageable.getPageNumber());
+        log.info("1");
         return customerService.getCustomerList(pageable); }
 
     @GetMapping("/customer/{id}")
