@@ -250,7 +250,7 @@ button {
 }
 .header {
   height: 60px;
-  background-color: #f0f0f0;
+  background-color: #edf4fa;
   padding: 10px 0 0 20px;
 }
 .header h4 {
@@ -258,10 +258,11 @@ button {
 }
 .search {
   height: 40px;
-  background-color: #f0f0f0;
-  border: 1px solid lightgray;
+  background-color: #edf4fa;
+
   display: flex;
   padding-left: 10px;
+  
 }
 .search .input {
   margin-right: 10px;
@@ -359,7 +360,7 @@ button {
 .update {
   height: 80px;
   width: 99vw;
-  background-color: #f0f0f0;
+  background-color:#edf4fa;
   text-align: center;
   margin: auto;
 }
@@ -382,6 +383,7 @@ button {
 }
 .update-top {
   border-bottom: 0;
+  padding: 0.1px 0.2px 0.2px 0.3px;
 }
 .update-bottom {
   padding: 0 0 13px 0;
