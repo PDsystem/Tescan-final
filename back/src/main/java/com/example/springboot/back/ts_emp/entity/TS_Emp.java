@@ -19,7 +19,7 @@ public class TS_Emp {
     
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private String empno; // 사번
+    private String emp_no; // 사번
 
     private String id; // 아이디
     private String name; // 이름

@@ -41,7 +41,7 @@
         <table class="table">
             <thead class="thead">
                 <tr class="tr">
-                    <!-- <th class="th">No.</th> -->
+                    <th class="th">No.</th>
                     <th class="th">담당자</th>
                     <th class="th">등록일자</th>
                     <th class="th">장비명</th>
@@ -59,9 +59,9 @@
                 </tr> 
             </thead>
         <tbody class="tbody">
-            <tr v-for="d in state.data" :key="d.id" @click="edit(d.EMPNO)">
-                <!-- <td>{{ d.ROWNUM }}</td> -->
-                <td>{{ d.EMPNO }}</td>
+            <tr v-for="d in state.data" :key="d.id" @click="edit(d.EMP_NO,d.EMP_NAME)">
+                <td>{{ d.ROWNUM }}</td>
+                <td>{{ d.EMP_NAME + '(' + d.EMP_NO + ')' }}</td>
                 <td>{{ d.REG_DATE }}</td>
                 <td>{{ d.EQUIP_NO }}</td>
                 <td>{{ d.COR_REG_NO }}</td>
@@ -70,7 +70,7 @@
                 <td>{{ d.SALES_FORECAST }}</td>
                 <td>{{ d.RETIRE_DATE }}</td>
                 <td>{{ d.POSSIBILITY }}</td>
-                <td>{{ d.END_DATE }}</td>   
+                <td>{{ d.END_DATE }}</td>
                 <td>{{ d.CON_PRICE }}</td>
                 <td>{{ d.CON_PRICE_DOL }}</td>
                 <td>{{ d.REASON }}</td>
@@ -81,7 +81,7 @@
     <hr class="line-basic">
     <br>
     <!--crud 등록,수정칸-->
-    <!-- <table>
+    <table>
         <tr>
             <td class="colText">사원명(사원번호)</td>
             <td class="colData"><input type="text"></td>
@@ -138,13 +138,13 @@
         </tr>
         <tr>
             <td class="colText">사유</td>
-            <td class="colData" colspan="6"></td>
+            <td class="colData" colspan="6"><input type="text"></td>
         </tr>
         <tr>
             <td class="colText">비고</td>
             <td class="colData" colspan="6"></td>
         </tr>
-    </table> -->
+    </table>
 </div>
 </template>
 
@@ -161,43 +161,16 @@ export default {
         searchname:""
       }
   })
-  axios.get("/oppo/list").then((res) => {
+  axios.get("/api/memos").then((res) => {
     //console.log(res);
     state.data = res.data;
     })
     return { state };
     },
-    mounted() {
-        this.fnGetList();
-    },
-    methods: {
-        fnGetList() {
-            this.requestBody = {
-                keyword: this.keyword,
-                page: this.page,
-                size: this.size
-            }
-
-            this.$axios.get(this.$serverUrl + "/oppo/list", {
-                params: this.requestBody,
-                header: {}
-            }).then((res) => {
-                console.log(res);
-                this.list = res.data
-                this.total_page_cnt = res.data.length;
-                console.log(this.total_page_cnt);
-            }).catch((err) => {
-                if(err.message.indexOf('Network Error') > -1) {
-                    alert('네트워크가 원할하지 않습니다.')
-                }
-            })
-        },
-    }
 };
 </script>
 
 <style scoped>
-@import url(../../assets/common.css);
 * {
     margin: 0px;
     padding: 0px;
