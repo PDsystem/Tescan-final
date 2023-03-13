@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
-// import com.example.springboot.back.customer.entity.TS_CUSTOMER;
+import com.example.springboot.back.customer.entity.Customer;
 import com.example.springboot.back.customer.web.dtos.CustomerDto;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public class CustomerController {
 
     @GetMapping("/customer/list")
     // public Header<List<CustomerDto>> customerList(Pageable pageable,HttpServletRequest request) { 
-    public Header<List<CustomerDto>> customerList(@PageableDefault(sort = {"regno"}) Pageable pageable,HttpServletRequest request) { 
+    public Header<List<CustomerDto>> customerList(@PageableDefault(sort = {"corRegNo"}) Pageable pageable,HttpServletRequest request) { 
         HttpSession session = request.getSession();
         // System.out.print(pageable.getPageNumber());
         log.info("1");
@@ -35,5 +35,20 @@ public class CustomerController {
     @GetMapping("/customer/{id}")
     public CustomerDto getCustomer(@PathVariable String id) {
         return customerService.getCustomer(id);
+    }
+
+    @PostMapping("/customer")
+    public Customer create(@RequestBody CustomerDto customerDto) {
+        return customerService.create(customerDto);
+    }
+
+    @PatchMapping("/customer")
+    public Customer update(@RequestBody CustomerDto customerDto) {
+        return customerService.update(customerDto);
+    }
+
+    @DeleteMapping("/customer/{id}")
+    public void delete(@PathVariable String id) {
+        customerService.delete(id);
     }
 }

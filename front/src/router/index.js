@@ -7,6 +7,7 @@ import SalesOppo from '@/views/salesOppo/SalesOppo.vue'
 import EmpForm from '@/views/ts_emp/EmpForm.vue'
 import CustomerList from '@/views/customer/CustomerList.vue'
 import CustomerDetail from '@/views/customer/CustomerDetail.vue'
+import CustomerWrite from '@/views/customer/CustomerWrite.vue'
 import codeMaster from '@/views/codeMaster/codeMaster.vue'
 
 const routes = [
@@ -60,6 +61,11 @@ const routes = [
     path: '/customer/list',
     name: 'CustomerList',
     component: CustomerList
+  },
+  {
+    path: '/customer/write',
+    name: 'CustomerWrite',
+    component: CustomerWrite
   },
   {
     path: '/codeMaster/codeMaster',
