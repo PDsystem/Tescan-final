@@ -23,22 +23,22 @@
       </tr>
       </tbody>
     </table>
-    <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
+    <div class="paging pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
       <span class="pg">
-      <a href="javascript:;" @click="fnGetList(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
+      <a href="javascript:;" @click="fnGetList(1)" class="paging first w3-button w3-bar-item w3-border">&lt;&lt;</a>
       <a href="javascript:;" v-if="paging.start_page > 10" @click="fnGetList(`${paging.start_page-1}`)"
-         class="prev w3-button w3-bar-item w3-border">&lt;</a>
+         class="paging prev w3-button w3-bar-item w3-border">&lt;</a>
       <template v-for=" (n,index) in paginavigation()">
           <template v-if="paging.page==n">
-              <strong class="w3-button w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
+              <strong class="paging w3-button w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
           </template>
           <template v-else>
-              <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnGetList(`${n}`)" :key="index">{{ n }}</a>
+              <a class="paging w3-button w3-bar-item w3-border" href="javascript:;" @click="fnGetList(`${n}`)" :key="index">{{ n }}</a>
           </template>
       </template>
       <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
-         @click="fnGetList(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
-      <a href="javascript:;" @click="fnGetList(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
+         @click="fnGetList(`${paging.end_page+1}`)" class="paging next w3-button w3-bar-item w3-border">&gt;</a>
+      <a href="javascript:;" @click="fnGetList(`${paging.total_page_cnt}`)" class="paging last w3-button w3-bar-item w3-border">&gt;&gt;</a>
       </span>
     </div>
   </div>
@@ -126,3 +126,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.paging {
+    text-decoration: none;
+    color: #0078b3;
+    font-weight: 600;
+    margin: 0px 5px 0px 5px;
+}
+</style>

@@ -65,15 +65,15 @@
                     <button class="emp_btn" @click="fnGetList(), isModalOpened = true">검색</button>
                 </div>
                 <div class="menu_right">
-                    <button class="emp_btn mr_5">추가</button>
-                    <button class="emp_btn mr_5">저장</button>
+                    <button @click="newForm = true" class="emp_btn mr_5">추가</button>
+                    <button @click="fnSave()" class="emp_btn mr_5">저장</button>
                     <button class="emp_btn mr_5">삭제</button>
-                    <button class="emp_btn mr_10">초기화</button>
+                    <button @click="fnRefresh()" class="emp_btn mr_10">초기화</button>
                 </div>
             </div>
             <!-- 검색 및 CRUD 버튼 끝 -->
             <!-- 데이터 입력 테이블 시작 -->
-            <table>
+            <table v-if="newForm == true">
                 <tr>
                     <td rowspan="9">
                         <div class="emp_photo mh_20">
@@ -81,129 +81,276 @@
                         </div>
                     </td>
                     <td class="col_name">사원번호</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input readonly v-model="emp_no" class="emp_data"></td>
                     <td class="col_name">사원ID</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="id" class="emp_data"></td>
                     <td class="col_name">사원PW</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="password" class="emp_data"></td>
                 </tr>
                 <tr>
                     <td class="col_name">성명</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="name" class="emp_data"></td>
                     <td class="col_name">영문성명</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="eng_name" class="emp_data"></td>
                     <td class="col_name">주민등록번호</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="reg_no" class="emp_data"></td>
                 </tr>
                 <tr>
                     <td class="col_name">주소</td>
-                    <td class="table_ba" colspan="3"><input class="emp_data"></td>
+                    <td class="table_ba" colspan="3"><input v-model="address_1" class="emp_data"></td>
                     <td class="col_name">상세주소</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="address_2" class="emp_data"></td>
                 </tr>
                 <tr>
                     <td class="col_name">이메일</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="email" class="emp_data"></td>
                     <td class="table_ba ft_13">@</td>
-                    <td class="table_ba" colspan="2"><input class="emp_data"></td>
+                    <td class="table_ba" colspan="2"><input v-model="semail" class="emp_data"></td>
                     <td class="col_data">
-                        <select class="dropdown_list">
-                            <option value="">naver.com</option>
-                            <option>hanmail.net</option>
-                            <option>daum.net</option>
-                            <option>nate.com</option>
-                            <option>gmail.com</option>
-                            <option>hotmail.com</option>
-                            <option selected>직접입력</option>
+                        <select @change="fnSetEmail($event)" class="dropdown_list">
+                            <option value="naver.com">naver.com</option>
+                            <option value="hanmail.net">hanmail.net</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="nate.com">nate.com</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="hotmail.com">hotmail.com</option>
+                            <option value="" selected>직접입력</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td class="col_name">전화번호</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="tel" class="emp_data"></td>
                     <td class="col_name">휴대폰번호</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="phone" class="emp_data"></td>
                     <td class="col_name">성별</td>
                     <td class="col_data">
-                        <select class="dropdown_list">
-                            <option>남성</option>
-                            <option>여성</option>
+                        <select v-model="sex" class="dropdown_list">
+                            <option label="남성" value="M">남성</option>
+                            <option label="여성" value="F">여성</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td class="col_name">입사구분코드</td>
                     <td class="col_data">
-                        <select class="dropdown_list">
-                            <option>재직</option>
-                            <option>철수</option>
-                            <option>휴직</option>
+                        <select v-model="join_code" class="dropdown_list">
+                            <option value="1010">재직</option>
+                            <option value="1020">철수</option>
+                            <option value="1030">휴직</option>
                         </select>
                     </td>
                     <td class="col_name">입사일자</td>
-                    <td class="col_data"><input class="emp_cal" type="date"></td>
+                    <td class="col_data"><input v-model="join_date" class="emp_cal" type="date"></td>
                     <td class="col_name">부서코드</td>
                     <td class="col_data">
-                        <select class="dropdown_list">
-                            <option>경영지원부</option>
-                            <option>기술부</option>
-                            <option>영업부</option>
-                            <option>품질</option>
+                        <select v-model="dept_code" class="dropdown_list">
+                            <option value="1210">경영지원부</option>
+                            <option value="1230">기술부</option>
+                            <option value="1220">영업부</option>
+                            <option value="1240">품질</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td class="col_name">직위구분코드</td>
                     <td class="col_data">
-                        <select class="dropdown_list">
-                            <option>과장</option>
-                            <option>대리</option>
-                            <option>대표이사</option>
-                            <option>부장</option>
-                            <option>사원</option>
-                            <option>상무</option>
-                            <option>전무</option>
-                            <option>주임</option>
-                            <option>차장</option>
+                        <select v-model="position_code" class="dropdown_list">
+                            <option value="1130">과장</option>
+                            <option value="1120">대리</option>
+                            <option value="1160">대표이사</option>
+                            <option value="1150">부장</option>
+                            <option value="1110">사원</option>
+                            <option value="1170">상무</option>
+                            <option value="1180">전무</option>
+                            <option value="1190">주임</option>
+                            <option value="1140">차장</option>
                         </select>
                     </td>
                     <td class="col_name">퇴사일자</td>
-                    <td class="col_data"><input class="emp_cal" type="date"></td>
+                    <td class="col_data"><input v-model="retire_date" class="emp_cal" type="date"></td>
                     <td class="col_name">연봉</td>
-                    <td class="col_data"><input class="emp_data"></td>
+                    <td class="col_data"><input v-model="salary" class="emp_data"></td>
                 </tr>
                 <tr>
                     <td class="col_name">병역여부</td>
                     <td class="col_data">
-                        <select class="dropdown_list">
-                            <option>필</option>
-                            <option>미필</option>
+                        <select v-model="mil_yn" class="dropdown_list">
+                            <option value="Y">필</option>
+                            <option value="N">미필</option>
                         </select>
                     </td>
                     <td class="table_ba" colspan="4"></td>
                 </tr>
                 <tr>
-                    <td class="col_name ">비고</td>
-                    <td class="table_ba" colspan="6"><input class="emp_data"></td>
+                    <td class="col_name">비고</td>
+                    <td class="table_ba" colspan="6"><input v-model="note" class="emp_data"></td>
                 </tr>
             </table>
             <!-- 데이터 입력 테이블 끝 -->
+            <!-- 데이터 조회 테이블 시작 -->
+            <table v-else>
+                <tr>
+                    <td rowspan="9">
+                        <div class="emp_photo mh_20">
+                            <div>클릭하여 사진 추가</div>
+                        </div>
+                    </td>
+                    <td class="col_name">사원번호</td>
+                    <td class="col_data"><input readonly v-bind:value="emp_no" class="emp_data"></td>
+                    <td class="col_name">사원ID</td>
+                    <td class="col_data"><input readonly v-bind:value="id" class="emp_data"></td>
+                    <td class="col_name">사원PW</td>
+                    <td class="col_data"><input readonly v-bind:value="password" class="emp_data"></td>
+                </tr>
+                <tr>
+                    <td class="col_name">성명</td>
+                    <td class="col_data"><input v-bind:value="name" class="emp_data"></td>
+                    <td class="col_name">영문성명</td>
+                    <td class="col_data"><input v-bind:value="eng_name" class="emp_data"></td>
+                    <td class="col_name">주민등록번호</td>
+                    <td class="col_data"><input readonly v-bind:value="reg_no" class="emp_data"></td>
+                </tr>
+                <tr>
+                    <td class="col_name">주소</td>
+                    <td class="table_ba" colspan="3"><input v-bind:value="address_1" class="emp_data"></td>
+                    <td class="col_name">상세주소</td>
+                    <td class="col_data"><input v-bind:value="address_2" class="emp_data"></td>
+                </tr>
+                <tr>
+                    <td class="col_name">이메일</td>
+                    <td class="col_data"><input v-bind:value="email" class="emp_data"></td>
+                    <td class="table_ba ft_13">@</td>
+                    <td class="table_ba" colspan="2"><input v-bind:value="semail" class="emp_data"></td>
+                    <td class="col_data">
+                        <select @change="fnSetEmail($event)" class="dropdown_list">
+                            <option value="naver.com">naver.com</option>
+                            <option value="hanmail.net">hanmail.net</option>
+                            <option value="daum.net">daum.net</option>
+                            <option value="nate.com">nate.com</option>
+                            <option value="gmail.com">gmail.com</option>
+                            <option value="hotmail.com">hotmail.com</option>
+                            <option value="" selected>직접입력</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col_name">전화번호</td>
+                    <td class="col_data"><input v-bind:value="tel" class="emp_data"></td>
+                    <td class="col_name">휴대폰번호</td>
+                    <td class="col_data"><input v-bind:value="phone" class="emp_data"></td>
+                    <td class="col_name">성별</td>
+                    <td class="col_data">
+                        <select v-model="sex" class="dropdown_list">
+                            <option label="남성" value="M">남성</option>
+                            <option label="여성" value="F">여성</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col_name">입사구분코드</td>
+                    <td class="col_data">
+                        <select v-model="join_code" class="dropdown_list">
+                            <option value="1010">재직</option>
+                            <option value="1020">철수</option>
+                            <option value="1030">휴직</option>
+                        </select>
+                    </td>
+                    <td class="col_name">입사일자</td>
+                    <td class="col_data"><input v-model="join_date" class="emp_cal" type="date"></td>
+                    <td class="col_name">부서코드</td>
+                    <td class="col_data">
+                        <select v-model="dept_code" class="dropdown_list">
+                            <option value="1210">경영지원부</option>
+                            <option value="1230">기술부</option>
+                            <option value="1220">영업부</option>
+                            <option value="1240">품질</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col_name">직위구분코드</td>
+                    <td class="col_data">
+                        <select v-model="position_code" class="dropdown_list">
+                            <option value="1130">과장</option>
+                            <option value="1120">대리</option>
+                            <option value="1160">대표이사</option>
+                            <option value="1150">부장</option>
+                            <option value="1110">사원</option>
+                            <option value="1170">상무</option>
+                            <option value="1180">전무</option>
+                            <option value="1190">주임</option>
+                            <option value="1140">차장</option>
+                        </select>
+                    </td>
+                    <td class="col_name">퇴사일자</td>
+                    <td class="col_data"><input v-model="retire_date" class="emp_cal" type="date"></td>
+                    <td class="col_name">연봉</td>
+                    <td class="col_data"><input v-bind:value="salary" class="emp_data"></td>
+                </tr>
+                <tr>
+                    <td class="col_name">병역여부</td>
+                    <td class="col_data">
+                        <select v-model="mil_yn" class="dropdown_list">
+                            <option value="Y">필</option>
+                            <option value="N">미필</option>
+                        </select>
+                    </td>
+                    <td class="table_ba" colspan="4"></td>
+                </tr>
+                <tr>
+                    <td class="col_name">비고</td>
+                    <td class="table_ba" colspan="6"><input v-bind:value="note" class="emp_data"></td>
+                </tr>
+            </table>
+            <!-- 데이터 조회 테이블 끝 -->
+        </div>
+        <div style="margin-bottom: 300px;">
+            그냥 지우면 된다
         </div>
     </div>
 </template>
 <!-- 템플릿 끝 -->
 <!-- 스크립트 시작 -->
 <script>
+import router from '@/router'
 
 export default {
 
     data() {
         return {
             isModalOpened: false,
+            newForm: false,
+
             list: {},
             page: 0,   // 화면에 출력되는 페이지
             // size: 12,   // 이미 back에서 사이즈 설정 완료
             emp_no: this.$route.query.emp_no,  // 이렇게 하면 찾아지는구나
+
+            emp_no: '',
+            id: '',
+            name: '',
+            eng_name: '',
+            tel: '',
+            dept_code: '',
+            phone: '',
+            position_code: '',
+            sex: '',
+            reg_no: '',
+            email: '',
+            semail: '',
+            zip: '',
+            address_1: '',
+            address_2: '',
+            mil_yn: '',
+            join_code: '',
+            salary: '',
+            join_date: '',
+            retire_date: '',
+            image: '',
+            password: '',
+            note: '',
+
         }
     },
     mounted() {
@@ -216,14 +363,14 @@ export default {
                 page: this.page,
                 size: this.size
             },
-                console.log("requestBody.page : " + this.requestBody.page),
+                //console.log("requestBody.page : " + this.requestBody.page),
                 this.$axios.get(this.$serverUrl + "/emp/list", {
                     params: this.requestBody,
                     headers: {}
                 }).then((res) => {
                     this.list = res.data
-                    console.log("this.list.prev : " + this.list[0].prev)
-                    console.log("this.list.next : " + this.list[0].next)
+                    //console.log("this.list.prev : " + this.list[0].prev)
+                    //console.log("this.list.next : " + this.list[0].next)
                 }).catch((err) => {
                     if (err.message > -1) {
                         alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해 주세요.')
@@ -234,13 +381,126 @@ export default {
         fnView(emp_no) {
             console.log("더블클릭 했어용")
             // console.log(emp_no) // 베리굿
-            this.$axios.get('/emp/' + emp_no)
-                .then((res)=>{
-                    console.log(res.data)
+            this.$axios.get(this.$serverUrl + '/emp/' + emp_no)
+                .then((res) => {
+                    // console.log(res.data) // res.data 안에 데이터 잘 들어왔다
+
+                    this.emp_no = res.data.emp_no
+                    this.id = res.data.id
+                    this.name = res.data.name
+                    this.eng_name = res.data.eng_name
+                    this.tel = res.data.tel
+                    this.phone = res.data.phone
+                    this.reg_no = res.data.reg_no
+                    this.email = res.data.email
+                    this.semail = res.data.semail
+                    this.zip = res.data.zip
+                    this.address_1 = res.data.address_1
+                    this.address_2 = res.data.address_2
+                    this.salary = res.data.salary
+                    this.image = res.data.image
+                    this.password = res.data.password
+                    this.note = res.data.note
+                    this.join_date = res.data.join_date
+                    this.retire_date = res.data.retire_date
+                    this.join_code = res.data.join_code
+                    this.sex = res.data.sex
+                    this.dept_code = res.data.dept_code
+                    this.position_code = res.data.position_code
+                    this.mil_yn = res.data.mil_yn
+
+                    console.log("emp_no :" + this.emp_no)
+                    console.log("id :" + this.id)
+                    console.log("name :" + this.name)
+                    console.log("eng_name :" + this.eng_name)
+                    console.log("tel :" + this.tel)
+                    console.log("dept_code :" + this.dept_code)
+                    console.log("phone :" + this.phone)
+                    console.log("position_code :" + this.position_code)
+                    console.log("sex :" + this.sex)
+                    console.log("reg_no :" + this.reg_no)
+                    console.log("email :" + this.email)
+                    console.log("semail :" + this.semail)
+                    console.log("zip :" + this.zip)
+                    console.log("address_1 :" + this.address_1)
+                    console.log("address_2 :" + this.address_2)
+                    console.log("mil_yn :" + this.mil_yn)
+                    console.log("join_code :" + this.join_code)
+                    console.log("salary :" + this.salary)
+                    console.log("join_date :" + this.join_date)
+                    console.log("retire_date :" + this.retire_date)
+
+                    this.isModalOpened = false;
+
+                }).catch((err) => {
+                    if (err.message > -1) {
+                        alert('네트워크가 원활하지 않습니다.\n 잠시 후 다시 시도해 주세요.')
+                    }
                 })
-
-
         },
+        fnSetEmail(event) {
+            //console.log(event.target.value)
+            this.semail = event.target.value
+        },
+        fnSave() {
+            this.form = {
+                "emp_no": this.emp_no,
+                "id": this.id,
+                "name": this.name,
+                "eng_name": this.eng_name,
+                "tel": this.tel,
+                "dept_code": this.dept_code,
+                "phone": this.phone,
+                "position_code": this.position_code,
+                "sex": this.sex,
+                "reg_no": this.reg_no,
+                "email": this.email,
+                "semail": this.semail,
+                "zip": this.zip,
+                "address_1": this.address_1,
+                "address_2": this.address_2,
+                "mil_yn": this.mil_yn,
+                "join_code": this.join_code,
+                "salary": this.salary,
+                "join_date": this.join_date,
+                "retire_date": this.retire_date,
+                "image": this.image,
+                "password": this.password,
+                "note": this.note
+            }
+            console.log("emp_no :" + this.emp_no)
+            console.log("id :" + this.id)
+            console.log("eng_name :" + this.eng_name)
+            console.log("tel :" + this.tel)
+            console.log("dept_code :" + this.dept_code)
+            console.log("phone :" + this.phone)
+            console.log("position_code :" + this.position_code)
+            console.log("sex :" + this.sex)
+            console.log("reg_no :" + this.reg_no)
+            console.log("email :" + this.email)
+            console.log("semail :" + this.semail)
+            console.log("zip :" + this.zip)
+            console.log("address_1 :" + this.address_1)
+            console.log("address_2 :" + this.address_2)
+            console.log("mil_yn :" + this.mil_yn)
+            console.log("join_code :" + this.join_code)
+            console.log("salary :" + this.salary)
+            console.log("join_date :" + this.join_date)
+            console.log("retire_date :" + this.retire_date)
+            // if (this.emp_no === undefined) {
+                // INSERT
+                this.$axios.post(this.$serverUrl + '/emp', this.form)
+                    .then((res) => {
+                        // this.fnView(res.data.emp_no)
+                        console.log('post 했다!!!!!!!!!!!!!!!!')
+                    })
+            // }
+        },
+        // 초기화 버튼 - 새로고침
+        fnRefresh() {
+            router.go(0)
+        },
+        // 페이징
         fnPage(n) {
             if (this.page !== n) {
                 this.page = n
@@ -253,6 +513,8 @@ export default {
 <!-- 스크립트 끝 -->
 <!-- CSS 시작 -->
 <style scoped>
+@import url('../../assets/common.css');
+
 * {
     margin: 0px;
     padding: 0px;
@@ -343,6 +605,7 @@ div {
     border: 0px;
     border-radius: 4px;
     border: 1px solid rgb(185, 185, 185);
+    cursor: pointer;
 }
 
 .emp_cal {
@@ -357,13 +620,16 @@ div {
     width: 100%;
     height: 100%;
     border: none;
+    padding-left: 5px;
+    font-size: 13px;
 }
 
 .black_bg {
     width: 100%;
     height: 100%;
     background: rgba(11, 9, 9, 0.5);
-    position: fixed;
+    /* position: fixed; */
+    position: absolute;
     padding: 20px;
     z-index: 10000;
 }

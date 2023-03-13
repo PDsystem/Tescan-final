@@ -22,9 +22,9 @@
               </ul>
             </li>
             <li>
-              |<a href="/">내부관리</a>|
+              |<a href="/emp">내부관리</a>|
               <ul>
-                <li><a href="/">사원등록</a></li>
+                <li><a href="/emp">사원등록</a></li>
                 <li><a href="/">장비관리</a></li>
               </ul>
             </li>
@@ -72,40 +72,46 @@ export default {
 </script>
 
 <style>
-.homeBtn{
-padding: 30px;
+.homeBtn {
+  padding: 30px;
 }
+
 .nav_wrap {
-width:100%;
-max-width: 660px;
-float: none;
-margin: auto;
-z-index: 100;
+  width: 100%;
+  max-width: 660px;
+  float: none;
+  margin: auto;
+  z-index: 100;
 }
-.navbar{
-display: inline-table;
-justify-content:space-around;
+
+.navbar {
+  display: inline-table;
+  justify-content: space-around;
 }
-.navbar>li{
-float:left;
-}
-.navbar>li ul {
-display: none;
-}
-.navbar>li:hover>ul {
-display: block;
-}
+
 .navbar>li {
-list-style: none;
-font-size: 15px;
-font-weight: 900;
-margin-block-start: 1em;
-margin-block-end: 1em;
-margin-inline-start: 0px;
-margin-inline-end: 0px;
-padding-inline-start: 40px;
+  float: left;
 }
+
+.navbar>li ul {
+  display: none;
+}
+
+.navbar>li:hover>ul {
+  display: block;
+}
+
+.navbar>li {
+  list-style: none;
+  font-size: 15px;
+  font-weight: 900;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
 .navbar>li>ul {
-list-style: none;
-}
-</style>
+  list-style: none;
+}</style>

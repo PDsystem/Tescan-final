@@ -7,8 +7,11 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.springboot.back.ts_emp.entity.TS_Emp;
 import com.example.springboot.back.ts_emp.web.dtos.TS_EmpDto;
 
 import lombok.RequiredArgsConstructor;
@@ -16,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin
 @RequiredArgsConstructor
 @RestController
-public class TS_EmpController {
+public class TS_EmpController { 
 
     // DI
     private final TS_EmpService ts_EmpService;
@@ -34,4 +37,13 @@ public class TS_EmpController {
 
         return ts_EmpService.getEmp(emp_no);
     }
+
+    // emp 추가
+    @PostMapping("/emp")
+    public TS_Emp write(@RequestBody TS_EmpDto ts_EmpDto){ 
+
+        System.out.println("=============Emp 추가 컨트롤러 탔어용===========");
+        return ts_EmpService.writeEmp(ts_EmpDto);
+    }
+
 }
