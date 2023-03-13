@@ -1,8 +1,6 @@
 <template>
-    <div class="customer_title">
-        <h1>거래처 현황</h1>
-    </div>
     <div class="customer-list">
+        <!-- <caption><h1>거래처 현황</h1></caption> -->
         <div class="div-buttons">
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
             <button type="button" class="w3-button" v-on:click="fnSave">검색</button>        
@@ -243,21 +241,7 @@
     }
    }
 </script>
-<style scoped>
-    * {
-        margin: 0px;
-        padding: 0px;
-        box-sizing: border-box;
-    }
-    /* .customer_title {
-    width: 100%;
-    height: 50px;
-    font-size: xx-large;
-    font-weight: bold;
-    display: flex;
-    justify-content: flex-start;
-    border-bottom: 6px solid #0078b3;
-} */
+<style>
     .div-buttons {
         padding: 8px;
         text-align: right;
