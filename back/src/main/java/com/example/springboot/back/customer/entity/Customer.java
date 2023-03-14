@@ -51,10 +51,7 @@ public class Customer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private String corRegNo;
-<<<<<<< Updated upstream
-=======
     // private String cor_reg_no;
->>>>>>> Stashed changes
         
     // /* CUS_NO 고객번호(not null) */
     // private String cusNo;
@@ -105,27 +102,3 @@ public class Customer implements Serializable {
     private String content_pw;
     
 }
-/**
- * 
-    CREATE TABLE TS_USER.TS_CLIENT
-    (
-    COR_REG_NO  VARCHAR2(10 BYTE)                 NOT NULL,
-    CUS_NO      VARCHAR2(10 BYTE)                 NOT NULL,
-    NAME        VARCHAR2(100 BYTE),
-    DEPT        VARCHAR2(100 BYTE),
-    POSITION    VARCHAR2(100 BYTE),
-    ZIP         VARCHAR2(5 BYTE),
-    ADDRESS1    VARCHAR2(255 BYTE),
-    ADDRESS2    VARCHAR2(255 BYTE),
-    EMAIL       VARCHAR2(50 BYTE),
-    TEL         VARCHAR2(11 BYTE),
-    PHONE       VARCHAR2(11 BYTE),
-    ENGINEER    VARCHAR2(100 BYTE),
-    NOTE        VARCHAR2(255 BYTE),
-    SEMAIL      VARCHAR2(50 BYTE),
-    MOD_DATE    DATE                              DEFAULT sysdate               NOT NULL,
-    MOD_ID      VARCHAR2(255 BYTE)                DEFAULT sysdate               NOT NULL,
-    REG_DATE    DATE                              DEFAULT sysdate               NOT NULL,
-    REG_ID      VARCHAR2(255 BYTE)                DEFAULT sysdate               NOT NULL
-    )
- */

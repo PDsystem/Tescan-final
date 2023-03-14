@@ -27,14 +27,20 @@ public class CustomerService {
     /**
      * 목록 가져오기
      */
-    public Header<List<CustomerDto>> getCustomerList(Pageable pageable) {
-        // Page<Customer> customerEntities = repository.selectByCustomer(pageable);
-        Page<Customer> customerEntities = repository.findAllByOrderByCorRegNoDesc(pageable);
+    public Header<List<CustomerDto>> getCustomerList(Pageable pageable,String searchKeyword) {
+
+        Page<Customer> customerEntities = null;
+        if(searchKeyword==null){
+            customerEntities = repository.findAllByOrderByCorRegNoDesc(pageable);
+        }else{
+            customerEntities = repository.findByCorRegNo(pageable,searchKeyword);
+        }
 
         List<CustomerDto> dtos = new ArrayList<>();
-        log.info("2");
+        // log.info("2");
         for (Customer entity : customerEntities) {
             CustomerDto dto = CustomerDto.builder()
+                    // .row_num(entity.getRow_num())
                     .cor_reg_no(entity.getCorRegNo())
                     .customer_name(entity.getCustomer_name())
                     .typeCode(entity.getTypeCode())
@@ -52,17 +58,17 @@ public class CustomerService {
                     .content_id(entity.getContent_id())
                     .content_pw(entity.getContent_pw())
                     .build();
-
             dtos.add(dto);
+            log.info("3");
+            System.out.print("왜 안나오는ㄴ거야"+dtos);            
         }
-        // log.info("3");
         Pagination pagination = new Pagination(
             (int) customerEntities.getTotalElements()
             , pageable.getPageNumber() + 1
             , pageable.getPageSize()
             , 10
          );
-        //  log.info("4");
+         log.info("4");
         return Header.OK(dtos, pagination);
     }
      /**

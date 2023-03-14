@@ -26,13 +26,14 @@ public class CustomerController {
 
     @GetMapping("/customer/list")
     // public Header<List<CustomerDto>> customerList(Pageable pageable,HttpServletRequest request) { 
-    public Header<List<CustomerDto>> customerList(@PageableDefault(sort = {"corRegNo"}) Pageable pageable,HttpServletRequest request) { 
+    public Header<List<CustomerDto>> customerList(@PageableDefault(sort = {"corRegNo"}) Pageable pageable
+                                                    ,HttpServletRequest request,String searchKeyword) { 
         HttpSession session = request.getSession();
         // System.out.print(pageable.getPageNumber());
-        log.info("1");
-        return customerService.getCustomerList(pageable); }
+        return customerService.getCustomerList(pageable,searchKeyword); 
+    }
 
-    @GetMapping("/customer/{id}")
+    @PostMapping("/customer/{id}")
     public CustomerDto getCustomer(@PathVariable String id) {
         return customerService.getCustomer(id);
     }

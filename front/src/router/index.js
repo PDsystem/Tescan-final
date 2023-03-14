@@ -8,7 +8,7 @@ import EmpForm from '@/views/ts_emp/EmpForm.vue'
 import CustomerList from '@/views/customer/CustomerList.vue'
 import CustomerDetail from '@/views/customer/CustomerDetail.vue'
 import CustomerWrite from '@/views/customer/CustomerWrite.vue'
-// import ClientList from '@/views/client/ClientList.vue'
+import ClientList from '@/views/client/ClientList.vue'
 import codeMaster from '@/views/codeMaster/codeMaster.vue'
 
 const routes = [
@@ -67,6 +67,11 @@ const routes = [
     path: '/customer/write',
     name: 'CustomerWrite',
     component: CustomerWrite
+  },
+  {
+    path: '/client/list',
+    name: 'ClientList',
+    component: ClientList
   },
   {
     path: '/codeMaster/codeMaster',
