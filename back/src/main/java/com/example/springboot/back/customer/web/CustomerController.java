@@ -46,6 +46,7 @@ public class CustomerController {
 
     @PatchMapping("/customer")
     public Customer update(@RequestBody CustomerDto customerDto) {
+        log.info("save 들어왔나요?"+customerDto);
         return customerService.update(customerDto);
     }
 

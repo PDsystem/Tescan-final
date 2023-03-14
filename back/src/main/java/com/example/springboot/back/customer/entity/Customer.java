@@ -46,9 +46,8 @@ public class Customer{
 
     /* REGNO 사업자 등록번호(not null) */
     @Id
-    @Column(name = "cor_reg_no")
+    @Column(name = "cor_reg_no",nullable = false, unique = true)
     private String corRegNo;
-    // private String cor_reg_no;
         
     // /* CUS_NO 고객번호(not null) */
     // private String cusNo;

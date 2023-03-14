@@ -6,14 +6,14 @@
             <!-- <button type="button" class="w3-button" v-on:click="fn">초기화</button>         -->
         </div>
         <div class="customer-detail">
-          <form method="post" action="">
+          <form method="patch" action="">
             <div class="container">
                 <div class="insert">
                     <table>
                         <tr>
                             <td class="col1" id="col-long">사업자 등록번호</td>
                             <td class="col2">
-                                <input v-model="cor_reg_no" class="inputcss" name="cor_reg_no">
+                                <input v-model="corRegNo" class="inputcss" name="cor_reg_no">
                                 <!-- <input type="text" name="corRegNo" maxlength="14"> -->
                               </td>
                               <td class="col1">고객명</td>                                
@@ -120,7 +120,7 @@
     methods: {
       fnGetView() {
         console.log(this.requestBody);
-        this.$axios.post(this.$serverUrl + '/customer/' + this.requestBody.cor_reg_no, {
+        this.$axios.post(this.$serverUrl + '/customer/' + this.requestBody.corRegNo, {
           params: this.requestBody
         }).then((res) => {
           this.customer_name = res.data.customer_name
@@ -152,16 +152,10 @@
           query: this.requestBody
         })
       },
-      fnUpdate() {
-        this.$router.push({
-          path: './write',
-          query: this.requestBody
-        })
-      },
       fnDelete() {
         if (!confirm("삭제하시겠습니까?")) return
   
-        this.$axios.delete(this.$serverUrl + '/customer/' + this.cor_reg_no, {})
+        this.$axios.delete(this.$serverUrl + '/customer/' + this.corRegNo, {})
             .then(() => {
               alert('삭제되었습니다.')
               this.fnList();

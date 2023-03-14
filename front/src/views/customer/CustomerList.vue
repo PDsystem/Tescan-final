@@ -135,9 +135,9 @@
                 }
             })
         },
-        fnView(cor_reg_no) {
+        fnView(corRegNo) {
             
-            this.requestBody.cor_reg_no = cor_reg_no
+            this.requestBody.corRegNo = corRegNo
            
             this.$router.push({
             path: './detail',

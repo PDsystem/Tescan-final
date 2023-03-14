@@ -1,7 +1,6 @@
 <template>
   <div class="emp_container">     
     <div class="div-buttons">
-        <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요."> 
         <button type="button" class="w3-button" v-on:click="fnSave">등록</button>                  
         <button type="button" class="w3-button" v-on:click="fn">초기화</button>        
     </div>
@@ -148,7 +147,7 @@ export default {
                       "content_pw": this.content_pw
 
                     }
-                    console.log(this.requestBody);
+                    // console.log(this.requestBody);
 
                   
                       //INSERT

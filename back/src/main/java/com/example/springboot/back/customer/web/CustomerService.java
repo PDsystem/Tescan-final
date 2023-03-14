@@ -77,10 +77,10 @@ public class CustomerService {
      /**
      * 단건 가져오기
      */
-    public CustomerDto getCustomer(String cor_reg_no) {
+    public CustomerDto getCustomer(String corRegNo) {
         
 
-        Customer entity = repository.findById(cor_reg_no).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
+        Customer entity = repository.findById(corRegNo).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
         // Customer entity = repository.findById(id).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
         return CustomerDto.builder()
                 .cor_reg_no(entity.getCorRegNo())
