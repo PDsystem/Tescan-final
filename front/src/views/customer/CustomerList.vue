@@ -5,9 +5,9 @@
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
             <button type="button" class="w3-button" v-on:click="fnSearch">검색</button>
             <button type="button" class="w3-button" v-on:click="fnWrite">등록</button>                
-            <button type="button" class="w3-button" v-on:click="fnView">수정</button>                
-            <button type="button" class="w3-button" v-on:click="fnDelete">삭제</button>        
-            <button type="button" class="w3-button" v-on:click="fn">초기화</button>        
+            <!-- <button type="button" class="w3-button" v-on:click="fnView">수정</button>                 -->
+            <!-- <button type="button" class="w3-button" v-on:click="fnDelete">삭제</button>         -->
+            <!-- <button type="button" class="w3-button" v-on:click="fn">초기화</button>         -->
         </div>
     </div>
     <div class="customer-table">

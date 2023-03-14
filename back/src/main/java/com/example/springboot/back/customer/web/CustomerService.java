@@ -65,7 +65,7 @@ public class CustomerService {
                     .build();
             dtos.add(dto);
             log.info("3");
-            System.out.print("왜 안나오는ㄴ거야"+dtos);            
+            System.out.print("훼이크 다토"+dtos);            
         }
         Pagination pagination = new Pagination(
             (int) customerEntities.getTotalElements()
