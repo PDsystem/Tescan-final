@@ -89,7 +89,22 @@
 
 <script>
 export default{
-
+  data(){
+    return{}
+  },mounted(){
+    codeSearch();
+  },
+  methods: {
+    sumit(){
+      this.$axios.post(this.$serverUrl+"/account/login").then((res) => {
+       console.log(res);
+       
+      
+     }).catch(() => {
+       window.alert("네트워크 통신 이상");
+     });
+    }
+  }
 }
 </script>
 <style scoped>
