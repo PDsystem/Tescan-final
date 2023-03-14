@@ -1,13 +1,10 @@
 package com.example.springboot.back.customer.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
-import java.io.Serializable;
-
-import javax.persistence.Id;
 // import javax.persistence.JoinColumn;
 
 import lombok.AllArgsConstructor;
@@ -42,14 +39,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name="TS_CUSTOMER")
 @Entity
-public class Customer implements Serializable {
+public class Customer{
 
     // /* rowNum */
     // private int row_num;
 
     /* REGNO 사업자 등록번호(not null) */
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "cor_reg_no")
     private String corRegNo;
     // private String cor_reg_no;
         

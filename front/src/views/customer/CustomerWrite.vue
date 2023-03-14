@@ -13,25 +13,25 @@
                         <tr>
                             <td class="col1" id="col-long">사업자 등록번호</td>
                             <td class="col2">
-                                <input type="text" class="inputcss" name="corRegNo">
+                                <input v-model="cor_reg_no" class="inputcss" name="cor_reg_no">
                                 <!-- <input type="text" name="corRegNo" maxlength="14"> -->
-                            </td>
-                            <td class="col1">고객명</td>                                
-                            <td class="col2">
-                                <input type="text" class="inputcss" name="customerName">
-                            </td>
-                            <!-- <td class="col1">고객번호</td>
-                            <td class="col2">
-                                <input type="text" name="cusNo">
-                            </td> -->
-                        </tr>
-                        <tr>                                
-                            <td class="col1">주소</td>
-                            <td class="col2">
-                                <input type="text" class="inputcss" name="address1">
+                              </td>
+                              <td class="col1">고객명</td>                                
+                              <td class="col2">
+                                <input v-model="customer_name" class="inputcss" name="customer_name">
+                              </td>
+                              <!-- <td class="col1">고객번호</td>
+                                <td class="col2">
+                                  <input type="text" name="cusNo">
+                                </td> -->
+                      </tr>
+                      <tr>                                
+                        <td class="col1">주소</td>
+                        <td class="col2">
+                          <input v-model="address1" class="inputcss" name="address1">
                             <!-- </td> -->
                             <!-- <td class="col2"> -->
-                                <input type="text" name="zip">
+                                <input v-model="zip" class="inputcss" name="zip">
                                 <button class="button primary-button" @click="postOpen">주소검색</button>    
                             </td>                               
                             <td class="col1">전화번호</td>                                
@@ -94,7 +94,6 @@
 </template>
 
 <script>
-
 export default {
 
   props:['removeValue'],
@@ -125,10 +124,45 @@ export default {
                 this.isAllChecked  = false;
             }
              this.$emit('checkClick',this.checkedValues)
-        }
-    },
-    computed:{    
-    } 
+        },
+        fnSave() {
+                  //let apiUrl = this.$serverUrl + "/customer"
+                  this.requestBody = {
+                      "cor_reg_no": this.cor_reg_no,
+                      "customer_name": this.customer_name,
+                      "typeCode": this.typeCode,
+                      "email": this.email,
+                      "region1": this.region1,
+                      "region2": this.region2,
+                      "fax":this.fax,
+                      "web":this.web,
+                      "address1": this.address1,
+                      "address2": this.address2,
+                      "high_customer": this.high_customer,
+                      "note": this.note,
+                      "tel": this.tel,
+                      "note": this.note,
+                      "semail": this.semail,
+                      "content_id": this.content_id,
+                      "content_pw": this.content_pw
+
+                    }
+                    console.log(this.requestBody);
+
+                  
+                      //INSERT
+                      this.$axios.post(this.$serverUrl + "/customer", this.requestBody)
+                      .then((res) => {
+                        alert('글이 저장되었습니다.')
+                        console.log(res);
+                        //this.fnView(res.data.idx)
+                      }).catch((err) => {
+                        if (err.message.indexOf('Network Error') > -1) {
+                          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+                        }
+                      })        
+          }
+  }
 }
 </script>
 

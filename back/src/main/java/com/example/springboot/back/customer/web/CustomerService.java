@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import com.example.springboot.back.model.*;
 
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,8 @@ public class CustomerService {
 
     @Autowired
     private final CustomerRepository repository;
+    private final EntityManager em;
+
 
     /**
      * 목록 가져오기
@@ -30,11 +34,12 @@ public class CustomerService {
     public Header<List<CustomerDto>> getCustomerList(Pageable pageable,String searchKeyword) {
 
         Page<Customer> customerEntities = null;
-        if(searchKeyword==null){
-            customerEntities = repository.findAllByOrderByCorRegNoDesc(pageable);
-        }else{
-            customerEntities = repository.findByCorRegNo(pageable,searchKeyword);
-        }
+        customerEntities = repository.findAll(pageable);
+        // if(searchKeyword==null){
+        //     customerEntities = repository.findAllByOrderByCorRegNoDesc(pageable);
+        // }else{
+        //     customerEntities = repository.findByCorRegNo(pageable,searchKeyword);
+        // }
 
         List<CustomerDto> dtos = new ArrayList<>();
         // log.info("2");
@@ -96,9 +101,7 @@ public class CustomerService {
                 .build();
     }
 
-    /**
-     * 게시글 등록
-     */
+    /** 등록     */
     public Customer create(CustomerDto customerDto) {
     
         Customer entity = Customer.builder()
