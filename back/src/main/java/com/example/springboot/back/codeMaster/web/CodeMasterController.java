@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.springboot.back.codeMaster.entity.CodeMaster;
+import com.example.springboot.back.codeMaster.entity.CodeMasterRepository;
 import com.example.springboot.back.codeMaster.web.dtos.CodeMasterDto;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 public class CodeMasterController {
     private final CodeMasterService codeMasterService;
-  
+    private final CodeMasterRepository codeMasterRepository;
     @PostMapping("/codeMaster/codeMasterList")
     public Page<CodeMaster>  boardList(Pageable pageable,@RequestBody Map<String,Object> params) { 
         int page=0;
@@ -48,9 +49,29 @@ public class CodeMasterController {
         // String result= codeMasterService.codemax();
         // System.out.println(result);
         // System.out.println(codeMasterDto.getClass_code());
-        codeMasterDto.setClass_code(codeMasterDto.getClass_code());
+        //System.out.println(codeMasterRepository.existsById(codeMasterDto.getClass_code()));
+       
+        Boolean trueOrFalse=codeMasterRepository.existsById(codeMasterDto.getClass_code());
+        if(trueOrFalse == true){
+            System.out.println("false로진입");
+            codeMasterService.update(codeMasterDto);
+           
+        }else{
+            codeMasterDto.setClass_code(codeMasterDto.getClass_code());
+            codeMasterService.create(codeMasterDto);
+        }
+        
+        
         System.out.println(codeMasterDto);
-        codeMasterService.create(codeMasterDto);
+        
         return null;
     }
+
+    @DeleteMapping("/codeMasterDelete/{id}")
+    public int codeMasterDelete(@PathVariable String id){
+        System.out.println(id);
+        int result=codeMasterService.codeMasterDelete(id);
+        return result;
+    }
+
 }

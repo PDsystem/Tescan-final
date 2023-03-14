@@ -2,11 +2,12 @@ package com.example.springboot.back.codeMaster.entity;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -30,4 +31,9 @@ public interface CodeMasterRepository extends JpaRepository<CodeMaster,String>{
     
     @Query(value = "select to_char( max(to_number(d.CLASS_CODE))+1) from TS_CODE_MASTER d " ,nativeQuery = true)
      String codeMax();
+
+    @Transactional
+    @Modifying
+    @Query("update Login m set m.contentId= :#{#paramDeatail.contentNo} where m.contentNo= :#{#paramDeatail.contentNo}")
+    public void update(@Param("paramDeatail")CodeMaster codeMaster);
 }

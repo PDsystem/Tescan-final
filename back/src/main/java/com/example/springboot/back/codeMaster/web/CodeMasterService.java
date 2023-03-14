@@ -4,7 +4,7 @@ package com.example.springboot.back.codeMaster.web;
 
 
 
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.EntityManager;
@@ -81,11 +81,47 @@ public class CodeMasterService {
                         modifyId(codeMasterDto.getModify_id()).
                         build();
                         em.persist(entity);
-  
+                    
 
                         
+    }
+   
+    public void update(CodeMasterDto codeMasterDto) {
+            // codeMasterDto.setRegist_time( LocalDate.now());
+            codeMasterDto.setRegist_time(LocalDateTime.now());
+       codeMasterDto.setRegist_id("hong");
+        codeMasterDto.setModify_time(LocalDateTime.now());
+        codeMasterDto.setModify_id("hong");
+            System.out.println(LocalDateTime.now());
+            System.out.println("----------------------------");
+            System.out.println(codeMasterDto.getClass_code());
+            CodeMaster entity= CodeMaster.builder().
+                            classCode(codeMasterDto.getClass_code()).
+                            className(codeMasterDto.getClass_name()).
+                            useYn(codeMasterDto.getUse_yn()).
+                            mainTable(codeMasterDto.getMain_table()).
+                            mainColumn(codeMasterDto.getMain_column()).
+                            classDesc(codeMasterDto.getClass_desc()).
+                            registTime(codeMasterDto.getRegist_time()).
+                            registId(codeMasterDto.getRegist_id()).
+                            modifyTime(codeMasterDto.getModify_time()).
+                            modifyId(codeMasterDto.getModify_id()).
+                            build();
+                            
+                            codeMasterRepository.save(entity);
+    
+
+                            
+        }
+    
+    public int codeMasterDelete(String id){
+        
+        codeMasterRepository.deleteById(id);
+        return 1;
+    }
+    
     }
 
 	
 
-}
+

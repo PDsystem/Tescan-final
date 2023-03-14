@@ -1,5 +1,6 @@
 package com.example.springboot.back.Login.web;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,12 @@ public class LoginController {
 
     @PostMapping("/api/account/login")
     public String getList(@RequestBody Map<String , String> params, HttpServletRequest request,Model model){
+       
+        
+        Login login1=new Login();
+        login1.setContentNo("186");
+        login1.setContentId("mymy");
+        loginRepository.update(login1);
         System.out.println(params.get("contentId"));
         System.out.println(params.get("contentPw"));
         HttpSession session = request.getSession(true);

@@ -17,7 +17,7 @@
       </div>
       <div class="search-btn">
         <button @click="codeSearch()">검색</button>
-        <button>초기화</button>
+        <button >초기화</button>
       </div>
     </div>
     <div class="title">
@@ -38,7 +38,7 @@
       </tr>
       </thead>
       <tbody>
-        <tr v-for="(row, idx) in list" :key="idx">
+        <tr v-for="(row, idx) in list" :key="idx" @click="fn_bind(row)">
           <td>{{idx+1}}</td>
           <td>{{ row.class_code }}</td>
           <td>{{ row.class_name }}</td>
@@ -74,7 +74,7 @@
     <div class="btn-wrap">
       <button id="add">추가</button>
       <button id="save" @click="fnSave()">저장</button>
-      <button id="delete">삭제</button>
+      <button id="delete" @click="fnDelete()">삭제</button>
     </div>
   </div>
   <div class="update">
@@ -111,6 +111,7 @@
 export default{
 data(){
   return{
+    idx:"",
     requestBody:{},
     list: {}, //리스트 데이터
     paging: {
@@ -194,7 +195,31 @@ methods: {
           }
         })
       
-  }
+  },
+  fnDelete() {
+        if (!confirm("삭제하시겠습니까?")) return
+      this.idx=this.classCode;
+      alert(this.idx);
+        this.$axios.delete(this.$serverUrl + '/codeMasterDelete/' + this.idx)
+            .then(() => {
+              alert('삭제되었습니다.')
+             
+            }).catch((err) => {
+          console.log(err);
+        })
+      },
+      
+      fn_bind(){
+     
+        alert(object);
+        console.log(bind);
+      }
+     
+    // fnReset(){
+    //   alert();
+    //   this.$router.push({path:"/codeMaster/codeMaster"});
+    // }
+   
 }
 }
 </script>
