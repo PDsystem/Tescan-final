@@ -40,10 +40,10 @@ public class TS_EmpController {
 
     // emp 추가
     @PostMapping("/emp")
-    public TS_Emp write(@RequestBody TS_EmpDto ts_EmpDto){ 
-
+    public void write(@RequestBody TS_EmpDto ts_EmpDto){ 
         System.out.println("=============Emp 추가 컨트롤러 탔어용===========");
-        return ts_EmpService.writeEmp(ts_EmpDto);
+
+        ts_EmpService.writeEmp(ts_EmpDto);
     }
 
 }
