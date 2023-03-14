@@ -102,7 +102,8 @@ public class TS_EmpService {
 
     // emp 추가
     @Transactional
-    public TS_Emp writeEmp(TS_EmpDto ts_EmpDto) {
+    public void writeEmp(TS_EmpDto ts_EmpDto) {
+        System.out.println("=============Emp 추가 서비스 시작이에용===========");
 
         /** 새로운 사번 만들기 */
         Long last_emp_no = ts_EmpRepository.findLastUsedEmpno();
@@ -142,9 +143,7 @@ public class TS_EmpService {
 
                 em.persist(empEntity);
 
-        System.out.println("=============Emp 추가 서비스 탔어용===========");
-
-        return empEntity;
+        System.out.println("=============Emp 추가 서비스 끝이에용===========");
     }
 
     // join_date, retire_date를 yyyy-MM-dd 형태로 파싱해주는 함수
