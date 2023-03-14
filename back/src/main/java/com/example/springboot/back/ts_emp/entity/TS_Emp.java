@@ -1,15 +1,16 @@
 package com.example.springboot.back.ts_emp.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Table(name="TS_EMP")
 @Builder
 @Entity
 @AllArgsConstructor
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class TS_Emp {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "emp_no")
     private String emp_no; // 사번
 
     private String id; // 아이디

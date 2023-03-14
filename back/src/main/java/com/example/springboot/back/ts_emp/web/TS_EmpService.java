@@ -1,10 +1,10 @@
 package com.example.springboot.back.ts_emp.web;
 
-import java.sql.Date;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.EntityManager;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +23,7 @@ public class TS_EmpService {
 
     // DI
     private final TS_EmpRepository ts_EmpRepository;
+    private final EntityManager em;
 
     // emp 목록 조회하기
     public List<TS_EmpDto> getEmpList(Pageable pageable) {
@@ -139,9 +140,11 @@ public class TS_EmpService {
                 .note(ts_EmpDto.getNote())
                 .build();
 
+                em.persist(empEntity);
+
         System.out.println("=============Emp 추가 서비스 탔어용===========");
 
-        return ts_EmpRepository.save(empEntity);
+        return empEntity;
     }
 
     // join_date, retire_date를 yyyy-MM-dd 형태로 파싱해주는 함수

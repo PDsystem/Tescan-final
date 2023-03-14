@@ -7,7 +7,7 @@ public interface TS_EmpRepository extends JpaRepository<TS_Emp, String> {
 
   /* NullPointerException 해결 못하면 죽도 밥도 안됨 */
   // 얘는 된다
-  @Query(value = "SELECT emp_no FROM(SELECT * FROM ts_emp ORDER BY ROWNUM DESC) WHERE ROWNUM = 1", nativeQuery = true)
+  @Query(value = "SELECT emp_no FROM(SELECT * FROM ts_emp ORDER BY emp_no DESC) WHERE ROWNUM = 1", nativeQuery = true)
   Long findLastUsedEmpno();
 
   // 아니 이 자식 왜 안되냐고
