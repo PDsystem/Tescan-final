@@ -29,13 +29,13 @@ public class CustomerService {
      */
     public Header<List<CustomerDto>> getCustomerList(Pageable pageable) {
         // List<Customer> customerEntities = customerRepository.findAll();
-        Page<Customer> customerEntities = customerRepository.findAllByOrderByRegnoDesc(pageable);
+        Page<Customer> customerEntities = customerRepository.findAllByOrderByCorRegNoDesc(pageable);
 
         List<CustomerDto> dtos = new ArrayList<>();
         log.info("2");
         for (Customer entity : customerEntities) {
             CustomerDto dto = CustomerDto.builder()
-                    .regno(entity.getRegno())
+                    .cor_reg_no(entity.getCorRegNo())
                     .customer_name(entity.getCustomer_name())
                     .typeCode(entity.getTypeCode())
                     .email(entity.getEmail())
@@ -71,7 +71,7 @@ public class CustomerService {
     public CustomerDto getCustomer(String id) {
         Customer entity = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
         return CustomerDto.builder()
-                .regno(entity.getRegno())
+                .cor_reg_no(entity.getCorRegNo())
                 .customer_name(entity.getCustomer_name())
                 .typeCode(entity.getTypeCode())
                 .email(entity.getEmail())
@@ -88,5 +88,66 @@ public class CustomerService {
                 .content_id(entity.getContent_id())
                 .content_pw(entity.getContent_pw())
                 .build();
+    }
+
+    /**
+     * 게시글 등록
+     */
+    public Customer create(CustomerDto customerDto) {
+    
+        Customer entity = Customer.builder()
+                .corRegNo(customerDto.getCor_reg_no())
+                .customer_name(customerDto.getCustomer_name())
+                .typeCode(customerDto.getTypeCode())
+                .email(customerDto.getEmail())
+                .region1(customerDto.getRegion1())
+                .region2(customerDto.getRegion2())
+                .fax(customerDto.getFax())
+                .web(customerDto.getWeb())
+                .address1(customerDto.getAddress1())
+                .address2(customerDto.getAddress2())
+                .high_customer(customerDto.getHigh_customer())
+                .note(customerDto.getNote())
+                .tel(customerDto.getTel())
+                .content_id(customerDto.getContent_id())
+                .content_pw(customerDto.getContent_pw())
+                // .createdAt(LocalDateTime.now())
+                .build();
+        return customerRepository.save(entity);
+    }
+
+    /**
+     * 게시글 수정
+     */
+    public Customer update(CustomerDto customerDto) {
+        Customer entity = customerRepository.findById(customerDto.getCor_reg_no()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
+            entity.setCorRegNo(customerDto.getCor_reg_no());
+            entity.setCustomer_name(customerDto.getCustomer_name());
+            entity.setTypeCode(customerDto.getTypeCode());
+            entity.setEmail(customerDto.getEmail());
+            entity.setRegion1(customerDto.getRegion1());
+            entity.setRegion2(customerDto.getRegion2());
+            entity.setFax(customerDto.getFax());
+            entity.setWeb(customerDto.getWeb());
+            entity.setAddress1(customerDto.getAddress1());
+            entity.setAddress2(customerDto.getAddress2());
+            entity.setHigh_customer(customerDto.getHigh_customer());
+            entity.setNote(customerDto.getNote());
+            entity.setTel(customerDto.getTel());
+            entity.setSemail(customerDto.getSemail());
+            entity.setContent_id(customerDto.getContent_id());
+            entity.setContent_pw(customerDto.getContent_pw());
+    
+        return customerRepository.save(entity);
+    
+    }
+
+    /**
+     * 게시글 삭제
+     */
+    public void delete(String id) {
+        Customer entity = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+        customerRepository.delete(entity);
+    
     }
 }

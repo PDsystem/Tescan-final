@@ -50,7 +50,7 @@ public class Customer implements Serializable {
     /* REGNO 사업자 등록번호(not null) */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private String regno;
+    private String corRegNo;
         
     // /* CUS_NO 고객번호(not null) */
     // private String cusNo;

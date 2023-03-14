@@ -1,98 +1,13 @@
 <template>
     <div class="customer-list">
-        <!-- <caption><h1>거래처 현황</h1></caption> -->
+            <h1>거래처 현황</h1>
         <div class="div-buttons">
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
-            <button type="button" class="w3-button" v-on:click="fnSave">검색</button>        
-            <button type="button" class="w3-button" v-on:click="fnSave">등록</button>        
-            <button type="button" class="w3-button" v-on:click="fnSave">수정</button>        
+            <button type="button" class="w3-button" v-on:click="fnSearch">검색</button>
+            <button type="button" class="w3-button" v-on:click="fnWrite">등록</button>                
+            <button type="button" class="w3-button" v-on:click="fnView">수정</button>                
             <button type="button" class="w3-button" v-on:click="fnDelete">삭제</button>        
             <button type="button" class="w3-button" v-on:click="fn">초기화</button>        
-        </div>
-        <div class="customer-detail">
-            <form method="post" action="">
-                <div class="container">
-                    <div class="insert">
-                        <table>
-                            <tr>
-                                <td class="col1" id="col-long">사업자 등록번호</td>
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="corRegNo">
-                                    <!-- <input type="text" name="corRegNo" maxlength="14"> -->
-                                </td>
-                                <td class="col1">고객명</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="customerName">
-                                </td>
-                                <!-- <td class="col1">고객번호</td>
-                                <td class="col2">
-                                    <input type="text" name="cusNo">
-                                </td> -->
-                            </tr>
-                            <tr>                                
-                                <td class="col1">주소</td>
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="address1">
-                                <!-- </td> -->
-                                <!-- <td class="col2"> -->
-                                    <input type="text" name="zip">
-                                    <button class="button primary-button" @click="postOpen">주소검색</button>    
-                                </td>                               
-                                <td class="col1">전화번호</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="pwdCheck">
-                                </td>
-                            </tr>
-                            <tr>                            
-                                <td class="col1">상세 주소</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="address2">
-                                </td>
-                                <td class="col1">모바일</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="pwd">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col1">이메일</td>                                
-                                <td class="col2">
-                                    <input type="email" class="inputcss" name="email">
-                                    <span class="a">@</span>
-                                    <input type="text" class="inputcss" name="mailslc">
-                                    <select name="mailslc">
-                                    <option value="self" selected>직접입력</option>
-                                    <option value="naver">naver.com</option>
-                                    <option value="gm">gmail.com</option>
-                                    <option value="da">daum.com</option>
-                                    <option value="kor">korea.com</option>
-                                    </select>
-                                    <input type="button" class='fnEmail' value="이메일 중복확인" onclick="">
-                                </td>                                   
-                            </tr>
-                            <tr>
-                                <td class="col1">직급</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="pwdCheck">
-                                </td>                               
-                                <td class="col1">부서</td>                                
-                                <td class="col2">
-                                    <input type="text" name="pwd">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col1">담당자</td>                                
-                                <td class="col2">
-                                    <input type="text" name="pwdCheck">
-                                </td>
-                                <td class="col1">비고</td>
-                                <td class="col2">
-                                    <input type="text" name="pwdCheck">
-                                </td>
-                            </tr>
-                        </table>
-                    </div> 
-                </div>
-            </form>
         </div>
     </div>
     <div class="customer-table">
@@ -119,12 +34,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(row,regno) in list" :key="regno">
-                    <td>{{ row.idx }}</td>
-                    <!-- <td>1</td> -->
-                    <td>{{ row.regno }}</td>
+                <tr v-for="(row,corRegNo) in list" :key="corRegNo">
+                    <td><input type="checkbox" value="{{row.cor_reg_no }}"></td>
+                    <td v-on:dblclick="fnView">{{ row.cor_reg_no }}</td>
                     <td>{{ row.customer_name }}</td>
-                    <td>{{ row.typeCode }}</td>
+                    <td>{{ row.type_code }}</td>
                     <td>{{ row.email }}</td>
                     <td>{{ row.region1 }}</td>
                     <td>{{ row.region2 }}</td>
@@ -139,24 +53,24 @@
             </tbody>
         </table>
     </div>
-        <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
-        <span class="pg">
-        <a href="javascript:;" @click="fnPage(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
-        <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"
-           class="prev w3-button w3-bar-item w3-border">&lt;</a>
-        <template v-for=" (n,index) in paginavigation()">
-            <template v-if="paging.page==n">
-                <strong class="w3-button w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
-            </template>
-            <template v-else>
-                <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{ n }}</a>
-            </template>
+    <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
+    <span class="pg">
+    <a href="javascript:;" @click="fnPage(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
+    <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"
+        class="prev w3-button w3-bar-item w3-border">&lt;</a>
+    <template v-for=" (n,index) in paginavigation()">
+        <template v-if="paging.page==n">
+            <strong class="w3-button w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
         </template>
-        <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
-           @click="fnPage(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
-        <a href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
-        </span>
-      </div>
+        <template v-else>
+            <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{ n }}</a>
+        </template>
+    </template>
+    <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
+        @click="fnPage(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
+    <a href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
+    </span>
+    </div>
 </template>
 <script>
   export default {
@@ -220,8 +134,8 @@
                 }
             })
         },
-        fnView(regno) {
-            this.requestBody.regno = regno
+        fnView(cor_reg_no) {
+            this.requestBody.cor_reg_no = cor_reg_no
             this.$router.push({
             path: './detail',
             query: this.requestBody
