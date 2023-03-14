@@ -34,10 +34,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(row,corRegNo) in list" :key="corRegNo">
+                <tr v-for="(row,cor_reg_no) in list" :key="cor_reg_no">
                     <td><input type="checkbox" value="{{row.cor_reg_no }}"></td>
-                    <td v-on:dblclick="fnView">{{ row.cor_reg_no }}</td>
-                    <td>{{ row.customer_name }}</td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.cor_reg_no }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.customer_name }}</a></td>
                     <td>{{ row.type_code }}</td>
                     <td>{{ row.email }}</td>
                     <td>{{ row.region1 }}</td>
@@ -206,9 +206,9 @@
     #col-long{
         width: 120px;
     }
-    .inputcss{
+    /* .inputcss{
         width: 200px;
-    }
+    } */
     .w3-button {
         padding: 2px 20px 2px 20px;
         font-size: 13px;

@@ -64,8 +64,7 @@ public class CustomerService {
                     .content_pw(entity.getContent_pw())
                     .build();
             dtos.add(dto);
-            log.info("3");
-            System.out.print("훼이크 다토"+dtos);            
+            // System.out.print("훼이크 다토"+dtos);            
         }
         Pagination pagination = new Pagination(
             (int) customerEntities.getTotalElements()
@@ -73,14 +72,16 @@ public class CustomerService {
             , pageable.getPageSize()
             , 10
          );
-         log.info("4");
         return Header.OK(dtos, pagination);
     }
      /**
      * 단건 가져오기
      */
-    public CustomerDto getCustomer(String id) {
-        Customer entity = repository.findById(id).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
+    public CustomerDto getCustomer(String cor_reg_no) {
+        
+
+        Customer entity = repository.findById(cor_reg_no).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
+        // Customer entity = repository.findById(id).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
         return CustomerDto.builder()
                 .cor_reg_no(entity.getCorRegNo())
                 .customer_name(entity.getCustomer_name())

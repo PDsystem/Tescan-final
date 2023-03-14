@@ -1,96 +1,95 @@
 <template>
         <div class="div-buttons">
-            <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
-            <!-- <button type="button" class="w3-button" v-on:click="fnSave">검색</button>         -->
             <!-- <button type="button" class="w3-button" v-on:click="fnSave">등록</button>         -->
             <button type="button" class="w3-button" v-on:click="fnSave">수정</button>        
             <button type="button" class="w3-button" v-on:click="fnDelete">삭제</button>        
             <!-- <button type="button" class="w3-button" v-on:click="fn">초기화</button>         -->
         </div>
         <div class="customer-detail">
-            <form method="post" action="">
-                <div class="container">
-                    <div class="insert">
-                        <table>
-                            <tr>
-                                <td class="col1" id="col-long">사업자 등록번호</td>
+          <form method="post" action="">
+            <div class="container">
+                <div class="insert">
+                    <table>
+                        <tr>
+                            <td class="col1" id="col-long">사업자 등록번호</td>
+                            <td class="col2">
+                                <input v-model="cor_reg_no" class="inputcss" name="cor_reg_no">
+                                <!-- <input type="text" name="corRegNo" maxlength="14"> -->
+                              </td>
+                              <td class="col1">고객명</td>                                
+                              <td class="col2">
+                                <input v-model="customer_name" class="inputcss" name="customer_name">
+                              </td>
+                              <!-- <td class="col1">고객번호</td>
                                 <td class="col2">
-                                    <input type="text" class="inputcss" name="corRegNo">
-                                    <!-- <input type="text" name="corRegNo" maxlength="14"> -->
-                                </td>
-                                <td class="col1">고객명</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="customerName">
-                                </td>
-                                <!-- <td class="col1">고객번호</td>
-                                <td class="col2">
-                                    <input type="text" name="cusNo">
+                                  <input type="text" name="cusNo">
                                 </td> -->
-                            </tr>
-                            <tr>                                
-                                <td class="col1">주소</td>
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="address1">
-                                <!-- </td> -->
-                                <!-- <td class="col2"> -->
-                                    <input type="text" name="zip">
-                                    <button class="button primary-button" @click="postOpen">주소검색</button>    
-                                </td>                               
-                                <td class="col1">전화번호</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="pwdCheck">
-                                </td>
-                            </tr>
-                            <tr>                            
-                                <td class="col1">상세 주소</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="address2">
-                                </td>
-                                <td class="col1">모바일</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="pwd">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col1">이메일</td>                                
-                                <td class="col2">
-                                    <input type="email" class="inputcss" name="email">
-                                    <span class="a">@</span>
-                                    <input type="text" class="inputcss" name="mailslc">
-                                    <select name="mailslc">
-                                    <option value="self" selected>직접입력</option>
-                                    <option value="naver">naver.com</option>
-                                    <option value="gm">gmail.com</option>
-                                    <option value="da">daum.com</option>
-                                    <option value="kor">korea.com</option>
-                                    </select>
-                                    <input type="button" class='fnEmail' value="이메일 중복확인" onclick="">
-                                </td>                                   
-                            </tr>
-                            <tr>
-                                <td class="col1">직급</td>                                
-                                <td class="col2">
-                                    <input type="text" class="inputcss" name="pwdCheck">
-                                </td>                               
-                                <td class="col1">부서</td>                                
-                                <td class="col2">
-                                    <input type="text" name="pwd">
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="col1">담당자</td>                                
-                                <td class="col2">
-                                    <input type="text" name="pwdCheck">
-                                </td>
-                                <td class="col1">비고</td>
-                                <td class="col2">
-                                    <input type="text" name="pwdCheck">
-                                </td>
-                            </tr>
-                        </table>
-                    </div> 
-                </div>
-            </form>
+                      </tr>
+                      <tr>                                
+                        <td class="col1">주소</td>
+                        <td class="col2">
+                          <input v-model="address1" class="inputcss" name="address1">
+                          <!-- </td> -->
+                          <!-- <td class="col2"> -->
+                            <input v-model="zip" class="inputcss" name="zip">
+                            <button class="button primary-button" @click="postOpen">주소검색</button>    
+                          </td>                               
+                          <td class="col1">전화번호</td>                                
+                          <td class="col2">                              
+                            <input v-model="tel" class="inputcss" name="tel">
+                          </td>
+                        </tr>
+                        <tr>                            
+                          <td class="col1">상세 주소</td>                                
+                          <td class="col2">
+                            <input v-model="address2" class="inputcss" name="address2">
+                          </td>
+                          <td class="col1">지점1</td>                                
+                          <td class="col2">
+                            <input v-model="region1" class="inputcss" name="region1">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="col1">이메일</td>                                
+                          <td class="col2">
+                            <input v-model="email" class="inputcss" name="email">
+                            <span class="a">@</span>
+                            <!-- <input type="text" class="inputcss" name="mailslc"> select와 이름이 동일했다-->
+                            <input v-model="semail" class="inputcss" name="semail">
+                            <select name="semail">
+                              <option value="self" selected>직접입력</option>
+                              <option value="naver">naver.com</option>
+                              <option value="gm">gmail.com</option>
+                              <option value="da">daum.com</option>
+                              <option value="kor">korea.com</option>
+                            </select>
+                            <input type="button" class='fnEmail' value="이메일 중복확인" onclick="">
+                          </td>
+                          <td class="col1">지점2</td>                                
+                          <td class="col2">
+                            <input v-model="region2" class="inputcss" name="region2">
+                          </td>                                   
+                        </tr>
+                        <tr>
+                          <td class="col1">홈페이지</td>                                
+                          <td class="col2">
+                            <input v-model="web" class="inputcss" name="web">
+                          </td> 
+                          <td class="col1">상위 거래처</td>                                
+                          <td class="col2">
+                            <input v-model="high_customer" class="inputcss" name="high_customer">
+                          </td>                              
+                        </tr>
+                        <tr>
+                          <td class="col1">비고</td>
+                          <td class="col2">
+                              <input v-model="note" class="inputcss" name="note">
+                            </td>
+                        </tr>
+                    </table>
+                </div> 
+            </div>
+        </form>
         </div> 
 </template>
 <script>
