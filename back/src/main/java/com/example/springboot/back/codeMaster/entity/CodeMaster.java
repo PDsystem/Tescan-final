@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 public class CodeMaster {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "class_code")
     private String classCode;
 
     private String className;
@@ -27,4 +27,6 @@ public class CodeMaster {
     private String registId;
     private LocalDateTime modifyTime;
     private String modifyId;
+
+
 }
