@@ -1,5 +1,7 @@
 package com.example.springboot.back.ts_emp.entity;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -9,6 +11,9 @@ public interface TS_EmpRepository extends JpaRepository<TS_Emp, String> {
   // 얘는 된다
   @Query(value = "SELECT emp_no FROM(SELECT * FROM ts_emp ORDER BY emp_no DESC) WHERE ROWNUM = 1", nativeQuery = true)
   Long findLastUsedEmpno();
+
+  @Query(value = "SELECT * FROM ts_emp ORDER BY emp_no", nativeQuery = true)
+  Page<TS_Emp> findAllOrderBy(Pageable pageable);
 
   // 아니 이 자식 왜 안되냐고
   // @Query(value = "INSERT INTO ts_emp (emp_no, id, name, eng_name, tel, dept_code, phone, position_code, sex, reg_no, email, semail, zip, address_1, address_2, mil_yn, join_code, salary, join_date, retire_date, image, password, note) VALUES ((SELECT NVL(MAX(emp_no), 0)+1 FROM ts_emp), :id, :name, :eng_name, :tel, :dept_code, :phone, :position_code, :sex, :reg_no, :email, :semail, :zip, :address_1, :address_2, :mil_yn, :join_code, :salary, :join_date, :retire_date, :image, :password, :note)", nativeQuery = true)

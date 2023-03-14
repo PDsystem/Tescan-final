@@ -40,7 +40,7 @@
 
                 <!-- 가짜 페이징 시작 -->
                 <div class="mt_15">
-                    <a class="modal_paging" href="javascript:;" v-for="i in 18" :key="i" @click="fnPage(i - 1)">{{ i }}</a>
+                    <a class="modal_paging" href="javascript:;" v-for="i in 20" :key="i" @click="fnPage(i - 1)">{{ i }}</a>
                 </div>
                 <!-- 가짜 페이징 끝 -->
 

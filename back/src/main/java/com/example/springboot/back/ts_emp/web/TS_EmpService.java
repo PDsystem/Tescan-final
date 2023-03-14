@@ -27,7 +27,7 @@ public class TS_EmpService {
 
     // emp 목록 조회하기
     public List<TS_EmpDto> getEmpList(Pageable pageable) {
-        Page<TS_Emp> empsEntity = ts_EmpRepository.findAll(pageable);
+        Page<TS_Emp> empsEntity = ts_EmpRepository.findAllOrderBy(pageable);
 
         List<Integer> pageNumbers = new ArrayList<>();
         for (int i = 0; i < empsEntity.getTotalPages(); i++) {
