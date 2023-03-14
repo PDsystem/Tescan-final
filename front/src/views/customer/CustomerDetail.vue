@@ -119,7 +119,8 @@
     },
     methods: {
       fnGetView() {
-        this.$axios.post(this.$serverUrl + '/customer/' + this.cor_reg_no, {
+        console.log(this.requestBody);
+        this.$axios.post(this.$serverUrl + '/customer/' + this.requestBody.cor_reg_no, {
           params: this.requestBody
         }).then((res) => {
           this.customer_name = res.data.customer_name

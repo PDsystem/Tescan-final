@@ -33,10 +33,10 @@ public class CustomerController {
         return customerService.getCustomerList(pageable,searchKeyword); 
     }
 
-    @PostMapping("/customer/{cor_reg_no}")
-    public CustomerDto getCustomer(@PathVariable String cor_reg_no) {
-        log.info("단건 검색 들어왔나요?"+cor_reg_no);
-        return customerService.getCustomer(cor_reg_no);
+    @PostMapping("/customer/{x}")
+    public CustomerDto getCustomer(@PathVariable String x) {
+        log.info("단건 검색 들어왔나요?"+x);
+        return customerService.getCustomer(x);
     }
 
     @PostMapping("/customer")

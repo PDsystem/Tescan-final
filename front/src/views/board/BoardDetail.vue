@@ -42,6 +42,7 @@
     },
     methods: {
       fnGetView() {
+        alert(this.idx);
         this.$axios.get(this.$serverUrl + '/board/' + this.idx, {
           params: this.requestBody
         }).then((res) => {

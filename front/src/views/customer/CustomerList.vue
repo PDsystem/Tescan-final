@@ -136,7 +136,9 @@
             })
         },
         fnView(cor_reg_no) {
+            
             this.requestBody.cor_reg_no = cor_reg_no
+           
             this.$router.push({
             path: './detail',
             query: this.requestBody
