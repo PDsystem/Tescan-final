@@ -22,14 +22,14 @@ import java.util.List;
 public class CustomerService {
 
     @Autowired
-    private final CustomerRepository customerRepository;
+    private final CustomerRepository repository;
 
     /**
      * 목록 가져오기
      */
     public Header<List<CustomerDto>> getCustomerList(Pageable pageable) {
-        // List<Customer> customerEntities = customerRepository.findAll();
-        Page<Customer> customerEntities = customerRepository.findAllByOrderByCorRegNoDesc(pageable);
+        // Page<Customer> customerEntities = repository.selectByCustomer(pageable);
+        Page<Customer> customerEntities = repository.findAllByOrderByCorRegNoDesc(pageable);
 
         List<CustomerDto> dtos = new ArrayList<>();
         log.info("2");
@@ -69,7 +69,7 @@ public class CustomerService {
      * 단건 가져오기
      */
     public CustomerDto getCustomer(String id) {
-        Customer entity = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
+        Customer entity = repository.findById(id).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
         return CustomerDto.builder()
                 .cor_reg_no(entity.getCorRegNo())
                 .customer_name(entity.getCustomer_name())
@@ -113,14 +113,14 @@ public class CustomerService {
                 .content_pw(customerDto.getContent_pw())
                 // .createdAt(LocalDateTime.now())
                 .build();
-        return customerRepository.save(entity);
+        return repository.save(entity);
     }
 
     /**
      * 게시글 수정
      */
     public Customer update(CustomerDto customerDto) {
-        Customer entity = customerRepository.findById(customerDto.getCor_reg_no()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
+        Customer entity = repository.findById(customerDto.getCor_reg_no()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
             entity.setCorRegNo(customerDto.getCor_reg_no());
             entity.setCustomer_name(customerDto.getCustomer_name());
             entity.setTypeCode(customerDto.getTypeCode());
@@ -138,7 +138,7 @@ public class CustomerService {
             entity.setContent_id(customerDto.getContent_id());
             entity.setContent_pw(customerDto.getContent_pw());
     
-        return customerRepository.save(entity);
+        return repository.save(entity);
     
     }
 
@@ -146,8 +146,8 @@ public class CustomerService {
      * 게시글 삭제
      */
     public void delete(String id) {
-        Customer entity = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
-        customerRepository.delete(entity);
+        Customer entity = repository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+        repository.delete(entity);
     
     }
 }

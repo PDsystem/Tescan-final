@@ -37,7 +37,7 @@ import lombok.ToString;
 public class CustomerDto implements Serializable {
 
    // /* rowNum */
-   //  private int idx;
+   //  private int row_num;
 
     /* corRegNo 사업자 등록번호(not null) */
     private String cor_reg_no;

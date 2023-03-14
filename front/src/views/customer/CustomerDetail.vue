@@ -98,7 +98,8 @@
     data() { //변수생성
       return {
         requestBody: this.$route.query,
-        idx: this.$route.query.idx,  
+        corRegNo: this.$route.query.corRegNo,
+  
         title: '',
         author: '',
         contents: '',
@@ -149,7 +150,8 @@
       }
     }
   }
-</script>
-<style>
-
-</style>
+  </script>
+  <style scoped>
+  
+  
+  </style>
