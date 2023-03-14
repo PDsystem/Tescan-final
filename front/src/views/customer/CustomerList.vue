@@ -2,7 +2,7 @@
     <div class="customer-list">
             <h1>거래처 현황</h1>
         <div class="div-buttons">
-            <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요."/>
+            <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
             <button type="button" class="w3-button" v-on:click="fnSearch">검색</button>
             <button type="button" class="w3-button" v-on:click="fnWrite">등록</button>                
             <button type="button" class="w3-button" v-on:click="fnView">수정</button>                
@@ -136,8 +136,6 @@
         },
         fnView(cor_reg_no) {
             this.requestBody.cor_reg_no = cor_reg_no
-        // fnView(corRegNo) {
-        //     this.requestBody.corRegNo = corRegNo
             this.$router.push({
             path: './detail',
             query: this.requestBody
