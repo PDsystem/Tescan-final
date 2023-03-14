@@ -1,10 +1,9 @@
 package com.example.springboot.back.salesOppo.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -21,10 +20,9 @@ import lombok.NoArgsConstructor;
 @Entity
 public class SalesOppo implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private String empno; // 사원번호
 
-	private String reg_date; // 등록일
+	private LocalDateTime reg_date; // 등록일
 	private String equip_no; // 장비번호
 	private String cor_reg_no; // 사업자등록번호
 	private String project_name; // 프로젝트명

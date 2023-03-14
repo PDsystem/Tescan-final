@@ -1,6 +1,6 @@
 <template>
     <div class="oppo">
-        <div class="oppo_header">
+        <div class="cn_headerline">
             <p style="margin-left: 10px;">영업기회</p>
         </div>
         <div class="oppo_body">
@@ -16,8 +16,8 @@
                     <button class="corSearch_btn search_btn" @click="isModalOpened = true">검색</button>
 
                     <!--검색관련 버튼-->
-                    <button class="search_btn btnSort menu_right" @click="search()">조회</button>
-                    <button class="search_btn btnSort menu_right" @click="reset()">초기화</button>
+                    <button class="search_btn btnSort menu_right" @click="fnSearch()">조회</button>
+                    <button class="search_btn btnSort menu_right" @click="fnReset()">초기화</button>
                 </div>
                 <br>
                 <div class="menu">
@@ -29,9 +29,9 @@
                     <div style="margin-right: 10px;"><input type="date"></div>
                     <button class="dateSearch_btn search_btn" @click="dateSearch()">검색</button>
                     <!--crud 버튼-->
-                    <button class="search_btn btnSort menu_right" @click="add()">추가</button>
-                    <button class="search_btn btnSort menu_right" @click="save()">저장</button>
-                    <button class="search_btn btnSort menu_right" @click="del()">삭제</button>
+                    <button class="search_btn btnSort menu_right" @click="fnAdd()">추가</button>
+                    <button class="search_btn btnSort menu_right" @click="fnSave()">저장</button>
+                    <button class="search_btn btnSort menu_right" @click="fnDelete()">삭제</button>
                 </div>
             </div>
         </div>
@@ -49,7 +49,7 @@
                     <th>현황분류코드</th>
                     <th>예상금액</th>
                     <th>예상종료일자</th>
-                    <th>가능성</th>
+                    <th>가능성(%)</th>
                     <th>완료일자</th>
                     <th>계약금액</th>
                     <th>계약금액(달러)</th>
@@ -74,7 +74,7 @@
                     <td>{{ row.con_price_dol }}</td>
                     <td>{{ row.reason }}</td>
                     <td>{{ row.note }}</td>
-                    <!-- <td>{{ d.ROWNUM }}</td> -->
+                    <!-- <td>{{ row.rownum }}</td> -->
                 </tr>
             </tbody>
         </table>
@@ -84,18 +84,18 @@
         <table>
             <tr>
                 <td class="colText">사원명(사원번호)</td>
-                <td class="colData"><input type="text"></td>
+                <td class="colData"><input type="text" v-model="empno"></td>
                 <td class="colText">사업자등록번호</td>
-                <td class="colData"><input type="text"></td>
+                <td class="colData"><input type="text" v-model="cor_reg_no"></td>
                 <td class="colText">등록일시</td>
-                <td class="colData"></td>
+                <td class="colData"><input v-model="reg_date" readonly></td>
             </tr>
             <tr>
                 <td class="colText">프로젝트명</td>
-                <td class="colData"><input type="text"></td>
+                <td class="colData"><input type="text" v-model="project_name"></td>
                 <td class="colText">현황분류코드</td>
                 <td class="colData">
-                    <select class="dropList">
+                    <select class="dropList" v-model="condition_code">
                         <option>-</option>
                         <option>잠재</option>
                         <option>수주</option>
@@ -103,46 +103,46 @@
                         <option>실패</option>
                     </select>
                 </td>
-                <td class="colText">가능성</td>
+                <td class="colText">가능성(%)</td>
                 <td class="colData">
-                    <select class="dropList">
+                    <select class="dropList" v-model="possibility">
                         <option>%</option>
-                        <option>10%</option>
-                        <option>20%</option>
-                        <option>30%</option>
-                        <option>40%</option>
-                        <option>50%</option>
-                        <option>60%</option>
-                        <option>70%</option>
-                        <option>80%</option>
-                        <option>90%</option>
-                        <option>100%</option>
+                        <option>10</option>
+                        <option>20</option>
+                        <option>30</option>
+                        <option>40</option>
+                        <option>50</option>
+                        <option>60</option>
+                        <option>70</option>
+                        <option>80</option>
+                        <option>90</option>
+                        <option>100</option>
                     </select>
                 </td>
             </tr>
             <tr>
                 <td class="colText">장비번호</td>
-                <td class="colData"></td>
+                <td class="colData"><input type="text" v-model="equip_no"></td>
                 <td class="colText">예상종료일자</td>
-                <td class="colData"><input class="calendar" type="date"></td>
+                <td class="colData"><input class="calendar" type="date" v-model="retire_date"></td>
                 <td class="colText">완료일자</td>
-                <td class="colData"><input class="calendar" type="date"></td>
+                <td class="colData"><input class="calendar" type="date" v-model="end_date"></td>
             </tr>
             <tr>
                 <td class="colText">계약금액</td>
-                <td class="colData"><input type="text"></td>
+                <td class="colData"><input type="text" v-model="con_price"></td>
                 <td class="colText">계약금액($)</td>
-                <td class="colData"><input type="text"></td>
+                <td class="colData"><input type="text" v-model="con_price_dol"></td>
                 <td class="colText">예상금액</td>
-                <td class="colData"><input type="text"></td>
+                <td class="colData"><input type="text" v-model="sales_forecast"></td>
             </tr>
             <tr>
                 <td class="colText">사유</td>
-                <td class="colData" colspan="6"><input type="text"></td>
+                <td class="colData" colspan="6"><input type="text" v-model="reason"></td>
             </tr>
             <tr>
                 <td class="colText">비고</td>
-                <td class="colData" colspan="6"></td>
+                <td class="colData" colspan="6"><input type="text" v-model="note"></td>
             </tr>
         </table>
     </div>
@@ -159,7 +159,8 @@ export default {
         this.GetOppoList();
         // this.paginavigation();
     },
-    methods: {     
+    methods: {
+        //목록창 리로드
         GetOppoList() {
             this.$axios.get(this.$serverUrl + "/oppo/list",
             this.requestBody
@@ -173,26 +174,57 @@ export default {
                 alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
                 }
             })
+        },
+        
+        //검색버튼 클릭시
+        fnSearch() {
+            
+        },
+
+        //저장버튼 클릭시
+        fnSave() {
+            this.requestBody = {
+                "empno": this.empno,
+                "cor_reg_no": this.cor_reg_no,
+                "reg_date": "",
+                "project_name": this.project_name,
+                "condition_code": this.condition_code,
+                "possibility": this.possibility,
+                "equip_no": this.equip_no,
+                "retire_date": this.retire_date,
+                "end_date": this.end_date,
+                "con_price": this.con_price,
+                "con_price_dol": this.con_price_dol,
+                "sales_forecast": this.sales_forecast,
+                "reason": this.reason,
+                "note": this.note
+            }
+            console.log(this.requestBody);
+
+                //INSERT
+                this.$axios.post(this.$serverUrl + "/oppo/insert", this.requestBody)
+                .then((res) => {
+                alert('글이 저장되었습니다.')
+                console.log(res);
+                //this.fnView(res.data.idx)
+                }).catch((err) => {
+                if (err.message.indexOf('Network Error') > -1) {
+                    alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+                }
+            })
         }
     }
 }
 </script>
 
 <style scoped>
+@import url('../../assets/common.css');
+
 * {
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
     /* border: 1px solid rgb(185, 185, 185); */
-}
-.oppo_header {
-    width: 100%;
-    height: 50px;
-    font-size: xx-large;
-    font-weight: bold;
-    display: flex;
-    justify-content: flex-start;
-    border-bottom: 6px solid #0078b3;
 }
 .searchBar {
     padding-top: 20px;

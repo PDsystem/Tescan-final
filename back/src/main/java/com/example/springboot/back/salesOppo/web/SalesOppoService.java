@@ -1,9 +1,15 @@
 package com.example.springboot.back.salesOppo.web;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.springboot.back.salesOppo.entity.SalesOppo;
@@ -17,9 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Service
 public class SalesOppoService {
-    
-    @Autowired
+
     private final SalesOppoRepository salesOppoRepository;
+    private final EntityManager em;
 
     //리스트 조회
     public List<SalesOppoDto> getSalesOppoList() {
@@ -49,5 +55,53 @@ public class SalesOppoService {
             dtos.add(dto);
             }
         return dtos;
+    }
+
+    //추가
+    @Transactional
+    public void create(SalesOppoDto salesOppoDto) {
+       // codeMasterDto.setRegist_time(LocalDate.now());
+        salesOppoDto.setReg_date(LocalDateTime.now());
+        System.out.println(LocalDateTime.now());
+        System.out.println("----------------------------");
+        System.out.println(salesOppoDto.getEmpno());
+        String retire_date_to_save = parseDateToSave(salesOppoDto.getRetire_date());
+        String end_date_to_save = parseDateToSave(salesOppoDto.getEnd_date());
+        SalesOppo entity= SalesOppo.builder().
+                        empno(salesOppoDto.getEmpno()).
+                        reg_date(salesOppoDto.getReg_date()).
+                        equip_no(salesOppoDto.getEquip_no()).
+                        cor_reg_no(salesOppoDto.getCor_reg_no()).
+                        project_name(salesOppoDto.getProject_name()).
+                        condition_code(salesOppoDto.getCondition_code()).
+                        possibility(salesOppoDto.getPossibility()).
+                        retire_date(retire_date_to_save).
+                        sales_forecast(salesOppoDto.getSales_forecast()).
+                        end_date(end_date_to_save).
+                        con_price(salesOppoDto.getCon_price()).
+                        con_price_dol(salesOppoDto.getCon_price_dol()).
+                        reason(salesOppoDto.getReason()).
+                        note(salesOppoDto.getNote()).
+                        build();
+                        em.persist(entity);     
+    }
+
+
+    // yyyyMMdd 형태로 파싱해주는 함수
+    public String parseDateToSave(String parsedDate) {
+        if (parsedDate != null) {
+            String originalYear = parsedDate.substring(0, 4);
+            String originalMonth = parsedDate.substring(5, 7);
+            String originalDay = parsedDate.substring(8, 10);
+            String originalDate = originalYear + originalMonth + originalDay;
+
+            return originalDate;
+        } else {
+            return null;
+        }
+    }
+
+    public Page<SalesOppo> salesOppList(String searchKeyword, String searchType, Pageable pageable, int page) {
+        return null;
     }
 }

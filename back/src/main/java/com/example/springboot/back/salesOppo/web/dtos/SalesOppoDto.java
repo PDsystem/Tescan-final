@@ -1,6 +1,7 @@
 package com.example.springboot.back.salesOppo.web.dtos;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class SalesOppoDto implements Serializable {
 	private String empno; // 사원번호
-	private String reg_date; // 등록일
+	private LocalDateTime reg_date; // 등록일
 	private String equip_no; // 장비번호
 	private String cor_reg_no; // 사업자등록번호
 	private String project_name; // 프로젝트명
