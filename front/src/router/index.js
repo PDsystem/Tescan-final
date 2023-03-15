@@ -4,6 +4,7 @@ import BoardList from '@/views/board/BoardList.vue'
 import BoardDetail from '@/views/board/BoardDetail.vue'
 import BoardWrite from '@/views/board/BoardWrite.vue'
 import SalesOppo from '@/views/salesOppo/SalesOppo.vue'
+import SalesList from '@/views/sales/SalesList.vue'
 import EmpForm from '@/views/ts_emp/EmpForm.vue'
 import CustomerList from '@/views/customer/CustomerList.vue'
 import CustomerDetail from '@/views/customer/CustomerDetail.vue'
@@ -52,6 +53,12 @@ const routes = [
     path: '/SalesOppo/Oppo',
     name: 'SalesOppo',
     component: SalesOppo
+  },
+   //영업기회
+   {
+    path: '/Sales/list',
+    name: 'SalesList',
+    component: SalesList
   },
   {
     path: '/customer/detail',

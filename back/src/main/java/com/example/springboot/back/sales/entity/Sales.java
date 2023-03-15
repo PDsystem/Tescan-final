@@ -20,15 +20,12 @@ public class Sales {
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
      
      //번호
-
      private String visit_no;
 
      //사원번호
-
-     private String emp_no;
+     private String empno;
 
      //거래처번호
-
      private String cor_reg_no;
 
      //방문목적

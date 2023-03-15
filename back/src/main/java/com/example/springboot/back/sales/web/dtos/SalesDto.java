@@ -3,8 +3,6 @@ package com.example.springboot.back.sales.web.dtos;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,15 +17,12 @@ import lombok.ToString;
 public class SalesDto implements Serializable{
     
     //번호
-
     private String visit_no;
 
     //사원번호
-
-    private String emp_no;
+    private String empno;
 
     //거래처번호
-
     private String cor_reg_no;
 
     //방문목적
@@ -37,7 +32,6 @@ public class SalesDto implements Serializable{
     private String visit_contents;
 
     //방문날짜
-
     private LocalDateTime visit_date;
 
     //비고

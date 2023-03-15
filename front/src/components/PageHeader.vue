@@ -41,7 +41,7 @@
               |<a href="/salesOppo/oppo">영업부관리</a>|
               <ul>
                 <li><a href="/salesOppo/oppo">영업기회</a></li>
-                <li><a href="">영업방문</a></li>
+                <li><a href="/sales/list">영업방문</a></li>
                 <li><a href="">업무보고</a></li>
               </ul>
             </li>
