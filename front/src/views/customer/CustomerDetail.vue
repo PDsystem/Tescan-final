@@ -154,7 +154,7 @@
       },
       fnSave() {
                   //let apiUrl = this.$serverUrl + "/customer"
-                  this.from = {
+                  this.requestBody = {
                       "cor_reg_no": this.corRegNo,
                       "customer_name": this.customer_name,
                       "typeCode": this.typeCode,
@@ -175,7 +175,7 @@
 
                     }                  
                       //INSERT
-                      this.$axios.post(this.$serverUrl + "/customer", this.requestBody)
+                      this.$axios.patch(this.$serverUrl + "/customer", this.requestBody)
                       alert(this.requestBody)
                       .then((res) => {
                         alert('글이 저장되었습니다.')

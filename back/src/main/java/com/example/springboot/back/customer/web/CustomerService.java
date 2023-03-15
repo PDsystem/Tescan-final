@@ -21,6 +21,7 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
+@Transactional
 @Service
 public class CustomerService {
 
@@ -102,9 +103,12 @@ public class CustomerService {
     }
 
     /** 등록     */
-    @Transactional
+
     public void create(CustomerDto customerDto) {
     
+        // if(customerDto==null){
+            
+        // }
         Customer entity = Customer.builder()
                 .corRegNo(customerDto.getCor_reg_no())
                 .customer_name(customerDto.getCustomer_name())

@@ -13,4 +13,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public interface CustomerRepository extends JpaRepository<Customer, String> {
     
     Page<Customer> findAllByOrderByCorRegNoDesc(Pageable pageable);
+
+    
 }
