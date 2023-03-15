@@ -85,7 +85,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(row, content_no) in list" :key="content_no">
+          <tr v-for="(row, content_no) in list" :key="content_no" @click="fn_bind(row)">
             <td>{{ row.content_no }}</td>
             <td>{{ row.content_title }}</td>
             <td>{{ row.content_id }}</td>
@@ -95,6 +95,7 @@
         </tbody>
       </table>
     </div>
+    나와라 얍!
     <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
     <span class="pg">
     <a href="javascript:;" @click="codeSearch(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
@@ -138,23 +139,20 @@ export default {
         total_list_cnt: 0,
         total_page_cnt: 0,
       },
-      //페이징 데이터
-      page: this.$route.query.page ? this.$route.query.page : 1,
-      size: this.$route.query.size ? this.$route.query.size : 10,
-      keyword: this.$route.query.keyword,
       paginavigation: function () { //페이징 처리 for문 커스텀
         let nowPage=this.paging.page;
-      let start_page =(parseInt((nowPage-1)/10))*10+1;
-       let end_page = start_page+10-1;
+        let start_page =(parseInt((nowPage-1)/10))*10+1;
+        let end_page = start_page+10-1;
        
        end_page=Math.min(this.paging.total_page_cnt,end_page);
        this.paging.start_page=start_page;
        this.paging.end_page=end_page;
-      let pageNumber = [] //;
+       let pageNumber = [] //;
     
       for (let i = start_page; i <= end_page; i++) pageNumber.push(i);
       return pageNumber;
       },
+
       checkedValues: [],
       checkedValues1: [],
       isAllChecked: true
@@ -166,6 +164,7 @@ export default {
     this.fnGetList();
   },
   methods: {
+
     codeSearch(currentPage){
       console.log(this.requestBody.searchType);
       this.requestBody = { //데이터 전송
@@ -178,9 +177,9 @@ export default {
       this.$axios.post(this.$serverUrl+"/askBoard/askBoardList",this.requestBody).then((res) => {
         console.log(res);
         this.list = res.data.content //서버에서 데이터를 목록으로 보내므로 바로 할당하여 사용할 수 있다.
-        this.paging.total_page_cnt =res.data.total_pages;
-        this.paging.total_list_cnt =res.data.total_elements;
-        this.paging.page=res.data.pageable.page_number+1;
+          this.paging.total_page_cnt =res.data.total_pages;
+          this.paging.total_list_cnt =res.data.total_elements;
+          this.paging.page=res.data.pageable.page_number+1;
     
    }).catch(() => {
      window.alert("네트워크 통신 이상");
@@ -189,6 +188,7 @@ export default {
   setSelect(){
     this.requestBody.searchType=event.target.value;
     },
+  
     fnSave() {
     //let apiUrl = this.$serverUrl + "/codeMaster"
     this.requestBody = {
@@ -201,6 +201,11 @@ export default {
         "disclosure": this.disclosure,
       }
       console.log(this.requestBody);
+
+      //INSERT
+
+      
+    
     },
 
     clickFunc(event) { // 하나의 버튼만 클릭
@@ -239,12 +244,13 @@ export default {
         this.$axios.delete(this.$serverUrl + '/askBoard/' + this.contentNo, {})
             .then(() => {
               alert('삭제되었습니다.')
-              this.fnList();
+             // this.fnList();
             }).catch((err) => {
           console.log(err);
         })
       },
 
+     
     fnGetList() {
       this.$axios.get(this.$serverUrl + "/askBoard/List",
       
@@ -259,11 +265,7 @@ export default {
         }
       })
     }
-
-  },
-  computed: {
   }
-  
 }
 </script>
   

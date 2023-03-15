@@ -1,11 +1,14 @@
 package com.example.springboot.back.askBoard.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springboot.back.askBoard.entity.AskBoard;
@@ -24,7 +27,7 @@ public class AskBoardController {
     private final AskBoardService askBoardService;
 
     @GetMapping("/askBoard/List")
-    public List<AskBoard>  askBoardList(){
+    public List<AskBoard> askBoardList(){
         System.out.println("=============================================");
         List<AskBoard> askBoard = askBoardRepository.findAll();
         System.out.println(askBoard);
