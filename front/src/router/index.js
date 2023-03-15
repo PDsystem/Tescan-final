@@ -11,6 +11,7 @@ import CustomerDetail from '@/views/customer/CustomerDetail.vue'
 import CustomerWrite from '@/views/customer/CustomerWrite.vue'
 import ClientList from '@/views/client/ClientList.vue'
 import codeMaster from '@/views/codeMaster/codeMaster.vue'
+import askBoard from '@/views/askBoard/askBoardList.vue'
 
 const routes = [
   {
@@ -85,7 +86,13 @@ const routes = [
     name: 'codeMaster',
     component: codeMaster
   },
-  
+  {
+      // 게시판
+   path: '/askBoard/list',
+   name: 'askBoard',
+   component: askBoard
+ },
+
 ]
 
 const router = createRouter({

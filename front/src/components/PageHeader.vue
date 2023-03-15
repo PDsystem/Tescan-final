@@ -55,7 +55,7 @@
               </ul>
             </li>
             <li>
-              |<a href="/">게시판</a>|
+              |<a href="/askBoard/list">게시판</a>|
               <ul>
                 <li><a href="/">질문게시판</a></li>
               </ul>
