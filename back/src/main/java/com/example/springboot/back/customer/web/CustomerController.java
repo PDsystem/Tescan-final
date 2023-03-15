@@ -30,7 +30,7 @@ public class CustomerController {
                                                     ,HttpServletRequest request,String keyword) { 
         HttpSession session = request.getSession();
         // System.out.print(pageable.getPageNumber());
-        log.info("단건 검색 들어왔나요?"+x);
+        log.info("검색 ?"+keyword);
         return customerService.getCustomerList(pageable,keyword); 
     }
 
