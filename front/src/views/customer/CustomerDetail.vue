@@ -152,6 +152,41 @@
           query: this.requestBody
         })
       },
+      fnSave() {
+                  //let apiUrl = this.$serverUrl + "/customer"
+                  this.from = {
+                      "cor_reg_no": this.corRegNo,
+                      "customer_name": this.customer_name,
+                      "typeCode": this.typeCode,
+                      "email": this.email,
+                      "region1": this.region1,
+                      "region2": this.region2,
+                      "fax":this.fax,
+                      "web":this.web,
+                      "address1": this.address1,
+                      "address2": this.address2,
+                      "high_customer": this.high_customer,
+                      "note": this.note,
+                      "tel": this.tel,
+                      "note": this.note,
+                      "semail": this.semail,
+                      "content_id": this.content_id,
+                      "content_pw": this.content_pw
+
+                    }                  
+                      //INSERT
+                      this.$axios.post(this.$serverUrl + "/customer", this.requestBody)
+                      alert(this.requestBody)
+                      .then((res) => {
+                        alert('글이 저장되었습니다.')
+                        console.log(res);
+                        //this.fnView(res.data.idx)
+                      }).catch((err) => {
+                        if (err.message.indexOf('Network Error') > -1) {
+                          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+                        }
+                      })        
+      },
       fnDelete() {
         if (!confirm("삭제하시겠습니까?")) return
   

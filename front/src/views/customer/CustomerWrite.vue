@@ -146,10 +146,7 @@ export default {
                       "content_id": this.content_id,
                       "content_pw": this.content_pw
 
-                    }
-                    // console.log(this.requestBody);
-
-                  
+                    }                  
                       //INSERT
                       this.$axios.post(this.$serverUrl + "/customer", this.requestBody)
                       .then((res) => {

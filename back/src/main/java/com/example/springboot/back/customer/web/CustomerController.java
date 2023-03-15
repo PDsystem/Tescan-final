@@ -40,14 +40,15 @@ public class CustomerController {
     }
 
     @PostMapping("/customer")
-    public Customer create(@RequestBody CustomerDto customerDto) {
-        return customerService.create(customerDto);
+    public void create(@RequestBody CustomerDto customerDto) {
+        customerService.create(customerDto);
     }
 
     @PatchMapping("/customer")
-    public Customer update(@RequestBody CustomerDto customerDto) {
+    public void update(@RequestBody CustomerDto customerDto) {
+        // Customer customer 
         log.info("save 들어왔나요?"+customerDto);
-        return customerService.update(customerDto);
+        customerService.update(customerDto);
     }
 
     @DeleteMapping("/customer/{id}")

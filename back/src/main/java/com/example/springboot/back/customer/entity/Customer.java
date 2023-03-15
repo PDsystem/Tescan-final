@@ -2,6 +2,8 @@ package com.example.springboot.back.customer.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -47,6 +49,8 @@ public class Customer{
     /* REGNO 사업자 등록번호(not null) */
     @Id
     @Column(name = "cor_reg_no",nullable = false, unique = true)
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    // @GeneratedValue
     private String corRegNo;
         
     // /* CUS_NO 고객번호(not null) */

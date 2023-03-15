@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.example.springboot.back.model.*;
 
 import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,6 @@ public class CustomerService {
         // }
 
         List<CustomerDto> dtos = new ArrayList<>();
-        // log.info("2");
         for (Customer entity : customerEntities) {
             CustomerDto dto = CustomerDto.builder()
                     // .row_num(entity.getRow_num())
@@ -64,7 +64,6 @@ public class CustomerService {
                     .content_pw(entity.getContent_pw())
                     .build();
             dtos.add(dto);
-            // System.out.print("훼이크 다토"+dtos);            
         }
         Pagination pagination = new Pagination(
             (int) customerEntities.getTotalElements()
@@ -81,7 +80,6 @@ public class CustomerService {
         
 
         Customer entity = repository.findById(corRegNo).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
-        // Customer entity = repository.findById(id).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
         return CustomerDto.builder()
                 .cor_reg_no(entity.getCorRegNo())
                 .customer_name(entity.getCustomer_name())
@@ -100,10 +98,12 @@ public class CustomerService {
                 .content_id(entity.getContent_id())
                 .content_pw(entity.getContent_pw())
                 .build();
+  
     }
 
     /** 등록     */
-    public Customer create(CustomerDto customerDto) {
+    @Transactional
+    public void create(CustomerDto customerDto) {
     
         Customer entity = Customer.builder()
                 .corRegNo(customerDto.getCor_reg_no())
@@ -123,13 +123,13 @@ public class CustomerService {
                 .content_pw(customerDto.getContent_pw())
                 // .createdAt(LocalDateTime.now())
                 .build();
-        return repository.save(entity);
+                em.persist(entity);
     }
 
     /**
-     * 게시글 수정
+     * 수정
      */
-    public Customer update(CustomerDto customerDto) {
+    public void update(CustomerDto customerDto) {
         Customer entity = repository.findById(customerDto.getCor_reg_no()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
             entity.setCorRegNo(customerDto.getCor_reg_no());
             entity.setCustomer_name(customerDto.getCustomer_name());
@@ -148,15 +148,15 @@ public class CustomerService {
             entity.setContent_id(customerDto.getContent_id());
             entity.setContent_pw(customerDto.getContent_pw());
     
-        return repository.save(entity);
+            repository.save(entity);
     
     }
 
     /**
-     * 게시글 삭제
+     * 삭제
      */
     public void delete(String id) {
-        Customer entity = repository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+        Customer entity = repository.findById(id).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
         repository.delete(entity);
     
     }
