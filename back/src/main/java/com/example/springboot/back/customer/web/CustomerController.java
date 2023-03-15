@@ -27,15 +27,15 @@ public class CustomerController {
     @GetMapping("/customer/list")
     // public Header<List<CustomerDto>> customerList(Pageable pageable,HttpServletRequest request) { 
     public Header<List<CustomerDto>> customerList(@PageableDefault(sort = {"corRegNo"}) Pageable pageable
-                                                    ,HttpServletRequest request,String searchKeyword) { 
+                                                    ,HttpServletRequest request,String keyword) { 
         HttpSession session = request.getSession();
         // System.out.print(pageable.getPageNumber());
-        return customerService.getCustomerList(pageable,searchKeyword); 
+        log.info("단건 검색 들어왔나요?"+x);
+        return customerService.getCustomerList(pageable,keyword); 
     }
 
     @PostMapping("/customer/{x}")
     public CustomerDto getCustomer(@PathVariable String x) {
-        log.info("단건 검색 들어왔나요?"+x);
         return customerService.getCustomer(x);
     }
 
@@ -46,8 +46,6 @@ public class CustomerController {
 
     @PatchMapping("/customer")
     public void update(@RequestBody CustomerDto customerDto) {
-        // Customer customer 
-        log.info("제발 나와."+customerDto);
         customerService.update(customerDto);
     }
 
