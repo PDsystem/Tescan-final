@@ -1,6 +1,5 @@
 package com.example.springboot.back.salesOppo.entity;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
@@ -18,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Table(name="TS_SALES_INFO")
 @Entity
-public class SalesOppo implements Serializable {
+public class SalesOppo {
     @Id
 	private String empno; // 사원번호
 
