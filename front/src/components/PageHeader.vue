@@ -13,9 +13,9 @@
                 <li><router-link to="/attitudeBook/list">attitude book list</router-link></li>
               </ul>
             </li>
-            <li><a href="/">공통기능</a>
+            <li><a href="/codeMaster/codeMaster">공통기능</a>
               <ul>
-                <li><a href="/">공통코드</a></li>
+                <li><a href="/codeMaster/codeMaster">공통코드</a></li>
                 <li><a href="/">공통코드상세</a></li>
               </ul>
             </li>

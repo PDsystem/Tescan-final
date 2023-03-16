@@ -1,3 +1,4 @@
+
 <template>
     <div class="oppo">
         <div class="cn_headerline">
@@ -9,29 +10,23 @@
                 <div class="menu">
                     <!--담당자, 거래처검색-->
                     <div class="empSearch colText">담당자검색</div>
-                    <div style="margin-right: 10px;"><input type="text" name="empSearch" v-model="empSearch"></div>
+                    <div style="margin-right: 10px;"><input type="text"></div>
                     <button class="empSearch_btn search_btn" @click="isModalOpened = true">검색</button>
                     <div class="corSearch colText">거래처검색</div>
-                    <div style="margin-right: 10px;"><input type="text" name="corSearch" v-model="corSearch"></div>
+                    <div style="margin-right: 10px;"><input type="text"></div>
                     <button class="corSearch_btn search_btn" @click="isModalOpened = true">검색</button>
-
-                    <!--검색관련 버튼-->
-                    <button class="search_btn btnSort menu_right" @click="fnSearch()">조회</button>
-                    <button class="search_btn btnSort menu_right" @click="fnReset()">초기화</button>
-                </div>
-                <br>
-                <div class="menu">
                     <!--날짜검색-->
                     <div class="startDate colText">시작일</div>
-                    <div style="margin-right: 10px;"><input type="date" name="startDateSearch" v-model="startDateSearch"></div>
+                    <div style="margin-right: 10px;"><input type="date"></div>
                     <p>~</p>
                     <div class="endDate colText">종료일</div>
-                    <div style="margin-right: 10px;"><input type="date"  name="endDateSearch" v-model="endDateSearch"></div>
+                    <div style="margin-right: 10px;"><input type="date"></div>
 
                     <!--검색관련 버튼-->
                     <button class="search_btn margin-left" @click="GetOppoList()">조회</button>
                     <button class="search_btn" @click="fnReset()">초기화</button>
                 </div>
+                <br>
             </div>
         </div>
         <br>
@@ -57,8 +52,7 @@
                     <!-- <th>No.</th> -->
                 </tr>   
             </thead>
-            <tbody>
-                <tr v-for="(row, empno) in list" :key="empno">
+                <tr v-for="(row, empno) in list" :key="empno" @click="fn_bind(row)">
                     <td>{{ row.empno }}</td>
                     <td>{{ row.reg_date }}</td>
                     <td>{{ row.equip_no }}</td>
@@ -75,10 +69,29 @@
                     <td>{{ row.note }}</td>
                     <!-- <td>{{ row.rownum }}</td> -->
                 </tr>
-            </tbody>
         </table>
         <hr class="line-basic">
         <br>
+        <!--페이징처리문-->
+        <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
+        <span class="pg">
+        <a href="javascript:;" @click="fnPage(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
+        <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"
+           class="prev w3-button w3-bar-item w3-border">&lt;</a>
+        <template v-for=" (n,index) in paginavigation()">
+            <template v-if="paging.page==n">
+                <strong class="w3-button w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
+            </template>
+            <template v-else>
+                <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{ n }}</a>
+            </template>
+        </template>
+        <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
+           @click="fnPage(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
+        <a href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
+        </span>
+      </div>
+      <br>
         <!--crud 등록,수정칸-->
         <table>
             <tr>
@@ -88,10 +101,6 @@
                 <td class="colData"><input type="text" v-model="cor_reg_no"></td>
                 <td class="colText">등록일시</td>
                 <td class="colData"><input v-model="reg_date" readonly></td>
-            </tr>
-            <tr>
-                <td class="colText">프로젝트명</td>
-                <td class="colData"><input type="text" v-model="project_name"></td>
                 <td class="colText">현황분류코드</td>
                 <td class="colData">
                     <select class="dropList" v-model="condition_code">
@@ -102,6 +111,15 @@
                         <option>실패</option>
                     </select>
                 </td>
+                <button class="search_btn margin-left" @click="fnAdd()">추가</button>
+            </tr>
+            <tr>
+                <td class="colText">프로젝트명</td>
+                <td class="colData"><input type="text" v-model="project_name"></td>
+                <td class="colText">예상종료일자</td>
+                <td class="colData"><input class="calendar" type="date" v-model="retire_date"></td>
+                <td class="colText">완료일자</td>
+                <td class="colData"><input class="calendar" type="date" v-model="end_date"></td>
                 <td class="colText">가능성(%)</td>
                 <td class="colData">
                     <select class="dropList" v-model="possibility">
@@ -118,30 +136,25 @@
                         <option>100</option>
                     </select>
                 </td>
+                <button class="search_btn margin-left" @click="fnFix()">수정</button>
             </tr>
             <tr>
                 <td class="colText">장비번호</td>
                 <td class="colData"><input type="text" v-model="equip_no"></td>
-                <td class="colText">예상종료일자</td>
-                <td class="colData"><input class="calendar" type="date" v-model="retire_date"></td>
-                <td class="colText">완료일자</td>
-                <td class="colData"><input class="calendar" type="date" v-model="end_date"></td>
-            </tr>
-            <tr>
                 <td class="colText">계약금액</td>
                 <td class="colData"><input type="text" v-model="con_price"></td>
                 <td class="colText">계약금액($)</td>
                 <td class="colData"><input type="text" v-model="con_price_dol"></td>
                 <td class="colText">예상금액</td>
                 <td class="colData"><input type="text" v-model="sales_forecast"></td>
+                <button class="search_btn margin-left" @click="fnSave()">저장</button>
             </tr>
             <tr>
                 <td class="colText">사유</td>
-                <td class="colData" colspan="6"><input type="text" v-model="reason"></td>
-            </tr>
-            <tr>
+                <td class="colData" colspan="3"><input type="text" v-model="reason"></td>
                 <td class="colText">비고</td>
-                <td class="colData" colspan="6"><input type="text" v-model="note"></td>
+                <td class="colData" colspan="3"><input type="text" v-model="note"></td>
+                <button class="search_btn margin-left" @click="fnDelete()">삭제</button>
             </tr>
         </table>
     </div>
@@ -151,7 +164,46 @@
 export default {
     data() {
         return {
-            list: {}
+            list: {},
+            //데이터 바인딩
+            empno:"",
+            reg_date:"",
+            equip_no:"",
+            cor_reg_no:"",
+            project_name:"",
+            condition_code:"",
+            sales_forecast:"",
+            retire_date:"",
+            possibility:"",
+            end_date:"",
+            con_price:"",
+            con_price_dol:"",
+            reason:"",
+            note:"",
+            detailBody:{idx:0},
+            list: {}, //리스트 데이터
+            paging: {
+                end_page: 0,
+                page: 0,
+                start_page: 0,
+                total_list_cnt: 0,
+                total_page_cnt: 0,
+            }, 
+            paginavigation: function () { 
+      //페이징 처리 for문 커스텀
+            let nowPage=this.paging.page;
+            let start_page =(parseInt((nowPage-1)/10))*10+1;
+            let end_page = start_page+10-1;
+            
+            end_page=Math.min(this.paging.total_page_cnt,end_page);
+            this.paging.start_page=start_page;
+            this.paging.end_page=end_page;
+            let pageNumber = [] //;
+            
+      
+            for (let i = start_page; i <= end_page; i++) pageNumber.push(i);
+            return pageNumber;
+          }
         }
     },
     mounted() {    
@@ -163,31 +215,36 @@ export default {
         GetOppoList(currentPage) {
           
           this.requestBody = { // 데이터 전송
-            empSearch: this.empSearch,
-            corSearch: this.corSearch,
+            searchKeyword: this.searchKeyword,
             page: currentPage-1,
             size: 10
           }
           this.$axios.post(this.$serverUrl + "/Oppo/list",
             this.requestBody
-            ).then((res) => {    
-                console.log(res)
 
-                this.list = res.data
-                console.log(this.list)
-            }).catch((err) => {
+          ).then((res) => {    
+          console.log(res)
+        
+            this.list = res.data.content  //서버에서 데이터를 목록으로 보내므로 바로 할당하여 사용할 수 있다.
+            this.paging.total_page_cnt =res.data.total_pages;
+            this.paging.total_list_cnt =res.data.total_elements;
+            this.paging.page=res.data.pageable.page_number+1;
+          }).catch((err) => {
             if (err.message.indexOf('Network Error') > -1) {
                 alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
                 }
             })
         },
+        fnPage(n) {
+          if (this.page !== n) {
+            this.page = n
+            this.GetOppoList(n)
+          }
+        },
         
-        //초기화버튼 클릭시
-        fnReset() {
-            this.empSearch="",
-            this.corSearch="",
-            this.startDateSearch="",
-            this.endDateSearch=""
+        //검색버튼 클릭시
+        fnSearch() {
+            
         },
 
         //저장버튼 클릭시
@@ -209,6 +266,7 @@ export default {
                 "note": this.note
             }
             console.log(this.requestBody);
+            // console.log(this.requestBody);
 
                 //INSERT
                 this.$axios.post(this.$serverUrl + "/oppo/insert", this.requestBody)
@@ -220,17 +278,6 @@ export default {
                 if (err.message.indexOf('Network Error') > -1) {
                     alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
                 }
-            })
-        },
-        fnDelete() {
-            if (!confirm("삭제하시겠습니까?")) return
-            this.idx=this.reg_date;
-            this.$axios.delete(this.$serverUrl + '/salesOppoDelete/' + this.idx)
-                .then(() => {
-                alert('삭제되었습니다.')
-                
-                }).catch((err) => {
-            console.log(err);
             })
         },
 
@@ -253,6 +300,7 @@ export default {
         }
     }
 }
+
 </script>
 
 <style scoped>
@@ -266,9 +314,11 @@ export default {
 }
 .searchBar {
     padding-top: 20px;
+    padding-top: 15px;
     justify-content: space-between;
     align-items: center;
     height: 100px;
+    height: 50px;
     background-color: #f0f0f0;
 }
 .colText {
@@ -321,5 +371,8 @@ export default {
 }
 .btnSort {
     margin-right: 5px;
+}
+.margin-left {
+    margin-left: 80px;
 }
 </style>
