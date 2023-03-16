@@ -9,7 +9,7 @@
                     <!--담당자, 거래처검색-->
                     <div class="empSearch colText">담당자검색</div>
                     <div style="margin-right: 10px;"><input type="text" name="empno" v-model="searchKeyword"></div>
-                    <button class="empSearch_btn search_btn" @click="fnGetList">검색</button>
+                    <button class="empSearch_btn search_btn" @click="fnSalesList">검색</button>
                     <!-- <div class="corSearch colText">거래처검색</div>
                     <div style="margin-right: 10px;"><input type="text"></div>
                     <button class="corSearch_btn search_btn" @click="isModalOpened = true">검색</button> -->
@@ -27,17 +27,45 @@
                     <div style="margin-right: 10px;"><input type="date"></div>
                     <button class="dateSearch_btn search_btn" @click="dateSearch()">검색</button>
                     <!--crud 버튼-->
-                    <button class="search_btn" @click="add()">추가</button>
-                    <button class="search_btn" @click="save()">저장</button>
-                    <button class="search_btn" @click="del()">삭제</button>
+                    <button class="search_btn" id="add" @click="fnAdd()">추가</button>
+                    <button class="search_btn" id="save" @click="fnSave()">저장</button>
+                    <button class="search_btn" id="delete" @click="fnDelete()">삭제</button>
                 </div>
             </div>
             <br>
+            <table>
+            <tr>
+                <td class="colText">No</td>
+                <td class="colData"><input type="text" v-model="visit_no" style="width:100%"></td>
+                <td class="colText">사원명(사원번호)</td>
+                <td class="colData"><input type="text" v-model="empno" style="width:100%"></td>
+                <td class="colText">사업자등록번호</td>
+                <td class="colData"><input type="text" v-model="cor_reg_no" style="width:100%"></td>
+            </tr>
+            <tr>
+              <td class="colText">등록일시</td>
+              <td class="colData" colspan="6"><input type="date" v-model="visit_date" readonly style="width:100%"></td>
+            </tr>
+            <tr>
+                <td class="colText">방문목적</td>
+                <td class="colData" colspan="6"><input type="text" v-model="visit_purpose" style="width:100%"></td>
+            </tr>
+            <tr>
+                <td class="colText">방문내용</td>
+                <td class="colData" colspan="6"><input type="text" v-model="visit_contents" style="width:100%"></td>
+            </tr>
+            <tr>
+                <td class="colText">비고</td>
+                <td class="colData" colspan="6"><input type="text" v-model="note" style="width:100%"></td>
+            </tr>
+        </table>
+        <br>
 
       <div class="contents">
       <table>
-        <thead class="thead">
+        <thead>
                 <tr>
+                    <th class="th">No</th>
                     <th class="th">담당자</th>
                     <th class="th">거래처</th>
                     <th class="th">방문목적</th>
@@ -46,11 +74,12 @@
                     <th class="th">비고</th>
                 </tr> 
             </thead>
-        <tbody class="tbody">
-        <tr v-for="(f,visit_no) in list" :key="visit_no">
+        <tbody>
+        <tr v-for="(f,visit_no) in list" :key="visit_no" @click="fn_bind(row)">
+          <td>{{ f.visit_no }}</td>
           <td>{{ f.empno }}</td>
           <td>{{ f.cor_reg_no }}</td>
-          <td><a v-on:click="fnView(`${row.visit_no}`)">{{ f.visit_purpose }}</a></td>
+          <td>{{ f.visit_purpose }}</td>
           <td>{{ f.visit_contents }}</td>
           <td>{{ f.visit_date }}</td>
           <td>{{ f.note }}</td>
@@ -113,12 +142,12 @@
         }
       },
       mounted() {
-        this.fnGetList();
+        this.fnSalesList();
       // this.paginavigation();
       },
       methods: {
         
-        fnGetList(currentPage) {
+        fnSalesList(currentPage) {
           
           this.requestBody = { // 데이터 전송
             searchKeyword: this.searchKeyword,
@@ -153,13 +182,58 @@
             path: './write'
           })
         },
+
          fnPage(n) {
           
            if (this.page !== n) {
              this.page = n
-             this.fnGetList(n)
+             this.fnSalesList(n)
            }
-         }
+         },
+         //저장버튼 클릭시
+        fnSave() {
+            this.requestBody = {
+                "visit_no": this.visit_no,
+                "empno": this.empno,
+                "visit_date": "",
+                "cor_reg_no": this.cor_reg_no,
+                "visit_purpose": this.visit_purpose,
+                "visit_contents": this.visit_contents,
+                "note": this.note
+            }
+            console.log(222222222222222222222222222222222222222222);
+            console.log(this.requestBody);
+
+                //INSERT
+                this.$axios.post(this.$serverUrl + "/sales", this.requestBody)
+                .then((res) => {
+                alert('글이 저장되었습니다.')
+                console.log(res);
+                //this.fnView(res.data.idx)
+                }).catch((err) => {
+                if (err.message.indexOf('Network Error') > -1) {
+                    alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+                }
+            })
+        },
+
+        fnDelete() {
+        if (!confirm("삭제하시겠습니까?")) return
+      this.idx=this.visit_no;
+      alert(this.idx);
+        this.$axios.delete(this.$serverUrl + '/salesDelete/' + this.idx)
+            .then(() => {
+              alert('삭제되었습니다.')
+             
+            }).catch((err) => {
+          console.log(err);
+        })
+      },
+      fn_bind(){
+     
+        alert(object);
+        console.log(bind);
+      }
       }
   }
   </script>

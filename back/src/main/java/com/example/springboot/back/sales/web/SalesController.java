@@ -45,23 +45,19 @@ public class SalesController {
         return list; 
     }
 
-    @GetMapping("/sales/{id}")
-    public SalesDto getSales(@PathVariable String id) {
-        System.out.println("7777777777777777777777777777777777");
-        return salesService.getSales(id);
-    }
     @PostMapping("/sales")
     public Sales create(@RequestBody SalesDto salesDto) {
-        return salesService.create(salesDto);
-    }
-    @PatchMapping("/sales")
-    public Sales update(@RequestBody SalesDto salesDto) {
-        return salesService.update(salesDto);
-    }
-
-    @DeleteMapping("/sales/{id}")
-    public void delete(@PathVariable String id) {
-        salesService.delete(id);
+        salesDto.setEmpno(salesDto.getEmpno());
+        System.out.println("insert 1");
+        salesService.create(salesDto);
+        System.out.println("insert 2");
+        return null;
     }
 
+    @DeleteMapping("/salesDelete/{id}")
+    public int salesDelete(@PathVariable String id){
+        System.out.println(id);
+        int result=salesService.salesDelete(id);
+        return result;
+    }
 }

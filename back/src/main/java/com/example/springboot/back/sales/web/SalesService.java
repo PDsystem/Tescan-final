@@ -3,7 +3,6 @@ package com.example.springboot.back.sales.web;
 // import java.util.ArrayList;
 // import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,14 +17,17 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class SalesService {
 
-    @Autowired
     private final SalesRepository salesRepository;
-
+    private final EntityManager em;
+    
     //목록 가져오기
 
     // public List<SalesDto> getSalesList(){
@@ -71,40 +73,43 @@ public class SalesService {
                 .build();
     }
 
-        /**
-     * 게시글 등록
-     */
-    public Sales create(SalesDto salesDto) {
-        Sales entity = Sales.builder()
-                // .idx(cnt)
-                .visit_no(salesDto.getVisit_no())
-                .empno(salesDto.getEmpno())
-                .cor_reg_no(salesDto.getCor_reg_no())
-                .visit_purpose(salesDto.getVisit_purpose())
-                .visit_contents(salesDto.getVisit_contents())
-                .visit_date(LocalDateTime.now())
-                .note(salesDto.getNote())
-                .build();
-        return salesRepository.save(entity);
+    //추가
+    @Transactional
+    public void create(SalesDto salesDto) {
+        salesDto.setVisit_date(LocalDateTime.now());
+        System.out.println(LocalDateTime.now());
+        System.out.println("----------------------------");
+        System.out.println(salesDto.getEmpno());
+        Sales entity= Sales.builder().
+                        visit_no(salesDto.getVisit_no()).
+                        empno(salesDto.getEmpno()).
+                        cor_reg_no(salesDto.getCor_reg_no()).
+                        visit_purpose(salesDto.getVisit_purpose()).
+                        visit_contents(salesDto.getVisit_contents()).
+                        visit_date(salesDto.getVisit_date()).
+                        note(salesDto.getNote()).
+                        build();
+                        em.persist(entity);
     }
 
-    /**
-     * 게시글 수정
-     */
-    public Sales update(SalesDto salesDto) {
-        Sales entity = salesRepository.findById(salesDto.getVisit_no()).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
-        entity.setVisit_purpose(salesDto.getVisit_purpose());
-        entity.setVisit_contents(salesDto.getVisit_contents());
-        entity.setNote(salesDto.getNote());
-        return salesRepository.save(entity);
+    //수정
+    public void update(SalesDto salesDto) {
+        System.out.println(salesDto.getEmpno());
+        Sales entity= Sales.builder().
+                            visit_purpose(salesDto.getVisit_purpose()).
+                            visit_contents(salesDto.getVisit_contents()).
+                            visit_date(salesDto.getVisit_date()).
+                            note(salesDto.getNote()).
+                        build();
+                        
+                        salesRepository.save(entity);                   
     }
 
-    /**
-     * 게시글 삭제
-     */
-    public void delete(String id) {
-        Sales entity = salesRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
-        salesRepository.delete(entity);
+    //삭제
+    public int salesDelete(String id){
+        
+        salesRepository.deleteById(id);
+        return 1;
     }
 
 }

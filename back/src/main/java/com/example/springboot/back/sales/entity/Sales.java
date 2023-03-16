@@ -16,9 +16,7 @@ import java.time.LocalDateTime;
 @Table(name="TS_SALES_TASKLIST")
 @Entity
 public class Sales {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
-     
+    @Id     
      //번호
      private String visit_no;
 
