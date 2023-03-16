@@ -92,18 +92,26 @@ public class SalesService {
                         em.persist(entity);
     }
 
-    //수정
     public void update(SalesDto salesDto) {
-        System.out.println(salesDto.getEmpno());
-        Sales entity= Sales.builder().
-                            visit_purpose(salesDto.getVisit_purpose()).
-                            visit_contents(salesDto.getVisit_contents()).
-                            visit_date(salesDto.getVisit_date()).
-                            note(salesDto.getNote()).
-                        build();
-                        
-                        salesRepository.save(entity);                   
+        Sales entity = salesRepository.findById(salesDto.getVisit_no()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
+            entity.setVisit_purpose(salesDto.getVisit_purpose());
+            entity.setVisit_contents(salesDto.getVisit_contents());
+            entity.setNote(salesDto.getNote());
+            salesRepository.save(entity);
+    
     }
+
+    // //수정
+    // public void update(SalesDto salesDto) {
+    //     System.out.println(salesDto.getEmpno());
+    //     Sales entity= Sales.builder().
+    //                         visit_purpose(salesDto.getVisit_purpose()).
+    //                         visit_contents(salesDto.getVisit_contents()).
+    //                         note(salesDto.getNote()).
+    //                     build();
+                        
+    //                     salesRepository.save(entity);                   
+    // }
 
     //삭제
     public int salesDelete(String id){

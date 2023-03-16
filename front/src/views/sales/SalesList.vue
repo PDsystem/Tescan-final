@@ -10,9 +10,9 @@
                     <div class="empSearch colText">담당자검색</div>
                     <div style="margin-right: 10px;"><input type="text" name="empno" v-model="searchKeyword"></div>
                     <button class="empSearch_btn search_btn" @click="fnSalesList">검색</button>
-                    <!-- <div class="corSearch colText">거래처검색</div>
+                    <div class="corSearch colText">거래처검색</div>
                     <div style="margin-right: 10px;"><input type="text"></div>
-                    <button class="corSearch_btn search_btn" @click="isModalOpened = true">검색</button> -->
+                    <button class="corSearch_btn search_btn" @click="isModalOpened = true">검색</button>
 
                     <!-- 검색 버튼
                     <button class="search_btn" @click="search()">조회</button> -->
@@ -27,7 +27,7 @@
                     <div style="margin-right: 10px;"><input type="date"></div>
                     <button class="dateSearch_btn search_btn" @click="dateSearch()">검색</button>
                     <!--crud 버튼-->
-                    <button class="search_btn" id="add" @click="fnAdd()">추가</button>
+                    <!-- <button class="search_btn" id="add" @click="fnAdd()">추가</button> -->
                     <button class="search_btn" id="save" @click="fnSave()">저장</button>
                     <button class="search_btn" id="delete" @click="fnDelete()">삭제</button>
                 </div>
@@ -43,8 +43,8 @@
                 <td class="colData"><input type="text" v-model="cor_reg_no" style="width:100%"></td>
             </tr>
             <tr>
-              <td class="colText">등록일시</td>
-              <td class="colData" colspan="6"><input type="date" v-model="visit_date" readonly style="width:100%"></td>
+              <td class="colText">방문일자</td>
+              <td class="colData" colspan="6"><input type="date" v-model="visit_date" style="width:100%"></td>
             </tr>
             <tr>
                 <td class="colText">방문목적</td>
@@ -70,12 +70,12 @@
                     <th class="th">거래처</th>
                     <th class="th">방문목적</th>
                     <th class="th">방문내역</th>
-                    <th class="th">방문날짜</th>
+                    <th class="th">방문일자</th>
                     <th class="th">비고</th>
                 </tr> 
             </thead>
         <tbody>
-        <tr v-for="(f,visit_no) in list" :key="visit_no" @click="fn_bind(row)">
+        <tr v-for="(f,visit_no) in list" :key="visit_no" @click="fn_bind(f)">
           <td>{{ f.visit_no }}</td>
           <td>{{ f.empno }}</td>
           <td>{{ f.cor_reg_no }}</td>
@@ -115,6 +115,13 @@
 
       data() { //변수생성
         return {
+          visit_no:'',
+          empno:'',
+          cor_reg_no:'',
+          visit_purpose:'',
+          visit_contents:'',
+          visit_date:'',
+          note:'',
           detailBody:{idx:0},
           list: {}, //리스트 데이터
           paging: {
@@ -229,10 +236,18 @@
           console.log(err);
         })
       },
-      fn_bind(){
-     
-        alert(object);
-        console.log(bind);
+
+      fn_bind(f){
+
+      this.visit_no=f.visit_no
+      this.empno=f.empno
+      this.cor_reg_no=f.cor_reg_no
+      this.visit_purpose=f.visit_purpose
+      this.visit_contents=f.visit_contents
+      this.visit_date=f.visit_date
+      this.note=f.note
+       // alert(object);
+       // console.log(bind);
       }
       }
   }
@@ -518,11 +533,11 @@ button {
   font-size: 15px;
 }
 .contents {
-  height: 70vh;
+  height: 40vh;
   overflow: auto;
 }
 .contents table {
-  width: 99vw;
+  width: 80vw;
   border: 1px solid rgba(0, 0, 0, 0.5);
   margin: auto;
 }
@@ -535,26 +550,26 @@ button {
   border-right: 1px solid lightgray;
 }
 .contents th:nth-child(1) {
-  width: 7%;
+  width: 5%;
   border-left: 1px solid lightgray;
 }
 .contents th:nth-child(2) {
-  width: 12%;
+  width: 8%;
 }
 .contents th:nth-child(3) {
-  width: 12%;
+  width: 8%;
 }
 .contents th:nth-child(4) {
-  width: 12%;
+  width: 10%;
 }
 .contents th:nth-child(5) {
-  width: 18%;
+  width: 20%;
 }
 .contents th:nth-child(6) {
-  width: 18%;
+  width: 10%;
 }
 .contents th:nth-child(7) {
-  width: 12%;
+  width: 10%;
 }
 .contents th:nth-child(8) {
   width: 9%;

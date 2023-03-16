@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.springboot.back.sales.entity.Sales;
+import com.example.springboot.back.sales.entity.SalesRepository;
 import com.example.springboot.back.sales.web.dtos.SalesDto;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 public class SalesController {
     private final SalesService salesService;
+    private final SalesRepository salesRepository;
 
  @PostMapping("/sales/list")
     public Page<Sales>  salesList(Model model,Pageable pageable,@RequestBody Map<String,Object> params) { 
@@ -47,12 +49,22 @@ public class SalesController {
 
     @PostMapping("/sales")
     public Sales create(@RequestBody SalesDto salesDto) {
-        salesDto.setEmpno(salesDto.getEmpno());
-        System.out.println("insert 1");
-        salesService.create(salesDto);
-        System.out.println("insert 2");
+        Boolean trueOrFalse=salesRepository.existsById(salesDto.getVisit_no());
+        if(trueOrFalse == true){
+            System.out.println("false로진입");
+            salesService.update(salesDto);
+           
+        }else{
+            salesDto.setVisit_no(salesDto.getVisit_no());
+            salesService.create(salesDto);
+        }
+        
+        
+        System.out.println(salesDto);
         return null;
     }
+
+    
 
     @DeleteMapping("/salesDelete/{id}")
     public int salesDelete(@PathVariable String id){
