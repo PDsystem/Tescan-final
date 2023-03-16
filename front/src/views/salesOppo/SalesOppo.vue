@@ -9,10 +9,10 @@
                 <div class="menu">
                     <!--담당자, 거래처검색-->
                     <div class="empSearch colText">담당자검색</div>
-                    <div style="margin-right: 10px;"><input type="text"></div>
+                    <div style="margin-right: 10px;"><input type="text" name="empSearch" v-model="empSearch"></div>
                     <button class="empSearch_btn search_btn" @click="isModalOpened = true">검색</button>
                     <div class="corSearch colText">거래처검색</div>
-                    <div style="margin-right: 10px;"><input type="text"></div>
+                    <div style="margin-right: 10px;"><input type="text" name="corSearch" v-model="corSearch"></div>
                     <button class="corSearch_btn search_btn" @click="isModalOpened = true">검색</button>
 
                     <!--검색관련 버튼-->
@@ -23,15 +23,14 @@
                 <div class="menu">
                     <!--날짜검색-->
                     <div class="startDate colText">시작일</div>
-                    <div style="margin-right: 10px;"><input type="date"></div>
+                    <div style="margin-right: 10px;"><input type="date" name="startDateSearch" v-model="startDateSearch"></div>
                     <p>~</p>
                     <div class="endDate colText">종료일</div>
-                    <div style="margin-right: 10px;"><input type="date"></div>
-                    <button class="dateSearch_btn search_btn" @click="dateSearch()">검색</button>
-                    <!--crud 버튼-->
-                    <button class="search_btn btnSort menu_right" @click="fnAdd()">추가</button>
-                    <button class="search_btn btnSort menu_right" @click="fnSave()">저장</button>
-                    <button class="search_btn btnSort menu_right" @click="fnDelete()">삭제</button>
+                    <div style="margin-right: 10px;"><input type="date"  name="endDateSearch" v-model="endDateSearch"></div>
+
+                    <!--검색관련 버튼-->
+                    <button class="search_btn margin-left" @click="GetOppoList()">조회</button>
+                    <button class="search_btn" @click="fnReset()">초기화</button>
                 </div>
             </div>
         </div>
@@ -160,9 +159,16 @@ export default {
         // this.paginavigation();
     },
     methods: {
-        //목록창 리로드
-        GetOppoList() {
-            this.$axios.get(this.$serverUrl + "/oppo/list",
+        //목록
+        GetOppoList(currentPage) {
+          
+          this.requestBody = { // 데이터 전송
+            empSearch: this.empSearch,
+            corSearch: this.corSearch,
+            page: currentPage-1,
+            size: 10
+          }
+          this.$axios.post(this.$serverUrl + "/Oppo/list",
             this.requestBody
             ).then((res) => {    
                 console.log(res)
@@ -176,9 +182,12 @@ export default {
             })
         },
         
-        //검색버튼 클릭시
-        fnSearch() {
-            
+        //초기화버튼 클릭시
+        fnReset() {
+            this.empSearch="",
+            this.corSearch="",
+            this.startDateSearch="",
+            this.endDateSearch=""
         },
 
         //저장버튼 클릭시
@@ -212,6 +221,35 @@ export default {
                     alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
                 }
             })
+        },
+        fnDelete() {
+            if (!confirm("삭제하시겠습니까?")) return
+            this.idx=this.reg_date;
+            this.$axios.delete(this.$serverUrl + '/salesOppoDelete/' + this.idx)
+                .then(() => {
+                alert('삭제되었습니다.')
+                
+                }).catch((err) => {
+            console.log(err);
+            })
+        },
+
+        //데이터 바인딩
+        fn_bind(row){
+            this.empno=row.empno
+            this.reg_date=row.reg_date
+            this.equip_no=row.equip_no
+            this.cor_reg_no=row.cor_reg_no
+            this.project_name=row.project_name
+            this.condition_code=row.condition_code
+            this.sales_forecast=row.sales_forecast
+            this.retire_date=row.retire_date
+            this.possibility=row.possibility
+            this.end_date=row.end_date
+            this.con_price=row.con_price
+            this.con_price_dol=row.con_price_dol
+            this.reason=row.reason
+            this.note=row.note
         }
     }
 }
