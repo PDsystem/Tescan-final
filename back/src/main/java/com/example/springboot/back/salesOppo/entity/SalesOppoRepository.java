@@ -5,5 +5,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SalesOppoRepository extends JpaRepository<SalesOppo, String> {
-    Page<SalesOppo> findByEmpnoContaining(String empSearch,String corSearch,Pageable pageable);
+    Page<SalesOppo> findByEmpnoContaining(String empSearch,Pageable pageable);
 }

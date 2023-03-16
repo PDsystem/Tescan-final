@@ -27,8 +27,8 @@ public class SalesOppoService {
         return salesOppoRepository.findAll(PageRequest.of(page, 10));
     }
 
-    public Page<SalesOppo> salesOppoSearchList(String empSearch, String corSearch,Pageable pageable,int page ){
-        return salesOppoRepository.findByEmpnoContaining(empSearch,corSearch,PageRequest.of(page, 10));
+    public Page<SalesOppo> salesOppoSearchList(String empSearch,Pageable pageable,int page ){
+        return salesOppoRepository.findByEmpnoContaining(empSearch,PageRequest.of(page, 10));
     }
 
     // 리스트 가져오기
@@ -64,23 +64,23 @@ public class SalesOppoService {
         System.out.println(salesOppoDto.getEmpno());
         String retire_date_to_save = parseDateToSave(salesOppoDto.getRetire_date());
         String end_date_to_save = parseDateToSave(salesOppoDto.getEnd_date());
-        SalesOppo entity= SalesOppo.builder().
-                        empno(salesOppoDto.getEmpno()).
-                        reg_date(salesOppoDto.getReg_date()).
-                        equip_no(salesOppoDto.getEquip_no()).
-                        cor_reg_no(salesOppoDto.getCor_reg_no()).
-                        project_name(salesOppoDto.getProject_name()).
-                        condition_code(salesOppoDto.getCondition_code()).
-                        possibility(salesOppoDto.getPossibility()).
-                        retire_date(retire_date_to_save).
-                        sales_forecast(salesOppoDto.getSales_forecast()).
-                        end_date(end_date_to_save).
-                        con_price(salesOppoDto.getCon_price()).
-                        con_price_dol(salesOppoDto.getCon_price_dol()).
-                        reason(salesOppoDto.getReason()).
-                        note(salesOppoDto.getNote()).
-                        build();
-                        em.persist(entity);     
+        SalesOppo entity= SalesOppo.builder()
+            .empno(salesOppoDto.getEmpno())
+            .reg_date(salesOppoDto.getReg_date())
+            .equip_no(salesOppoDto.getEquip_no())
+            .cor_reg_no(salesOppoDto.getCor_reg_no())
+            .project_name(salesOppoDto.getProject_name())
+            .condition_code(salesOppoDto.getCondition_code())
+            .possibility(salesOppoDto.getPossibility())
+            .retire_date(retire_date_to_save)
+            .sales_forecast(salesOppoDto.getSales_forecast())
+            .end_date(end_date_to_save)
+            .con_price(salesOppoDto.getCon_price())
+            .con_price_dol(salesOppoDto.getCon_price_dol())
+            .reason(salesOppoDto.getReason())
+            .note(salesOppoDto.getNote())
+            .build();
+        em.persist(entity);     
     }
 
     //삭제

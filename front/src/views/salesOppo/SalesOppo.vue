@@ -1,5 +1,5 @@
-
 <template>
+    <br>
     <div class="oppo">
         <div class="cn_headerline">
             <p style="margin-left: 10px;">영업기회</p>
@@ -10,17 +10,18 @@
                 <div class="menu">
                     <!--담당자, 거래처검색-->
                     <div class="empSearch colText">담당자검색</div>
-                    <div style="margin-right: 10px;"><input type="text"></div>
+                    <div style="margin-right: 10px;"><input type="text" name="empSearch" v-model="empSearch"></div>
                     <button class="empSearch_btn search_btn" @click="isModalOpened = true">검색</button>
                     <div class="corSearch colText">거래처검색</div>
-                    <div style="margin-right: 10px;"><input type="text"></div>
+                    <div style="margin-right: 10px;"><input type="text" name="corSearch" v-model="corSearch"></div>
                     <button class="corSearch_btn search_btn" @click="isModalOpened = true">검색</button>
+                    
                     <!--날짜검색-->
                     <div class="startDate colText">시작일</div>
-                    <div style="margin-right: 10px;"><input type="date"></div>
+                    <div style="margin-right: 10px;"><input type="date" name="startDate" v-model="startDate"></div>
                     <p>~</p>
                     <div class="endDate colText">종료일</div>
-                    <div style="margin-right: 10px;"><input type="date"></div>
+                    <div style="margin-right: 10px;"><input type="date" name="endDate" v-model="endDate"></div>
 
                     <!--검색관련 버튼-->
                     <button class="search_btn margin-left" @click="GetOppoList()">조회</button>
@@ -96,9 +97,9 @@
         <table>
             <tr>
                 <td class="colText">사원명(사원번호)</td>
-                <td class="colData"><input type="text" v-model="empno"></td>
+                <td class="colData"><input type="text" maxlength='10' v-model="empno"></td>
                 <td class="colText">사업자등록번호</td>
-                <td class="colData"><input type="text" v-model="cor_reg_no"></td>
+                <td class="colData"><input type="text" maxlength='10' v-model="cor_reg_no"></td>
                 <td class="colText">등록일시</td>
                 <td class="colData"><input v-model="reg_date" readonly></td>
                 <td class="colText">현황분류코드</td>
@@ -115,7 +116,7 @@
             </tr>
             <tr>
                 <td class="colText">프로젝트명</td>
-                <td class="colData"><input type="text" v-model="project_name"></td>
+                <td class="colData"><input type="text" maxlength='8' v-model="project_name"></td>
                 <td class="colText">예상종료일자</td>
                 <td class="colData"><input class="calendar" type="date" v-model="retire_date"></td>
                 <td class="colText">완료일자</td>
@@ -140,20 +141,20 @@
             </tr>
             <tr>
                 <td class="colText">장비번호</td>
-                <td class="colData"><input type="text" v-model="equip_no"></td>
+                <td class="colData"><input type="text" maxlength='8' v-model="equip_no"></td>
                 <td class="colText">계약금액</td>
-                <td class="colData"><input type="text" v-model="con_price"></td>
+                <td class="colData"><input type="text" maxlength='10' v-model="con_price"></td>
                 <td class="colText">계약금액($)</td>
-                <td class="colData"><input type="text" v-model="con_price_dol"></td>
+                <td class="colData"><input type="text" maxlength='10' v-model="con_price_dol"></td>
                 <td class="colText">예상금액</td>
-                <td class="colData"><input type="text" v-model="sales_forecast"></td>
+                <td class="colData"><input type="text" maxlength='10' v-model="sales_forecast"></td>
                 <button class="search_btn margin-left" @click="fnSave()">저장</button>
             </tr>
             <tr>
                 <td class="colText">사유</td>
-                <td class="colData" colspan="3"><input type="text" v-model="reason"></td>
+                <td class="colData" colspan="3"><input type="text" style="width: 480px;" maxlength='2000' v-model="reason"></td>
                 <td class="colText">비고</td>
-                <td class="colData" colspan="3"><input type="text" v-model="note"></td>
+                <td class="colData" colspan="3"><input type="text" style="width: 470px;" maxlength='2000' v-model="note"></td>
                 <button class="search_btn margin-left" @click="fnDelete()">삭제</button>
             </tr>
         </table>
@@ -215,7 +216,7 @@ export default {
         GetOppoList(currentPage) {
           
           this.requestBody = { // 데이터 전송
-            searchKeyword: this.searchKeyword,
+            empSearch: this.empSearch,
             page: currentPage-1,
             size: 10
           }
@@ -242,9 +243,32 @@ export default {
           }
         },
         
-        //검색버튼 클릭시
-        fnSearch() {
-            
+        //초기화버튼 클릭시
+        fnReset() {
+            //검색부분 초기화
+            this.empSearch="";
+            this.corSearch="";
+            this.startDate="";
+            this.endDate="";
+
+            //데이터부분 초기화
+            this.empno="";
+            this.reg_date="";
+            this.equip_no="";
+            this.cor_reg_no="";
+            this.project_name="";
+            this.condition_code="";
+            this.sales_forecast="";
+            this.retire_date="";
+            this.possibility="";
+            this.end_date="";
+            this.con_price="";
+            this.con_price_dol="";
+            this.reason="";
+            this.note="";
+
+            //리스트 불러오기
+            this.GetOppoList();
         },
 
         //저장버튼 클릭시

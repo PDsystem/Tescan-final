@@ -33,15 +33,12 @@ public class SalesOppoController {
         }
          
         String empSearch=(String) params.get("empSearch");
-        String corSearch=(String) params.get("corSearch");
 
          Page<SalesOppo> list =null;
          if(empSearch ==null){
              list=salesOppoService.getSalesOppoList(pageable,page);
-         }else if(corSearch ==null){
-            list=salesOppoService.getSalesOppoList(pageable,page);
-        }else{
-             list=salesOppoService.salesOppoSearchList(empSearch,corSearch, pageable,page);
+         }else{
+             list=salesOppoService.salesOppoSearchList(empSearch, pageable,page);
          }       
         return list; 
     }
