@@ -12,6 +12,7 @@ import com.example.springboot.back.customer.entity.Customer;
 import com.example.springboot.back.customer.web.dtos.CustomerDto;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,8 +25,7 @@ public class CustomerController {
     
     private final CustomerService customerService;
 
-    @PostMapping("/customer/list")
-    // public Header<List<CustomerDto>> customerList(Pageable pageable,HttpServletRequest request) { 
+    @GetMapping("/customer/list")
     public Header<List<CustomerDto>> customerList(@PageableDefault(sort = {"corRegNo"}) Pageable pageable
                                                     ,HttpServletRequest request,String keyword) { 
         HttpSession session = request.getSession();
@@ -33,7 +33,6 @@ public class CustomerController {
         log.info("검색 ?"+keyword);
         return customerService.getCustomerList(pageable,keyword); 
     }
-
     @PostMapping("/customer/{x}")
     public CustomerDto getCustomer(@PathVariable String x) {
         return customerService.getCustomer(x);

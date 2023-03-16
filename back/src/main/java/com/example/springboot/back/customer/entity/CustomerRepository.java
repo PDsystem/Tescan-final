@@ -13,8 +13,8 @@ import org.springframework.data.repository.query.Param;
 // @Repository
 public interface CustomerRepository extends JpaRepository<Customer, String> {
     
-    @Query(value = "SELECT * FROM TS_CUSTOMER c where c.cor_reg_no like %:keyword%" ,nativeQuery = true)
-    Page<Customer> findByCorRegNo(Pageable pageable, @Param("keyword")String keyword);
+    // @Query(value = "SELECT * FROM TS_CUSTOMER c where c.cor_reg_no like CON'%'+':keyword+'%' order by c.cor_reg_no" ,nativeQuery = true)
+    Page<Customer> findByCorRegNoContaining(Pageable pageable, @Param("keyword")String keyword);
 
     
 }

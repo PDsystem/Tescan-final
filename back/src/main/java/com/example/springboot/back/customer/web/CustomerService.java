@@ -36,12 +36,12 @@ public class CustomerService {
     public Header<List<CustomerDto>> getCustomerList(Pageable pageable,String searchKeyword) {
 
         Page<Customer> customerEntities = null;
-        customerEntities = repository.findAll(pageable);
-        // if(searchKeyword==null){
-        //     customerEntities = repository.findAllByOrderByCorRegNoDesc(pageable);
-        // }else{
-        //     customerEntities = repository.findByCorRegNo(pageable,searchKeyword);
-        // }
+        // customerEntities = repository.findAll(pageable);
+        if(searchKeyword==null){
+            customerEntities = repository.findAll(pageable);
+        }else{
+            customerEntities = repository.findByCorRegNoContaining(pageable,searchKeyword);
+        }
 
         List<CustomerDto> dtos = new ArrayList<>();
         for (Customer entity : customerEntities) {

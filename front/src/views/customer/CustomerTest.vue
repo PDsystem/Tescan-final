@@ -1,10 +1,18 @@
 <template>
     <div class="customer-list">
-            <h1>거래처 현황</h1>
+            <h1>Test</h1>
         <div class="div-buttons">
+                        <!-- <select name="searchCondition" @change="setSelect()">
+                <option value="TOTAL">전체</option>
+                <option value="CORREGNO">사업자 등록번호</option>
+                <option value="CUSTOMERNAME">고객명</option>
+            </select> -->
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
             <button type="button" class="w3-button" @click="fnGetList()">검색</button>
             <button type="button" class="w3-button" v-on:click="fnWrite">등록</button>                
+                    <!-- <button type="button" class="w3-button" v-on:click="fnView">수정</button>                 -->
+            <!-- <button type="button" class="w3-button" v-on:click="fnDelete">삭제</button>         -->
+            <!-- <button type="button" class="w3-button" v-on:click="fn">초기화</button>         -->
         </div>
     </div>
     <div class="customer-table">
@@ -68,6 +76,11 @@
     </span>
     </div>
     <div class="div-buttons">
+            <select name="searchCondition" @change="setSelect()">
+                <option value="TOTAL">전체</option>
+                <option value="CORREGNO">사업자 등록번호</option>
+                <option value="CUSTOMERNAME">고객명</option>
+            </select>
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
             <button type="button" class="w3-button" @click="fnGetList()">검색</button>
             <button type="button" class="w3-button" v-on:click="fnWrite">등록</button>                
@@ -137,6 +150,9 @@
                     alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
                 }
             })
+        },
+        setSelect(){
+            this.requestBody.searchType=event.target.value;
         },
         fnView(corRegNo) {
             
