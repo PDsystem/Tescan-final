@@ -1,7 +1,6 @@
 <template> 
     <div class="home">
-         <img alt="Vue logo" src="../assets/crm.png" style="
-    max-height: 450px;"> 
+         <img alt="Vue logo" src="../assets/logo.png"> 
          <HelloWorld msg="Welcome to Your Vue.js App"/> 
     </div> 
     </template>

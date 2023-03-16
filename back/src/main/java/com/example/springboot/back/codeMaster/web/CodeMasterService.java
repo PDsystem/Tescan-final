@@ -38,33 +38,20 @@ public class CodeMasterService {
     
     public Page<CodeMaster> boardSearchList(String searchKeyword,String searchType,Pageable pageable,int page ){
         System.out.println(searchType);
-       
+        String key=searchKeyword;
         Page<CodeMaster> list=null;
 
-            // if(key=="TOTAL"){
-            //     System.out.println("TOTAL진입");
-            //     list=codeMasterRepository.findTotal(PageRequest.of(page, 10),searchKeyword);
-            // }else if (key =="CLASSCODE"){
-            //     System.out.println("CLASS_CODE진입");
-            //     list=codeMasterRepository.findCode(PageRequest.of(page, 10),searchKeyword);
-            // }else{
-            //     System.out.println("CLASSName진입");
-            //     list=codeMasterRepository.findName(PageRequest.of(page, 10),searchKeyword);
-            // }
-            switch(searchType){
-                case "TOTAL":
+            if(key=="TOTAL"){
+                System.out.println("TOTAL진입");
                 list=codeMasterRepository.findTotal(PageRequest.of(page, 10),searchKeyword);
-                break;
-                case "CLASSCODE":
+            }else if (key =="CLASSCODE"){
+                System.out.println("CLASS_CODE진입");
                 list=codeMasterRepository.findCode(PageRequest.of(page, 10),searchKeyword);
-                break;
-                case "CLASSNAME":
+            }else{
+                System.out.println("CLASSName진입");
                 list=codeMasterRepository.findName(PageRequest.of(page, 10),searchKeyword);
-                break;
-                default:
-                list=codeMasterRepository.findTotal(PageRequest.of(page, 10),searchKeyword);
-                break;
             }
+    
 
         return list;
     }
@@ -77,7 +64,7 @@ public class CodeMasterService {
     public void create(CodeMasterDto codeMasterDto) {
        // codeMasterDto.setRegist_time( LocalDate.now());
        codeMasterDto.setRegist_time(LocalDateTime.now());
-       codeMasterDto.setRegist_id("Tescan");
+       codeMasterDto.setRegist_id("hong");
         System.out.println(LocalDateTime.now());
         System.out.println("----------------------------");
         System.out.println(codeMasterDto.getClass_code());

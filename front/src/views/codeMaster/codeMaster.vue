@@ -81,7 +81,7 @@
     
       <div class="update-top">
         <p>분류코드</p>
-        <input id="classcode" name="classCode" type="text" v-model="classCode"  maxlength="10"/>
+        <input id="classcode" name="classCode" type="text" v-model="classCode" />
         <p>분류명칭</p>
         <input id="classname" name="className" type="text" v-model="className" />
         <p>분류코드설명</p>
@@ -111,14 +111,6 @@
 export default{
 data(){
   return{
-    classCode:'',
-      className:'',
-      classDesc:'',
-      useYn:'',
-      mainTable:'',
-      mainColumn:'',
-      modifytime:'',
-      modifyname:'',
     idx:"",
     requestBody:{},
     list: {}, //리스트 데이터
@@ -217,17 +209,10 @@ methods: {
         })
       },
       
-      fn_bind(row){
+      fn_bind(){
      
-        // alert(row);
-        // console.log(row);
-        this.classCode=row.class_code
-      this.className=row.class_name
-      this.useYn=row.use_yn
-      this.mainTable=row.main_table
-      this.mainColumn=row.main_column
-      this.classDesc=row.class_desc
-     
+        alert(object);
+        console.log(bind);
       }
      
     // fnReset(){
