@@ -1,16 +1,24 @@
 <template>
-    <div class="cn_headerline">
-        <!-- <h5>거래처 현황</h5> -->
+    <div class="customer-list">
+            <h1>Test</h1>
+        <div class="div-buttons">
+                        <!-- <select name="searchCondition" @change="setSelect()">
+                <option value="TOTAL">전체</option>
+                <option value="CORREGNO">사업자 등록번호</option>
+                <option value="CUSTOMERNAME">고객명</option>
+            </select> -->
+            <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
+            <button type="button" class="w3-button" @click="fnGetList()">검색</button>
+            <button type="button" class="w3-button" v-on:click="fnWrite">등록</button>                
+                    <!-- <button type="button" class="w3-button" v-on:click="fnView">수정</button>                 -->
+            <!-- <button type="button" class="w3-button" v-on:click="fnDelete">삭제</button>         -->
+            <!-- <button type="button" class="w3-button" v-on:click="fn">초기화</button>         -->
+        </div>
     </div>
-    <div class="cn_menu">
-        <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
-        <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
-        <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                
-    </div>
-    <div class="board-list">
+    <div class="customer-table">
         <table class="table-all">
             <thead>
-                <tr class="cn_col_name">
+                <tr>
                     <th><input type="checkbox" value="{{row.cor_reg_no }}"></th>
                     <th>No</th>
                     <th>사업자등록번호</th>
@@ -35,7 +43,7 @@
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.cor_reg_no }}</a></td>
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.customer_name }}</a></td>
                     <td>{{ row.type_code }}</td>
-                    <td>{{ row.email }}@{{ row.semail }}</td>
+                    <td>{{ row.email }}</td>
                     <td>{{ row.region1 }}</td>
                     <td>{{ row.region2 }}</td>
                     <td>{{ row.fax }}</td>
@@ -67,10 +75,15 @@
     <a href="javascript:;" @click="fnGetList(`${paging.total_page_cnt}`)" class="last w3-bar-item w3-border">&gt;&gt;</a>
     </span>
     </div>
-    <div class="cn_menu">
-        <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
-        <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
-        <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                
+    <div class="div-buttons">
+            <select name="searchCondition" @change="setSelect()">
+                <option value="TOTAL">전체</option>
+                <option value="CORREGNO">사업자 등록번호</option>
+                <option value="CUSTOMERNAME">고객명</option>
+            </select>
+            <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
+            <button type="button" class="w3-button" @click="fnGetList()">검색</button>
+            <button type="button" class="w3-button" v-on:click="fnWrite">등록</button>                
     </div>
 </template>
 <script>
@@ -97,9 +110,12 @@
             size: this.$route.query.size ? this.$route.query.size : 10,
             keyword: this.$route.query.keyword,
             paginavigation: function () { //페이징 처리 for문 커스텀
+            // alert();
             let pageNumber = [] //;
             let start_page = this.paging.start_page;
             let end_page = this.paging.end_page;
+            // let start_page = 1;
+            // let end_page = 10;
             for (let i = start_page; i <= end_page; i++) pageNumber.push(i);
             return pageNumber;
             }
@@ -135,6 +151,9 @@
                 }
             })
         },
+        setSelect(){
+            this.requestBody.searchType=event.target.value;
+        },
         fnView(corRegNo) {
             
             this.requestBody.corRegNo = corRegNo
@@ -154,11 +173,66 @@
 </script>
 
 <style scoped>
-@import url('../../assets/common.css');
-.board-list { width: 1500px;} 
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    /* border: 1px solid rgb(185, 185, 185); */
+}
+div {
+    box-sizing: border-box;
+}
+
+.contents_header {
+    width: 100%;
+    height: 50px;
+    font-size: xx-large;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 6px solid #0078b3;
+}
+
+.div_buttons {
+    display: flex;
+    padding: 0px 20px 0px 20px;
+    margin: 0px 10px 0px 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4edfa;
+    border: 1px solid rgb(185, 185, 185);
+    font-size: 13px;
+    font-weight: 900;
+    color: #000040;
+}
+
+.w3-button {
+    padding: 2px 20px 2px 20px;
+    font-size: 13px;
+    font-weight: 900;
+    color: white;
+    background-color: #0078b3;
+    border: 0px;
+    border-radius: 4px;
+    border: 1px solid rgb(185, 185, 185);
+    cursor: pointer;
+}
+/* 리스트 화면 */
+.customer-list {
+    width: 1000px;
+    margin: auto;
+    /* background-color: pink; */
+}
+.customer-table {
+    width: 1000px;
+    margin: auto;
+    overflow: auto;
+    white-space: nowrap;
+    /* background-color: pink; */
+}
 /*테이블*/
 .table-all{
-    width: 1500px;
+    width: 1000px;
     border: 1px solid #444444;
     border-collapse: collapse;
 }
