@@ -24,7 +24,7 @@ public class CustomerController {
     
     private final CustomerService customerService;
 
-    @GetMapping("/customer/list")
+    @PostMapping("/customer/list")
     // public Header<List<CustomerDto>> customerList(Pageable pageable,HttpServletRequest request) { 
     public Header<List<CustomerDto>> customerList(@PageableDefault(sort = {"corRegNo"}) Pageable pageable
                                                     ,HttpServletRequest request,String keyword) { 

@@ -1,9 +1,11 @@
 <template>
     <div class="customer-list">
-            <h1>거래처 현황</h1>
-        <div class="div-buttons">
-            <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
-            <button type="button" class="w3-button" v-on:click="fnSearch">검색</button>
+        <div class="contents_header">
+            <p>거래처 현황</p>
+        </div>
+        <div class="div_buttons">
+            <input type="text" v-model="keyword" class="w3-input w3-border">
+            <button class="w3-button" v-on:click="fnPage()">검색</button>
             <button type="button" class="w3-button" v-on:click="fnWrite">등록</button>                
             <!-- <button type="button" class="w3-button" v-on:click="fnView">수정</button>                 -->
             <!-- <button type="button" class="w3-button" v-on:click="fnDelete">삭제</button>         -->
@@ -14,6 +16,7 @@
         <table class="table-all">
             <thead>
                 <tr>
+                    <th><input type="checkbox" value="{{row.cor_reg_no }}"></th>
                     <th>No</th>
                     <th>사업자등록번호</th>
                     <th>고객명</th>
@@ -34,8 +37,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(row,cor_reg_no) in list" :key="cor_reg_no">
+                <tr v-for="(row,idx) in list" :key="idx">
                     <td><input type="checkbox" value="{{row.cor_reg_no }}"></td>
+                    <td>{{idx+1}}</td>
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.cor_reg_no }}</a></td>
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.customer_name }}</a></td>
                     <td>{{ row.type_code }}</td>
@@ -119,7 +123,7 @@
             size: this.size
             }
 
-            this.$axios.get(this.$serverUrl + "/customer/list", {
+            this.$axios.post(this.$serverUrl + "/customer/list", {
             params: this.requestBody,
             headers: {}
             }).then((res) => {   
@@ -158,68 +162,85 @@
     }
    }
 </script>
-<style>
-    .div-buttons {
-        padding: 8px;
-        text-align: right;
-    }
-    /* 리스트 화면 */
-    .customer-list {
-        width: 1000px;
-        margin: auto;
-        /* background-color: pink; */
-    }
-    .customer-table {
-        width: 1000px;
-        margin: auto;
-        overflow: auto;
-        white-space: nowrap;
-        /* background-color: pink; */
-    }
-    /*테이블*/
-    .table-all{
-        width: 1000px;
-        border: 1px solid #444444;
-        border-collapse: collapse;
-    }
-    th{
-        border: 1px solid #444444;
-        background:#888888;
-    }
-    td {
-        border: 1px solid #444444;
-    }
-    /* 상세보기 */
-    .customer-detail {
-        /* width: 1000px; */
-        /* margin: auto; */
-        text-align: left;
-        /* background-color: #888888; */
-    }
-    /* 
-    저장 화면 
-    .customer-contents {
-        padding: 12px 8px;
-        border-bottom: 1px solid #eee;
-    } */
-    .col1{
-        width: 90px;
-    }
-    #col-long{
-        width: 120px;
-    }
-    /* .inputcss{
-        width: 200px;
-    } */
-    .w3-button {
-        padding: 2px 20px 2px 20px;
-        font-size: 13px;
-        font-weight: 900;
-        color: white;
-        background-color: #0078b3;
-        border: 0px;
-        border-radius: 4px;
-        border: 1px solid rgb(185, 185, 185);
-        margin-right: 5px;
-    }
+
+<style scoped>
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    /* border: 1px solid rgb(185, 185, 185); */
+}
+div {
+    box-sizing: border-box;
+}
+
+.contents_header {
+    width: 100%;
+    height: 50px;
+    font-size: xx-large;
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 6px solid #0078b3;
+}
+
+.div_buttons {
+    display: flex;
+    padding: 0px 20px 0px 20px;
+    margin: 0px 10px 0px 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: #f4edfa;
+    border: 1px solid rgb(185, 185, 185);
+    font-size: 13px;
+    font-weight: 900;
+    color: #000040;
+}
+
+.w3-button {
+    padding: 2px 20px 2px 20px;
+    font-size: 13px;
+    font-weight: 900;
+    color: white;
+    background-color: #0078b3;
+    border: 0px;
+    border-radius: 4px;
+    border: 1px solid rgb(185, 185, 185);
+    cursor: pointer;
+}
+/* 리스트 화면 */
+.customer-list {
+    width: 1000px;
+    margin: auto;
+    /* background-color: pink; */
+}
+.customer-table {
+    width: 1000px;
+    margin: auto;
+    overflow: auto;
+    white-space: nowrap;
+    /* background-color: pink; */
+}
+/*테이블*/
+.table-all{
+    width: 1000px;
+    border: 1px solid #444444;
+    border-collapse: collapse;
+}
+th{
+    width: 120px;
+    padding: 5px 0px 5px 0px;
+    background-color: #f0f0f0;
+    font-size: 13px;
+    border: 1px solid rgb(185, 185, 185);
+    border-radius: 3px;
+    color: #000040;
+}
+td {
+    width: 180px;
+    /* background-color: salmon; */
+    border: 1px solid rgb(185, 185, 185);
+    padding: 3px 3px 3px 0px;
+    font-size: 13px;
+}
 </style>
