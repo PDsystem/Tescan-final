@@ -8,13 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-=======
-import org.springframework.web.bind.annotation.GetMapping;
->>>>>>> parent of 6f79b0e ( 0316 조진형 페이징 / 바인딩 완료)
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,14 +30,13 @@ public class SalesOppoController {
     private final SalesOppoService salesOppoService;
 
     // 목록 조회하기
-    @GetMapping("/oppo/list")
-    public List<SalesOppoDto> oppoList(HttpServletRequest request) { 
-        // HttpSession session = request.getSession();
-        // session.getAttribute(SessionConst.LOGIN_MEMBER);
-        // System.out.println("=====================");
-        // System.out.println(session.getAttribute("loginUser"));
+    // @GetMapping("/oppo/list")
+    // public List<SalesOppoDto> oppoList(HttpServletRequest request) { 
+    //     // HttpSession session = request.getSession();
+    //     // session.getAttribute(SessionConst.LOGIN_MEMBER);
+    //     // System.out.println("=====================");
+    //     // System.out.println(session.getAttribute("loginUser"));
        
-<<<<<<< HEAD
     // //     return salesOppoService.getSalesOppoList();
     // }
 
@@ -64,9 +60,6 @@ public class SalesOppoController {
              list=salesOppoService.salesOppoSearchList(empSearch,corSearch, pageable,page);
          }       
         return list; 
-=======
-        return salesOppoService.getSalesOppoList();
->>>>>>> parent of 6f79b0e ( 0316 조진형 페이징 / 바인딩 완료)
     }
 
     @PostMapping("/oppo/insert")
