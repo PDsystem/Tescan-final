@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class AskBoardDto implements Serializable {
-    private String contentNo;
+    private String content_no;
     private String contentTitle;
     private String contents;
     private String contentId;

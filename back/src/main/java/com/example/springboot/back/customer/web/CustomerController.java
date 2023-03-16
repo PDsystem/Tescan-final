@@ -45,6 +45,7 @@ public class CustomerController {
 
     @PatchMapping("/customer")
     public void update(@RequestBody CustomerDto customerDto) {
+        System.out.println(customerDto.getCor_reg_no());
         customerService.update(customerDto);
     }
 

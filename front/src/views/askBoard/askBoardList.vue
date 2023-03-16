@@ -16,13 +16,6 @@
           <input type="text" name="searchKeyword" v-model="searchKeyword"/>
           <button class="emp_btn"  @click="codeSearch()">검색</button>
         </div>
-        <div class="menu_right">
-          <input type="radio" v-model='checkedValues1' value="전체" @change="clickFunc">전체&nbsp;
-          <input type="radio" v-model='checkedValues1' value="공개" @change="clickFunc">공개&nbsp;
-          <input type="radio" v-model='checkedValues1' value="비공개" @change="clickFunc">비공개
-          <button class="emp_btn mr_5">검색</button>
-          <button class="emp_btn mr_5">초기화</button>
-        </div>
       </div>
       <!-- 검색 및 CRUD 버튼 끝 -->
       <!-- 데이터 입력 테이블 시작 -->
@@ -30,30 +23,30 @@
         <tr>
           <td class="col_name">글 번호</td>
           <td class="col_data">
-            <input v-model="contentNo" class="inputcss" name="contentNo">
+            <input v-model="content_no" class="inputcss" name="content_no">
           </td>
           <td class="col_name">ID</td>
           <td class="col_data">
-            <input type="text">
+            <input v-model="content_id" type="text" name="content_id">
           </td>
           <td class="col_name">PASSWORD</td>
           <td class="col_data">
-            <input type="text">
+            <input v-model="content_pw" type="text" name="content_pw">
           </td>
         </tr>
         <tr>
           <td class="col_name">제목</td>
           <td class="col_data">
-            <input type="text">
+            <input v-model="content_title" type="text" name="content_title">
           </td>
           <td class="col_name">등록날짜</td>
           <td class="col_data">
-            <input class="emp_cal" type="date">
+            <input v-model="content_date" class="emp_cal" type="date" name="contnent_date">
           </td>
           <td class="col_name">공개여부</td>
           <div>
-            <input type="checkbox" v-model='checkedValues' value="공개1" @change="clickFunc">공개&nbsp;
-            <input type="checkbox" v-model='checkedValues' value="비공개1" @change="clickFunc">비공개
+            <input type="checkbox" v-model='checkedValues' value="Y" @change="clickFunc" name="checkedValues">공개&nbsp;
+            <input type="checkbox" v-model='checkedValues' value="N" @change="clickFunc" name="checkedValues">비공개
           </div>
         </tr>
         <tr>
@@ -69,9 +62,10 @@
       <div class="emp_header" float="right">
         <p class="ml_10">게시판리스트</p>
         <div class="button_right">
-          <button class="emp_btn mr_5">작성</button>
-          <button class="emp_btn mr_5" id="save" @click="fnSave()">저장</button>
+          <button class="emp_btn mr_5">저장</button>
+          <button class="emp_btn mr_5" v-on:click="fnSave()">수정</button>
           <button class="emp_btn mr_5" v-on:click="fnDelete">삭제</button>
+          <button class="emp_btn mr_5">초기화</button>
         </div>
       </div>
       <table>
@@ -80,8 +74,10 @@
             <th>번호</th>
             <th>제목</th>
             <th>작성자</th>
+            <th>비밀번호</th>
             <th>날짜</th>
             <th>공개 여부</th>
+            <th>내용</th>
           </tr>
         </thead>
         <tbody>
@@ -89,9 +85,14 @@
             <td>{{ row.content_no }}</td>
             <td>{{ row.content_title }}</td>
             <td>{{ row.content_id }}</td>
+            <td>{{ row.content_pw }}</td>
             <td>{{ row.content_date }}</td>
             <td>{{ row.disclosure }}</td>
+            <td>{{ row.contents }}</td>
           </tr>
+          <!-- <tr v-for="(row, content_no) in list" :key="content_no">
+            
+          </tr> -->
         </tbody>
       </table>
     </div>
@@ -123,7 +124,7 @@ export default {
 
   data() {
     return {
-      requestBody: {}, //리스트 페이지 데이터전송
+      requestBody:{},
       list: {}, //리스트 데이터
       no: '', //게시판 숫자처리
       paging: {
@@ -138,7 +139,16 @@ export default {
         total_block_cnt: 0,
         total_list_cnt: 0,
         total_page_cnt: 0,
+        requestBody: this.$route.query,
+        content_no: this.$route.query.content_no,
+      content_id: '',
+      content_pw: '',
+      content_title: '',
+      contents: '',
+      content_date: '',
+      disclosure: ''
       },
+      
       paginavigation: function () { //페이징 처리 for문 커스텀
         let nowPage=this.paging.page;
         let start_page =(parseInt((nowPage-1)/10))*10+1;
@@ -154,58 +164,34 @@ export default {
       },
 
       checkedValues: [],
-      checkedValues1: [],
       isAllChecked: true
     }
   },
   mounted() {
-    this.codeSearch();
     this.paginavigation();
     this.fnGetList();
   },
   methods: {
-
-    codeSearch(currentPage){
-      console.log(this.requestBody.searchType);
-      this.requestBody = { //데이터 전송
-        searchType:this.requestBody.searchType,
-
-        searchKeyword: this.searchKeyword,
-        page: currentPage-1,
-        size:10
-      }
-      this.$axios.post(this.$serverUrl+"/askBoard/askBoardList",this.requestBody).then((res) => {
-        console.log(res);
-        this.list = res.data.content //서버에서 데이터를 목록으로 보내므로 바로 할당하여 사용할 수 있다.
-          this.paging.total_page_cnt =res.data.total_pages;
-          this.paging.total_list_cnt =res.data.total_elements;
-          this.paging.page=res.data.pageable.page_number+1;
-    
-   }).catch(() => {
-     window.alert("네트워크 통신 이상");
-   });
-  },
-  setSelect(){
-    this.requestBody.searchType=event.target.value;
-    },
-  
     fnSave() {
-    //let apiUrl = this.$serverUrl + "/codeMaster"
     this.requestBody = {
-        "content_No": this.contentNo,
-        "content_Title": this.contentTitle,
+        "content_no": this.content_no,
+        "content_title": this.content_title,
         "contents": this.contents,
-        "content_Id": this.contentId,
-        "content_Pw": this.contentPw,
-        "content_Date": "",
-        "disclosure": this.disclosure,
+        "content_id": this.content_id,
+        "content_pw": this.content_pw,
+        "content_date": this.content_date,
+        "disclosure": this.disclosure
       }
       console.log(this.requestBody);
-
       //INSERT
-
-      
-    
+      this.$axios.post(this.$serverUrl + "/askBoard",this.requestBody )
+      .then((res) => {
+        //this.fnView(res.data.idx)
+      }).catch((err) => {
+        if (err.message.indexOf('Network Error') > -1) {
+          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+        }
+      })        
     },
 
     clickFunc(event) { // 하나의 버튼만 클릭
@@ -230,18 +216,20 @@ export default {
       this.$emit('checkClick', this.checkedValues)
     },
 
-    fnList() {
-        delete this.requestBody.contentNo
-        this.$router.push({
-          path: './list',
-          query: this.requestBody
-        })
-      },
+    // fnList() {
+    //     delete this.requestBody.content_no
+    //     this.$router.push({
+    //       path: './list',
+    //       query: this.requestBody
+    //     })
+    //   },
+
+
 
     fnDelete() {
         if (!confirm("삭제하시겠습니까?")) return
   
-        this.$axios.delete(this.$serverUrl + '/askBoard/' + this.contentNo, {})
+        this.$axios.delete(this.$serverUrl + '/askBoard/' + this.content_no, {})
             .then(() => {
               alert('삭제되었습니다.')
              // this.fnList();
@@ -279,7 +267,7 @@ export default {
 
 .button_right {
   text-align: center;
-  margin: 0px -200px 0px 800px;
+  margin: 0px -200px 0px 700px;
 }
 
 .emp_container {

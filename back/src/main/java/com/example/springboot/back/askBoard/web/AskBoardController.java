@@ -3,21 +3,16 @@ package com.example.springboot.back.askBoard.web;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.springboot.back.askBoard.entity.AskBoard;
 import com.example.springboot.back.askBoard.entity.AskBoardRepository;
+import com.example.springboot.back.askBoard.web.dtos.AskBoardDto;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
+
 @RequiredArgsConstructor
 @CrossOrigin
 @RestController
@@ -32,6 +27,13 @@ public class AskBoardController {
         List<AskBoard> askBoard = askBoardRepository.findAll();
         System.out.println(askBoard);
         return askBoard;
+    }
+
+   @PostMapping("/askBoard")
+    public void update(@RequestBody AskBoardDto AskBoardDto) {
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        // System.out.println(params);
+        askBoardService.update(AskBoardDto);
     }
 
     @DeleteMapping("/askBoard/{id}")

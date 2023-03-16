@@ -25,8 +25,9 @@ public class AskBoard implements Serializable {
     // /* rowNum */
     // private int idx;
 
+       /* content_No 글번호 */
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE) 
     private String contentNo;
     
     /* content_title 제목(not null) */
