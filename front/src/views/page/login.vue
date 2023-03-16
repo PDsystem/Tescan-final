@@ -1,10 +1,10 @@
 <template>
     <div class="form-signin w-100 m-auto">
-   <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+   
    <div class="form-floating">
-     <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+     <input type="email" class="form-control" id="floatingInput" placeholder="ID"
      @keyup.enter="submit()" v-model="email">
-     <label for="floatingInput">Email address</label>
+     <label for="floatingInput">ID&emsp;&emsp;&emsp;&ensp;</label>
    </div>
    <div class="form-floating">
      <input type="password" class="form-control" id="floatingPassword" placeholder="Password"  @keyup.enter="submit()" v-model="password">
