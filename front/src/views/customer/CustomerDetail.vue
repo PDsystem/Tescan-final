@@ -201,6 +201,12 @@
 </script>
 <style scoped>
 @import url('../../assets/common.css');
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    /* border: 1px solid rgb(185, 185, 185); */
+}
 .board-detail {
   height: 1000;
 }

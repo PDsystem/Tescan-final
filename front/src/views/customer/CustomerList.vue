@@ -1,13 +1,14 @@
 <template>
     <div class="cn_headerline">
-        <!-- <h5>거래처 현황</h5> -->
+        <h5>거래처 현황</h5>
     </div>
-    <div class="cn_menu">
-        <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
-        <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
-        <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                
-    </div>
-    <div class="board-list">
+    <div class="board-list">        
+        <div class="cn_menu">
+            <br><br><br>
+            <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
+            <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
+            <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                
+        </div>
         <table class="table-all">
             <thead>
                 <tr class="cn_col_name">
@@ -48,30 +49,32 @@
                 </tr>
             </tbody>
         </table>
+        <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
+            <span class="pg">
+            <a href="javascript:;" @click="fnGetList(1)" class="first w3-bar-item w3-border">&lt;&lt;</a>
+            <a href="javascript:;" v-if="paging.start_page > 10" @click="fnGetList(`${paging.start_page-1}`)"
+                class="prev w3-bar-item w3-border">&lt;</a>
+            <template v-for=" (n,index) in paginavigation()">
+                <template v-if="paging.page==n">
+                    <strong class=" w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
+                </template>
+            <template v-else>
+                <a class="w w3-bar-item w3-border" href="javascript:;" @click="fnGetList(`${n}`)" :key="index">{{ n }}</a>
+            </template>
+            </template>
+                <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
+                @click="fnGetList(`${paging.end_page+1}`)" class="next w3-bar-item w3-border">&gt;</a>
+                <a href="javascript:;" @click="fnGetList(`${paging.total_page_cnt}`)" class="last w3-bar-item w3-border">&gt;&gt;</a>
+                </span>
+        </div>
+        <div class="cn_menu">
+            <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
+            <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
+            <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                
+        </div>   
+        <br><br><br>
     </div>
-    <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
-    <span class="pg">
-    <a href="javascript:;" @click="fnGetList(1)" class="first w3-bar-item w3-border">&lt;&lt;</a>
-    <a href="javascript:;" v-if="paging.start_page > 10" @click="fnGetList(`${paging.start_page-1}`)"
-        class="prev w3-bar-item w3-border">&lt;</a>
-    <template v-for=" (n,index) in paginavigation()">
-        <template v-if="paging.page==n">
-            <strong class=" w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
-        </template>
-        <template v-else>
-            <a class="w w3-bar-item w3-border" href="javascript:;" @click="fnGetList(`${n}`)" :key="index">{{ n }}</a>
-        </template>
-    </template>
-    <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
-        @click="fnGetList(`${paging.end_page+1}`)" class="next w3-bar-item w3-border">&gt;</a>
-    <a href="javascript:;" @click="fnGetList(`${paging.total_page_cnt}`)" class="last w3-bar-item w3-border">&gt;&gt;</a>
-    </span>
-    </div>
-    <div class="cn_menu">
-        <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
-        <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
-        <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                
-    </div>
+
 </template>
 <script>
   export default {
@@ -155,6 +158,15 @@
 
 <style scoped>
 @import url('../../assets/common.css');
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    /* border: 1px solid rgb(185, 185, 185); */
+}
+.cn_menu{
+    float: right;
+}
 .board-list { width: 1500px;} 
 /*테이블*/
 .table-all{
