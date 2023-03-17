@@ -72,8 +72,7 @@ export default {
 
 .navbar-body{
   position: relative;
-  padding-left: 30px;
-
+  padding-left: 0px;
 }
 .container {
   position: relative;
@@ -83,8 +82,7 @@ export default {
 }
 #nav {
   list-style: none;
-  height: 20px;
-  background: #f0f0f0;
+  height: 0px;
 }
 
 #nav li {
