@@ -33,14 +33,24 @@ public class CustomerService {
     /**
      * 목록 가져오기
      */
-    public Header<List<CustomerDto>> getCustomerList(Pageable pageable,String searchKeyword) {
+    public Header<List<CustomerDto>> getCustomerList(Pageable pageable,String searchKeyword,String searchType) {
 
         Page<Customer> customerEntities = null;
         // customerEntities = repository.findAll(pageable);
-        if(searchKeyword==null){
+        if(searchKeyword==null || searchKeyword.isEmpty()){
             customerEntities = repository.findAll(pageable);
         }else{
-            customerEntities = repository.findByCorRegNoContaining(pageable,searchKeyword);
+            switch(searchType) {
+                case "": 
+                    // customerEntities = repository.findByCorRegNoOrCustomerNameContaining(pageable,searchKeyword);
+                    break;
+                case "CORREGNO": 
+                    customerEntities = repository.findByCorRegNoContaining(pageable,searchKeyword);
+                    break;
+                case "CUSTOMERNAME": 
+                    customerEntities = repository.findByCustomerNameContaining(pageable,searchKeyword);
+                    break;
+            }
         }
 
         List<CustomerDto> dtos = new ArrayList<>();
@@ -48,7 +58,7 @@ public class CustomerService {
             CustomerDto dto = CustomerDto.builder()
                     // .row_num(entity.getRow_num())
                     .cor_reg_no(entity.getCorRegNo())
-                    .customer_name(entity.getCustomer_name())
+                    .customer_name(entity.getCustomerName())
                     .typeCode(entity.getTypeCode())
                     .email(entity.getEmail())
                     .region1(entity.getRegion1())
@@ -83,7 +93,7 @@ public class CustomerService {
         Customer entity = repository.findById(corRegNo).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
         return CustomerDto.builder()
                 .cor_reg_no(entity.getCorRegNo())
-                .customer_name(entity.getCustomer_name())
+                .customer_name(entity.getCustomerName())
                 .typeCode(entity.getTypeCode())
                 .email(entity.getEmail())
                 .region1(entity.getRegion1())
@@ -111,7 +121,7 @@ public class CustomerService {
         // }
         Customer entity = Customer.builder()
                 .corRegNo(customerDto.getCor_reg_no())
-                .customer_name(customerDto.getCustomer_name())
+                .customerName(customerDto.getCustomer_name())
                 .typeCode(customerDto.getTypeCode())
                 .email(customerDto.getEmail())
                 .region1(customerDto.getRegion1())
@@ -136,7 +146,7 @@ public class CustomerService {
     public void update(CustomerDto customerDto) {
         Customer entity = repository.findById(customerDto.getCor_reg_no()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
             entity.setCorRegNo(customerDto.getCor_reg_no());
-            entity.setCustomer_name(customerDto.getCustomer_name());
+            entity.setCustomerName(customerDto.getCustomer_name());
             entity.setTypeCode(customerDto.getTypeCode());
             entity.setEmail(customerDto.getEmail());
             entity.setRegion1(customerDto.getRegion1());

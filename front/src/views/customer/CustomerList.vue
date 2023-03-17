@@ -5,6 +5,11 @@
     <div class="board-list">        
         <div class="cn_menu">
             <br><br><br>
+            <select name="searchCondition" @change="setSelect()">
+                <option value=""></option>
+                <option value="CORREGNO">사업자 등록번호</option>
+                <option value="CUSTOMERNAME">고객 명</option>
+            </select>
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
             <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
             <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                
@@ -32,20 +37,20 @@
             <tbody>
                 <tr v-for="(row,idx) in list" :key="idx">
                     <td><input type="checkbox" value="{{row.cor_reg_no }}"></td>
-                    <td>{{idx+1}}</td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{idx+1}}</a></td>
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.cor_reg_no }}</a></td>
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.customer_name }}</a></td>
-                    <td>{{ row.type_code }}</td>
-                    <td>{{ row.email }}@{{ row.semail }}</td>
-                    <td>{{ row.region1 }}</td>
-                    <td>{{ row.region2 }}</td>
-                    <td>{{ row.fax }}</td>
-                    <td>{{ row.web }}</td>
-                    <td>{{ row.address1 }}</td>
-                    <td>{{ row.address2 }}</td>
-                    <td>{{ row.high_customer }}</td>
-                    <td>{{ row.tel }}</td>
-                    <td>{{ row.note }}</td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.type_code }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.email }}@{{ row.semail }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.region1 }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.region2 }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.fax }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.web }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.address1 }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.address2 }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.high_customer }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.tel }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.note }}</a></td>
                 </tr>
             </tbody>
         </table>
@@ -68,6 +73,11 @@
                 </span>
         </div>
         <div class="cn_menu">
+            <select name="searchCondition" @change="setSelect()">
+                <option value=""></option>
+                <option value="CORREGNO">사업자 등록번호</option>
+                <option value="CUSTOMERNAME">고객 명</option>
+            </select>
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
             <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
             <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                
@@ -82,29 +92,28 @@
         return {
             requestBody: {}, //리스트 페이지 데이터전송
             list: {}, //리스트 데이터
-            no: '', //게시판 숫자처리
             paging: {
-            block: 0,
-            end_page: 0,
-            next_block: 0,
-            page: 0,
-            page_size: 0,
-            prev_block: 0,
-            start_index: 0,
-            start_page: 0,
-            total_block_cnt: 0,
-            total_list_cnt: 0,
-            total_page_cnt: 0,
+                block: 0,
+                end_page: 0,
+                next_block: 0,
+                page: 0,
+                page_size: 0,
+                prev_block: 0,
+                start_index: 0,
+                start_page: 0,
+                total_block_cnt: 0,
+                total_list_cnt: 0,
+                total_page_cnt: 0,
             }, //페이징 데이터
             page: this.$route.query.page ? this.$route.query.page : 1,
             size: this.$route.query.size ? this.$route.query.size : 10,
             keyword: this.$route.query.keyword,
             paginavigation: function () { //페이징 처리 for문 커스텀
-            let pageNumber = [] //;
-            let start_page = this.paging.start_page;
-            let end_page = this.paging.end_page;
-            for (let i = start_page; i <= end_page; i++) pageNumber.push(i);
-            return pageNumber;
+                let pageNumber = [] //;
+                let start_page = this.paging.start_page;
+                let end_page = this.paging.end_page;
+                for (let i = start_page; i <= end_page; i++) pageNumber.push(i);
+                return pageNumber;
             }
         }
     },
@@ -118,14 +127,15 @@
                 this.page = n
              }
             this.requestBody = { // 데이터 전송
+                searchType:this.requestBody.searchType,
                 keyword: this.keyword,
                 page: this.page,
                 size: this.size
             }
-            this.$axios.get(this.$serverUrl + "/customer/list", {
+            this.$axios.get(this.$serverUrl + "/customer/list",{
                 params: this.requestBody,
                 headers: {}
-        }).then((res) => {   
+            }).then((res) => {   
                 console.log(res);
                 if (res.data.result_code === "OK") {
                     this.list = res.data.data
@@ -138,10 +148,11 @@
                 }
             })
         },
-        fnView(corRegNo) {
-            
-            this.requestBody.corRegNo = corRegNo
-           
+        setSelect(){
+            this.requestBody.searchType=event.target.value;
+        },
+        fnView(corRegNo) {            
+            this.requestBody.corRegNo = corRegNo           
             this.$router.push({
             path: './detail',
             query: this.requestBody

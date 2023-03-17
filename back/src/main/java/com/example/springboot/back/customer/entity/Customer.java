@@ -2,8 +2,8 @@ package com.example.springboot.back.customer.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+// import javax.persistence.GeneratedValue;
+// import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -55,7 +55,7 @@ public class Customer{
     // private String cusNo;
 
     /* CUSTOMER_NAME 고객명(not null) */
-    private String customer_name;
+    private String customerName;
 
     /* TYPECODE 타입 코드*/
     private String typeCode;
