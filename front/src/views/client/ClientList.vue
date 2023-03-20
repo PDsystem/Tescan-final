@@ -51,7 +51,8 @@
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.zip }}</a></td>
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.address1 }}</a></td>
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.address2 }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.email }}@{{ row.semail }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.email }}</a></td>
+                    <!-- <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.email }}@{{ row.semail }}</a></td> -->
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.tel }}</a></td>
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.phone }}</a></td>
                     <td><a @dblclick="fnView(`${row.cor_reg_no}`)">{{ row.engineer }}</a></td>
@@ -85,6 +86,7 @@
             <select name="searchCondition" @change="setSelect()">
                 <option value=""></option>
                 <option value="CORREGNO">사업자 등록번호</option>
+                <option value="CUSNO">고객 번호</option>
                 <option value="CUSTOMERNAME">고객 명</option>
             </select>
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
@@ -151,6 +153,7 @@
                     this.paging = res.data.pagination
                     this.no = this.paging.total_list_cnt - ((this.paging.page - 1) * this.paging.page_size)
                 }
+                alert(searchType)
             }).catch((err) => {
                     if (err.message.indexOf('Network Error') > -1) {
                     alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -209,5 +212,12 @@ td {
     border: 1px solid rgb(185, 185, 185);
     padding: 3px 3px 3px 0px;
     font-size: 13px;
+}
+.input_note{
+    width:900px;
+    height:300px;
+}
+.insert_div{
+    width: 1500px;
 }
 </style>

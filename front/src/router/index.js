@@ -10,6 +10,8 @@ import CustomerList from '@/views/customer/CustomerList.vue'
 import CustomerDetail from '@/views/customer/CustomerDetail.vue'
 import CustomerWrite from '@/views/customer/CustomerWrite.vue'
 import ClientList from '@/views/client/ClientList.vue'
+import ClientDetail from '@/views/client/ClientDetail.vue'
+import ClientWrite from '@/views/client/ClientWrite.vue'
 import codeMaster from '@/views/codeMaster/codeMaster.vue'
 import askBoard from '@/views/askBoard/askBoardList.vue'
 
@@ -80,6 +82,16 @@ const routes = [
     path: '/client/list',
     name: 'ClientList',
     component: ClientList
+  },
+  {
+    path: '/client/write',
+    name: 'ClientWrite',
+    component: ClientWrite
+  },
+  {
+    path: '/client/detail',
+    name: 'ClientDetail',
+    component: ClientDetail
   },
   {
     path: '/codeMaster/codeMaster',

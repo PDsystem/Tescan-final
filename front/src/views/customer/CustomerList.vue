@@ -173,7 +173,6 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    /* border: 1px solid rgb(185, 185, 185); */
 }
 .cn_menu{
     float: right;
@@ -196,7 +195,6 @@ th{
 }
 td {
     width: 180px;
-    /* background-color: salmon; */
     border: 1px solid rgb(185, 185, 185);
     padding: 3px 3px 3px 0px;
     font-size: 13px;

@@ -205,17 +205,14 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
-    /* border: 1px solid rgb(185, 185, 185); */
 }
 .board-detail {
   height: 1000;
 }
 .col2{
-  /* width: 200px; */
-    /* background-color: salmon; */
-    border: 1px solid rgb(185, 185, 185);
-    padding: 3px 3px 3px 0px;
-    font-size: 13px;
+  border: 1px solid rgb(185, 185, 185);
+  padding: 3px 3px 3px 0px;
+  font-size: 13px;
 }
 .inputcss{
   border:none;
