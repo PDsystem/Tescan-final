@@ -8,11 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 
-import com.example.springboot.back.customer.entity.Customer;
 import com.example.springboot.back.customer.web.dtos.CustomerDto;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
