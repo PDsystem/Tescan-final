@@ -1,7 +1,6 @@
 package com.example.springboot.back.askBoard.web;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -29,7 +28,15 @@ public class AskBoardController {
         return askBoard;
     }
 
-   @PostMapping("/askBoard")
+    @PostMapping("/askBoard")
+    public void create(@RequestBody AskBoardDto AskBoardDto) {
+        System.out.println("@@@@@@@@@@@@@@@@@@@");
+        System.out.println("######################");
+        System.out.println(AskBoardDto);
+        askBoardService.create(AskBoardDto);
+    }
+
+   @PatchMapping("/askBoard")
     public void update(@RequestBody AskBoardDto AskBoardDto) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         // System.out.println(params);

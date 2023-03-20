@@ -2,6 +2,7 @@ package com.example.springboot.back.askBoard.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,7 +28,8 @@ public class AskBoard implements Serializable {
 
        /* content_No 글번호 */
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE) 
+    // @GeneratedValue(strategy = GenerationType.SEQUENCE) 
+    @Column(name = "contentNo")
     private String contentNo;
     
     /* content_title 제목(not null) */

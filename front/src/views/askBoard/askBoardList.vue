@@ -62,10 +62,10 @@
       <div class="emp_header" float="right">
         <p class="ml_10">게시판리스트</p>
         <div class="button_right">
-          <button class="emp_btn mr_5">저장</button>
-          <button class="emp_btn mr_5" v-on:click="fnSave()">수정</button>
+          <button class="emp_btn mr_5" v-on:click="fnSave()">저장</button>
+          <button class="emp_btn mr_5" v-on:click="fnUpdate()">수정</button>
           <button class="emp_btn mr_5" v-on:click="fnDelete">삭제</button>
-          <button class="emp_btn mr_5">초기화</button>
+          <button class="emp_btn mr_5" @click="fnReset">초기화</button>
         </div>
       </div>
       <table>
@@ -81,18 +81,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(row, content_no) in list" :key="content_no" @click="fn_bind(row)">
+          <tr v-for="(row, content_no) in list" :key="content_no" @click="fnbind(row)">
             <td>{{ row.content_no }}</td>
             <td>{{ row.content_title }}</td>
             <td>{{ row.content_id }}</td>
             <td>{{ row.content_pw }}</td>
             <td>{{ row.content_date }}</td>
-            <td>{{ row.disclosure }}</td>
             <td>{{ row.contents }}</td>
+            <td>{{ row.disclosure }}</td>
           </tr>
-          <!-- <tr v-for="(row, content_no) in list" :key="content_no">
-            
-          </tr> -->
         </tbody>
       </table>
     </div>
@@ -127,6 +124,13 @@ export default {
       requestBody:{},
       list: {}, //리스트 데이터
       no: '', //게시판 숫자처리
+      content_no: '',
+      content_id: '',
+      content_pw: '',
+      content_title: '',
+      contents: '',
+      content_date: '',
+      disclosure: '',
       paging: {
         block: 0,
         end_page: 0,
@@ -139,14 +143,9 @@ export default {
         total_block_cnt: 0,
         total_list_cnt: 0,
         total_page_cnt: 0,
-        requestBody: this.$route.query,
-        content_no: this.$route.query.content_no,
-      content_id: '',
-      content_pw: '',
-      content_title: '',
-      contents: '',
-      content_date: '',
-      disclosure: ''
+        // requestBody: this.$route.query,
+        // content_no: this.$route.query.content_no,
+
       },
       
       paginavigation: function () { //페이징 처리 for문 커스텀
@@ -172,7 +171,62 @@ export default {
     this.fnGetList();
   },
   methods: {
-    fnSave() {
+    fnView(content_no) {
+      // console.log("딱딱")
+      this.$axios.get(this.$serverUrl + '/askBoard/' + content_no)
+      .then((res) => {
+                    //console.log(res.data) // res.data 안에 데이터 잘 들어왔다
+
+                    this.content_no = res.data.content_no
+                    this.content_title = res.data.content_title
+                    this.content_id = res.data.content_id
+                    this.content_pw = res.data.content_pw
+                    this.content_date = res.data.content_date
+                    this.disclosure = res.data.disclosure
+                    this.contents = res.data.contents
+                    
+                    console.log("content_no :" + this.content_no)
+                    console.log("content_title :" + this.content_title)
+                    console.log("content_id :" + this.content_id)
+                    console.log("content_pw :" + this.content_pw)
+                    console.log("content_date :" + this.content_date)
+                    console.log("disclosure :" + this.disclosure)
+                    console.log("contents :" + this.contents)
+                    
+                    this.isModalOpened = false;
+
+                }).catch((err) => {
+                    if (err.message > -1) {
+                        alert('네트워크가 원활하지 않습니다.\n 잠시 후 다시 시도해 주세요.')
+                    }
+                })
+        },
+
+      fnSave() {
+      this.requestBody = {
+        "content_no": this.content_no,
+        "content_title": this.content_title,
+        "contents": this.contents,
+        "content_id": this.content_id,
+        "content_pw": this.content_pw,
+        "content_date": this.content_date,
+        "disclosure": this.disclosure
+      }
+      console.log('requestbody'+this.requestBody);
+      alert("메롱")
+      //INSERT
+      this.$axios.post(this.$serverUrl + "/askBoard", this.requestBody)
+        .then((res) => {
+          alert('글이 저장되었습니다.')
+        }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          }
+        })
+    },
+
+
+    fnUpdate() {
     this.requestBody = {
         "content_no": this.content_no,
         "content_title": this.content_title,
@@ -184,9 +238,9 @@ export default {
       }
       console.log(this.requestBody);
       //INSERT
-      this.$axios.post(this.$serverUrl + "/askBoard",this.requestBody )
+      this.$axios.patch(this.$serverUrl + "/askBoard", this.requestBody )
       .then((res) => {
-        //this.fnView(res.data.idx)
+        alert('글이 저장되었습니다.')
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
           alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -237,6 +291,42 @@ export default {
           console.log(err);
         })
       },
+
+       // 데이터 바인딩
+    fnbind(row){
+      this.content_no=row.content_no;
+      this.content_title=row.content_title;
+      this.content_id=row.content_id;
+      this.content_date=row.content_date;
+      this.content_pw=row.content_pw;
+      this.disclosure=row.disclosure;
+      this.contents=row.contents;
+    },
+
+    // 초기화
+    fnReset() {
+            //검색부분 초기화
+            this.content_no="";
+            this.content_title="";
+            this.content_id="";
+            this.content_date="";
+            this.content_pw="";
+            this.disclosure="";
+            this.contents="";
+            
+
+            //데이터부분 초기화
+            this.content_no="";
+            this.content_title="";
+            this.content_id="";
+            this.content_date="";
+            this.content_pw="";
+            this.disclosure="";
+            this.contents="";
+
+            //리스트 불러오기
+            this.GetOppoList();
+        },
 
      
     fnGetList() {
