@@ -27,7 +27,7 @@
             </li>
             <li><a href="/customer/list">거래처 관리</a>
               <ul>
-                <li><a href="/customer/write">거래처 등록</a></li>
+                <li><a href="/client/list">거래처 등록</a></li>
                 <li><a href="/customer/list">거래처 현황</a></li>
               </ul>
             </li>
