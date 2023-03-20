@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +18,7 @@ import com.example.springboot.back.salesOppo.web.dtos.SalesOppoDto;
 
 import lombok.RequiredArgsConstructor;
 
+@EnableCaching
 @RequiredArgsConstructor
 @Service
 public class SalesOppoService {
@@ -32,6 +35,7 @@ public class SalesOppoService {
     }
 
     // 리스트 가져오기
+    @Cacheable
     public SalesOppoDto getSalesOppo(String id) {
         SalesOppo entity = salesOppoRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
         return SalesOppoDto.builder()
@@ -59,9 +63,6 @@ public class SalesOppoService {
     public void create(SalesOppoDto salesOppoDto) {
        // codeMasterDto.setRegist_time(LocalDate.now());
         salesOppoDto.setReg_date(LocalDateTime.now());
-        System.out.println(LocalDateTime.now());
-        System.out.println("----------------------------");
-        System.out.println(salesOppoDto.getEmpno());
         String retire_date_to_save = parseDateToSave(salesOppoDto.getRetire_date());
         String end_date_to_save = parseDateToSave(salesOppoDto.getEnd_date());
         SalesOppo entity= SalesOppo.builder()
@@ -83,10 +84,34 @@ public class SalesOppoService {
         em.persist(entity);     
     }
 
+    //수정
+    public void update(SalesOppoDto salesOppoDto) {
+        salesOppoDto.setReg_date(LocalDateTime.now());
+        String retire_date_to_save = parseDateToSave(salesOppoDto.getRetire_date());
+        String end_date_to_save = parseDateToSave(salesOppoDto.getEnd_date());
+        SalesOppo entity = salesOppoRepository.findById(salesOppoDto.getEmpno()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
+            entity.setEmpno(salesOppoDto.getEmpno());
+            entity.setReg_date(salesOppoDto.getReg_date());
+            entity.setCor_reg_no(salesOppoDto.getCor_reg_no());
+            entity.setEquip_no(salesOppoDto.getEquip_no());
+            entity.setProject_name(salesOppoDto.getProject_name());
+            entity.setCondition_code(salesOppoDto.getCondition_code());
+            entity.setPossibility(salesOppoDto.getPossibility());
+            entity.setRetire_date(retire_date_to_save);
+            entity.setSales_forecast(salesOppoDto.getSales_forecast());
+            entity.setEnd_date(end_date_to_save);
+            entity.setCon_price(salesOppoDto.getCon_price());
+            entity.setCon_price_dol(salesOppoDto.getCon_price_dol());
+            entity.setReason(salesOppoDto.getReason());
+            entity.setNote(salesOppoDto.getNote());
+    
+            salesOppoRepository.save(entity);
+    }
+
     //삭제
-    public int salesOppoDelete(String id){ 
-        salesOppoRepository.deleteById(id);
-        return 1;
+    public void delete(String id) {
+        SalesOppo entity = salesOppoRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
+        salesOppoRepository.delete(entity);
     }
 
     // yyyyMMdd 형태로 파싱해주는 함수

@@ -9,7 +9,7 @@
             <div class="searchBar">
                 <div class="menu">
                     <!--담당자, 거래처검색-->
-                    <div class="empSearch colText">담당자검색</div>
+                    <div class="empSearch colText">사원번호검색</div>
                     <div style="margin-right: 10px;"><input type="text" name="empSearch" v-model="empSearch"></div>
                     <button class="empSearch_btn search_btn" @click="isModalOpened = true">검색</button>
                     <div class="corSearch colText">거래처검색</div>
@@ -33,10 +33,10 @@
         <br>
         <!--리스트-->
         <hr class="line-basic">
-        <table>
+        <table class="contents">
             <thead>
                 <tr>
-                    <th>담당자</th>
+                    <th>사원번호</th>
                     <th>등록일자</th>
                     <th>장비명</th>
                     <th>거래처</th>
@@ -96,7 +96,7 @@
         <!--crud 등록,수정칸-->
         <table>
             <tr>
-                <td class="colText">사원명(사원번호)</td>
+                <td class="colText">사원번호</td>
                 <td class="colData"><input type="text" maxlength='10' v-model="empno"></td>
                 <td class="colText">사업자등록번호</td>
                 <td class="colData"><input type="text" maxlength='10' v-model="cor_reg_no"></td>
@@ -271,6 +271,10 @@ export default {
             this.GetOppoList();
         },
 
+        //추가버튼 클릭시 활성화
+        fnAdd() {
+
+        },
         //저장버튼 클릭시
         fnSave() {
             this.requestBody = {
@@ -302,6 +306,18 @@ export default {
                 if (err.message.indexOf('Network Error') > -1) {
                     alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
                 }
+            })
+        },
+
+        //삭제버튼 클릭시
+        fnDelete() {
+            if (!confirm("삭제하시겠습니까?")) return
+                this.$axios.delete(this.$serverUrl + '/salesOppoDelete/' + this.empno, this.cor_reg_no, this.reg_date, {})
+                    .then(() => {
+                        alert('삭제되었습니다.')
+                    
+                }).catch((err) => {
+            console.log(err);
             })
         },
 
@@ -398,5 +414,66 @@ export default {
 }
 .margin-left {
     margin-left: 80px;
+}
+
+/* 리스트css */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* 컬럼라인 백그라운드 */
+.contents th {
+  height: 30px;
+  background: linear-gradient(#efefeb, #d9d9d1);
+  border-right: 1px solid lightgray;
+}
+
+/* 컬럼사이즈 */
+.contents th:nth-child(1) {
+  width: 130px;                    /* 담당자 */
+  border-left: 1px solid lightgray;
+}
+.contents th:nth-child(2) {
+  width: 150px;                    /* 등록일자 */
+}
+.contents th:nth-child(3) {
+  width: 130px;                    /* 장비명 */
+}
+.contents th:nth-child(4) {
+  width: 130px;                    /* 거래처 */
+}
+.contents th:nth-child(5) {
+  width: 200px;                    /* 프로젝트명 */
+}
+.contents th:nth-child(6) {
+  width: 70px;                    /* 현황분류코드 */
+}
+.contents th:nth-child(7) {
+  width: 100px;                    /* 예상금액 */
+}
+.contents th:nth-child(8) {
+  width: 130px;                    /* 예상종료일자 */
+}
+.contents th:nth-child(9) {
+  width: 50px;                    /* 가능성 */
+}
+.contents th:nth-child(10) {
+  width: 130px;                    /* 완료일자 */
+}
+.contents th:nth-child(11) {
+  width: 100px;                    /* 계약금액 */
+}
+.contents th:nth-child(12) {
+  width: 130px;                    /* 계약금액(달러) */
+}
+.contents th:nth-child(13),
+.contents th:nth-child(14) {
+  width: 300px;                    /* 사유, 비고 */
+}
+.contents td {
+  text-align: center;
+  border: 1px solid lightgray;
+  padding: 3px 0;
 }
 </style>
