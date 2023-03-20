@@ -16,9 +16,7 @@ import com.example.springboot.back.sales.entity.SalesRepository;
 import com.example.springboot.back.sales.web.dtos.SalesDto;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @CrossOrigin
 @RestController

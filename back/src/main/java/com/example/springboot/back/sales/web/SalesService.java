@@ -13,14 +13,12 @@ import com.example.springboot.back.sales.entity.SalesRepository;
 import com.example.springboot.back.sales.web.dtos.SalesDto;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class SalesService {
