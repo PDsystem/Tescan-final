@@ -3,6 +3,7 @@ package com.example.springboot.back.salesOppo.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -20,11 +21,12 @@ import lombok.NoArgsConstructor;
 @Entity
 public class SalesOppo implements Serializable {
     @Id
+	@Column(name="empno")
 	private String empno; // 사원번호
-
-	private LocalDateTime reg_date; // 등록일
-	private String equip_no; // 장비번호
 	private String cor_reg_no; // 사업자등록번호
+	private LocalDateTime reg_date; // 등록일
+
+	private String equip_no; // 장비번호
 	private String project_name; // 프로젝트명
 	private String condition_code; // 현황분류코드
 	private int possibility; // 가능성
