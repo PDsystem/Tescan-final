@@ -93,23 +93,22 @@
         </tbody>
       </table>
     </div>
-    나와라 얍!
     <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
     <span class="pg">
-    <a href="javascript:;" @click="codeSearch(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
-    <a href="javascript:;" v-if="paging.start_page > 10" @click="codeSearch(`${paging.start_page-1}`)"
+    <a href="javascript:;" @click="fnPage(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
+    <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"
        class="prev w3-button w3-bar-item w3-border">&lt;</a>
     <template v-for=" (n,index) in paginavigation()">
         <template v-if="paging.page==n">
             <strong class="w3-button w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
         </template>
         <template v-else>
-            <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="codeSearch(`${n}`)" :key="index">{{ n }}</a>
+            <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{ n }}</a>
         </template>
     </template>
     <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
-       @click="codeSearch(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
-    <a href="javascript:;" @click="codeSearch(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
+       @click="fnPage(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
+    <a href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
     </span>
   </div>
   </div>
@@ -169,8 +168,32 @@ export default {
   mounted() {
     this.paginavigation();
     this.fnGetList();
+    this.codeSearch();
   },
   methods: {
+    codeSearch(currentPage){
+
+    this.requestBody = { // 데이터 전송
+      searchKeyword: this.searchKeyword,
+      page: currentPage-1,
+      size: 10
+}
+this.$axios.post(this.$serverUrl+"/askBoard/List",
+  this.requestBody
+  
+  ).then((res) => {
+  console.log(res);
+
+    this.list = res.data.content //서버에서 데이터를 목록으로 보내므로 바로 할당하여 사용할 숴 있다.
+    this.paging.total_page_cnt = res.data.total_pages;
+    this.paging.total_list_cnt =res.data.total_elements;
+    this.paging.page=res.data.pageable.page_number+1;
+
+}).catch(() => {
+  window.alert("네트워크 통신 이상");
+});
+},
+
     fnView(content_no) {
       // console.log("딱딱")
       this.$axios.get(this.$serverUrl + '/askBoard/' + content_no)
@@ -201,6 +224,12 @@ export default {
                     }
                 })
         },
+        fnPage(n) {
+      if (this.page !== n ) {
+        this.page = n
+        this.codeSearch(n)
+      }
+    },
 
       fnSave() {
       this.requestBody = {
@@ -213,7 +242,7 @@ export default {
         "disclosure": this.disclosure
       }
       console.log('requestbody'+this.requestBody);
-      alert("메롱")
+      alert("글을 저장하시겠습니까?")
       //INSERT
       this.$axios.post(this.$serverUrl + "/askBoard", this.requestBody)
         .then((res) => {
@@ -224,7 +253,6 @@ export default {
           }
         })
     },
-
 
     fnUpdate() {
     this.requestBody = {
@@ -325,7 +353,7 @@ export default {
             this.contents="";
 
             //리스트 불러오기
-            this.GetOppoList();
+            this.codeSearch();
         },
 
      

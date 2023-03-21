@@ -11,9 +11,9 @@ import com.example.springboot.back.askBoard.entity.AskBoardRepository;
 import com.example.springboot.back.askBoard.web.dtos.AskBoardDto;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
+
 @RequiredArgsConstructor
 @Service
 @Transactional 
@@ -54,6 +54,11 @@ public class AskBoardService {
                         build();
         em.persist(entity);
     }
+
+    // public String askBoardMax() {
+    //     System.out.println(askBoardRepository.askBoardMax());
+    //     return askBoardRepository.askBoardMax();
+    // }
 
 
     //수정
