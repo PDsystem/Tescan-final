@@ -31,11 +31,12 @@ public class ClientController {
         HttpSession session = request.getSession();
         return clientService.getClientList(pageable,keyword,searchType); 
     }
-    @PostMapping("/client/{id}")
-    public ClientDto getClient(@PathVariable String id) {
-        log.info("controller : "+id);
-        return clientService.getClient(id);
-    }
+    @PostMapping("/client/{corRegNo}/{cusNo}")
+    public ClientDto getClient(@PathVariable String corRegNo,@PathVariable String cusNo) {
+        log.info("controller : "+corRegNo);
+        log.info("controller : "+cusNo);
+        return clientService.getClient(corRegNo,cusNo);
+    }//corRegNo,cusNo는 컨트롤러 내에서만 같은 것을 부르면 됩니다.(다른것과 변수명이 다르다고 큰 차이가 생기진 않음)
 
     @PostMapping("/client")
     public void create(@RequestBody ClientDto clientDto) {
@@ -50,8 +51,8 @@ public class ClientController {
         clientService.update(clientDto);
     }
 
-    @DeleteMapping("/client/{id}")
-    public void delete(@PathVariable String id) {
-        clientService.delete(id);
+    @DeleteMapping("/client/{corRegNo}/{cusNo}")
+    public void delete(@PathVariable String corRegNo,@PathVariable String cusNo) { 
+        clientService.delete(corRegNo,cusNo);
     }
 }

@@ -119,10 +119,6 @@
         tel: '',
         phone: '',
         engineer: '',
-        // regDate: '',
-        // regId: '',
-        // modDate: '',
-        // modId: '',
         note: ''
       }
     },
@@ -132,7 +128,7 @@
     methods: {
       fnGetView() {
         console.log(this.requestBody);
-        this.$axios.post(this.$serverUrl + '/client/' + this.requestBody.cus_no, {
+        this.$axios.post(this.$serverUrl + '/client/' + this.requestBody.cor_reg_no+'/'+this.requestBody.cus_no, {
           params: this.requestBody
         }).then((res) => {
           this.cus_no = res.data.cus_no
@@ -148,10 +144,6 @@
           this.tel = res.data.tel
           this.phone = res.data.phone
           this.engineer = res.data.engineer
-          // this.reg_date = res.data.regDate
-          // this.reg_id = res.data.regId
-          // this.mod_date = res.data.modDate
-          // this.mod_id = res.data.modId
           this.note = res.data.note
         }).catch((err) => {
           if (err.message.indexOf('Network Error') > -1) {
@@ -181,10 +173,6 @@
           "tel":this.tel,
           "phone":this.phone,
           "engineer":this.engineer,
-          // "reg_date":this.regDate,
-          // "reg_id":this.regId,
-          // "mod_date":this.modDate,
-          // "mod_id":this.modId,
           "note":this.note
         }                  
         //INSERT
@@ -203,7 +191,7 @@
       fnDelete() {
         if (!confirm("삭제하시겠습니까?")) return
   
-        this.$axios.delete(this.$serverUrl + '/client/' + this.cus_no, {})
+        this.$axios.delete(this.$serverUrl + '/client/' + this.requestBody.cor_reg_no+'/'+this.requestBody.cus_no, {})
           .then(() => {
             alert('삭제되었습니다.')
             this.fnList();

@@ -42,25 +42,25 @@
             <tbody>
                 <tr v-for="(row,idx) in list" :key="idx">
                     <td><input type="checkbox" value="{{row.cor_reg_no }}"></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{idx+1}}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.cor_reg_no }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.cus_no }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.name }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.dept }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.position }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.zip }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.address1 }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.address2 }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.email }}</a></td>
-                    <!-- <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.email }}@{{ row.semail }}</a></td> -->
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.tel }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.phone }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.engineer }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.reg_date }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.reg_id }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.mod_date }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.mod_id }}</a></td>
-                    <td><a @dblclick="fnView(`${row.cus_no}`)">{{ row.note }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{idx+1}}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.cor_reg_no }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.cus_no }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.name }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.dept }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.position }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.zip }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.address1 }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.address2 }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.email }}</a></td>
+                    <!-- <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.email }}@{{ row.semail }}</a></td> -->
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.tel }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.phone }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.engineer }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.reg_date }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.reg_id }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.mod_date }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.mod_id }}</a></td>
+                    <td><a @dblclick="fnView(`${row.cor_reg_no}`,`${row.cus_no}`)">{{ row.note }}</a></td>
                 </tr>
             </tbody>
         </table>
@@ -163,7 +163,8 @@
         setSelect(){
             this.requestBody.searchType=event.target.value;
         },
-        fnView(cus_no) {            
+        fnView(cor_reg_no,cus_no) {            
+            this.requestBody.cor_reg_no = cor_reg_no           
             this.requestBody.cus_no = cus_no           
             this.$router.push({
             path: './detail',
