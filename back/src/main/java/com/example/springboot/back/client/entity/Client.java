@@ -30,11 +30,13 @@ import lombok.NoArgsConstructor;
 public class Client {
 
     /** COR_REG_NO 사업자 등록 번호(not null) */
-    @Id
-    @Column(name = "cor_reg_no",nullable = false, unique = true)
+    // @Id
+    // @Column(name = "cor_reg_no",nullable = false, unique = true)
     private String corRegNo;
 
     /* CUS_NO 고객번호(not null) */
+    @Id
+    @Column(name = "cus_no",nullable = false, unique = true)
     private String cusNo;
 
     /** NAME 고객명*/

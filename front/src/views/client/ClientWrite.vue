@@ -74,24 +74,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td class="cn_col_name">등록 일자</td>                                
-                        <td class="col2">
-                            <input v-model="reg_date" class="inputcss" name="reg_date">
-                        </td>                              
-                        <td class="cn_col_name">등록ID</td>                                
-                        <td class="col2">
-                            <input v-model="reg_id" class="inputcss" name="reg_id">
-                        </td>                              
-                        <td class="cn_col_name">수정 일자 </td>
-                        <td class="col2">
-                            <input v-model="mod_date" class="inputcss" name="mod_date">
-                            </td>
-                        <td class="cn_col_name">수정 ID</td>
-                        <td class="col2">
-                            <input v-model="mod_id" class="inputcss" name="mod_id">
-                        </td>
-                    </tr>
-                    <tr>
                         <td class="cn_col_name">비고</td>
                     </tr>
                 </table>
@@ -166,6 +148,7 @@
                           alert('글이 저장되었습니다.')
                           console.log(res);
                           //this.fnView(res.data.idx)
+                          this.fnList()
                         }).catch((err) => {
                           if (err.message.indexOf('Network Error') > -1) {
                             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')

@@ -30,6 +30,7 @@ public class AskBoardService {
     
 
     public Page<AskBoard> boardSearchList(){
+   
     // public Page<AskBoard> boardSearchList(String searchKeyword,String searchType,Pageable pageable,int page ){
         // System.out.println(searchType);
         // Pageable pageable;

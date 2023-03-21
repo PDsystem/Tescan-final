@@ -1,6 +1,6 @@
 <template>
     <div class="cn_headerline">
-        <h5>거래처 현황</h5>
+        <h5>거래처 현황(Customer+CustomerInfo)</h5>
     </div>
     <div class="board-list">        
         <div class="cn_menu">
@@ -12,6 +12,7 @@
             </select>
             <input type="text" v-model="keyword" class="w3-input w3-border" placeholder="검색어를 입력해주세요.">
             <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
+            <!-- <button type="button" class="cn_btn common-buttons" v-on:click="fnDelete">삭제</button>&nbsp; -->
             <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                
         </div>
         <table class="table-all">
@@ -162,7 +163,18 @@
             this.$router.push({
             path: './write'
             })
-        }
+        },
+        fnDelete() {
+        if (!confirm("삭제하시겠습니까?")) return
+  
+        this.$axios.delete(this.$serverUrl + '/customer/' + this.corRegNo, {})
+          .then(() => {
+            alert('삭제되었습니다.')
+            this.fnList();
+          }).catch((err) => {
+            console.log(err);
+        })
+      }
     }
    }
 </script>

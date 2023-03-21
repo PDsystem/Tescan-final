@@ -39,9 +39,6 @@ public class ClientService {
     // 포맷팅 적용
     String formatedNow = formatter.format(now);
 
-    // // 포맷팅 현재 날짜/시간 출력
-    // System.out.println(formatedNow);  // 2021년 06월 17일 06시 57분 32초
-
     /**
      * 목록 가져오기
      */
@@ -105,29 +102,51 @@ public class ClientService {
      */
     public ClientDto getClient(String id) {
         
-
+        log.info("service : "+id);
+        
         Client entity = repository.findById(id).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
-        return ClientDto.builder()
-                        .cor_reg_no(entity.getCorRegNo())
-                        .cus_no(entity.getCusNo())
-                        .name(entity.getName())
-                        .dept(entity.getDept())
-                        .position(entity.getPosition())
-                        .zip(entity.getZip())
-                        .address1(entity.getAddress1())
-                        .address2(entity.getAddress2())
-                        .email(entity.getEmail())
-                        .semail(entity.getSemail())
-                        .tel(entity.getTel())
-                        .phone(entity.getPhone())
-                        .engineer(entity.getEngineer())
-                        .reg_date(entity.getRegDate())
-                        .reg_id(entity.getRegId())
-                        .mod_date(entity.getModDate())
-                        .mod_id(entity.getModId())
-                        .note(entity.getNote())
-                        .build();
-    
+        ClientDto s = ClientDto.builder()
+        .cor_reg_no(entity.getCorRegNo())
+        .cus_no(entity.getCusNo())
+        .name(entity.getName())
+        .dept(entity.getDept())
+        .position(entity.getPosition())
+        .zip(entity.getZip())
+        .address1(entity.getAddress1())
+        .address2(entity.getAddress2())
+        .email(entity.getEmail())
+        .semail(entity.getSemail())
+        .tel(entity.getTel())
+        .phone(entity.getPhone())
+        .engineer(entity.getEngineer())
+        .reg_date(entity.getRegDate())
+        .reg_id(entity.getRegId())
+        .mod_date(entity.getModDate())
+        .mod_id(entity.getModId())
+        .note(entity.getNote())
+        .build();
+        System.out.println(s.getCus_no());
+        // return ClientDto.builder()
+        //                 .cor_reg_no(entity.getCorRegNo())
+        //                 .cus_no(entity.getCusNo())
+        //                 .name(entity.getName())
+        //                 .dept(entity.getDept())
+        //                 .position(entity.getPosition())
+        //                 .zip(entity.getZip())
+        //                 .address1(entity.getAddress1())
+        //                 .address2(entity.getAddress2())
+        //                 .email(entity.getEmail())
+        //                 .semail(entity.getSemail())
+        //                 .tel(entity.getTel())
+        //                 .phone(entity.getPhone())
+        //                 .engineer(entity.getEngineer())
+        //                 .reg_date(entity.getRegDate())
+        //                 .reg_id(entity.getRegId())
+        //                 .mod_date(entity.getModDate())
+        //                 .mod_id(entity.getModId())
+        //                 .note(entity.getNote())
+        //                 .build();
+   return s; 
     }
 
     /** 등록     */
@@ -161,7 +180,7 @@ public class ClientService {
      * 수정
      */
     public void update(ClientDto clientDto) {
-        Client entity = repository.findById(clientDto.getCor_reg_no()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
+        Client entity = repository.findById(clientDto.getCus_no()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
             entity.setCorRegNo(clientDto.getCor_reg_no());
             entity.setCusNo(clientDto.getCus_no());
             entity.setName(clientDto.getName());

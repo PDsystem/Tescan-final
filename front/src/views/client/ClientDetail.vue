@@ -11,11 +11,11 @@
           <tr>
             <td class="cn_col_name" id="col-long">고객번호</td>
             <td class="col2">
-              <input  v-model="cusNo" name="cus_no" maxlength="14">
+              <input  v-model="cus_no" name="cus_no" readonly>
             </td>
             <td class="cn_col_name" id="col-long">사업자 등록번호</td>
             <td class="col2">
-              <input v-model="corRegNo" class="inputcss" name="cor_reg_no">
+              <input v-model="cor_reg_no" class="inputcss" name="cor_reg_no" readonly>
             </td>
             <td class="cn_col_name">고객명</td>                                
             <td class="col2">
@@ -107,7 +107,7 @@
       return {
         requestBody: this.$route.query,
         corRegNo: this.$route.query.corRegNo,  
-        cusNo: '',
+        cus_no: '',
         name: '',
         dept: '',
         position: '',
@@ -132,10 +132,11 @@
     methods: {
       fnGetView() {
         console.log(this.requestBody);
-        this.$axios.post(this.$serverUrl + '/client/' + this.requestBody.corRegNo, {
+        this.$axios.post(this.$serverUrl + '/client/' + this.requestBody.cus_no, {
           params: this.requestBody
         }).then((res) => {
-          this.cus_no = res.data.cusNo
+          this.cus_no = res.data.cus_no
+          this.cor_reg_no = res.data.cor_reg_no
           this.name = res.data.name
           this.dept = res.data.dept
           this.position = res.data.position
@@ -159,7 +160,7 @@
         })
       },
       fnList() {
-        delete this.requestBody.cor_reg_no
+        delete this.requestBody.cus_no
         this.$router.push({
           path: './list',
           query: this.requestBody
@@ -167,7 +168,7 @@
       },
       fnSave() {
         this.requestBody = {
-          "cor_reg_no": this.corRegNo,
+          "cor_reg_no": this.cor_reg_no,
           "cus_no":this.cus_no,
           "name":this.name,
           "dept":this.dept,
@@ -191,7 +192,8 @@
         .then((res) => {
           alert('글이 저장되었습니다.')
           console.log(res);
-          //this.fnView(res.data.idx)
+          // this.fnView(res.data.idx)
+          this.fnList()
         }).catch((err) => {
           if (err.message.indexOf('Network Error') > -1) {
             alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
@@ -201,7 +203,7 @@
       fnDelete() {
         if (!confirm("삭제하시겠습니까?")) return
   
-        this.$axios.delete(this.$serverUrl + '/client/' + this.corRegNo, {})
+        this.$axios.delete(this.$serverUrl + '/client/' + this.cus_no, {})
           .then(() => {
             alert('삭제되었습니다.')
             this.fnList();

@@ -29,12 +29,12 @@ public class ClientController {
     public Header<List<ClientDto>> clientList(@PageableDefault(sort = {"corRegNo"}) Pageable pageable
                                                     ,HttpServletRequest request,String keyword,String searchType) { 
         HttpSession session = request.getSession();
-
         return clientService.getClientList(pageable,keyword,searchType); 
     }
-    @PostMapping("/client/{x}")
-    public ClientDto getClient(@PathVariable String x) {
-        return clientService.getClient(x);
+    @PostMapping("/client/{id}")
+    public ClientDto getClient(@PathVariable String id) {
+        log.info("controller : "+id);
+        return clientService.getClient(id);
     }
 
     @PostMapping("/client")
