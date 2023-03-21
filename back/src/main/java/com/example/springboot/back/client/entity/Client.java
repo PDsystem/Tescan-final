@@ -29,7 +29,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name="TS_CLIENT")
 @Entity
-@IdClass(ClientOrganizationKey.class)
+@IdClass(ClientKey.class)
 public class Client implements Serializable{
 
     /** COR_REG_NO 사업자 등록 번호(not null) */

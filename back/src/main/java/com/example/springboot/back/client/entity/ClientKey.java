@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @Embeddable
-public class ClientOrganizationKey implements Serializable{
+public class ClientKey implements Serializable{
 
     /** COR_REG_NO 사업자 등록 번호(not null) */    
     // @Id
@@ -26,7 +26,7 @@ public class ClientOrganizationKey implements Serializable{
     private String cusNo;
 
 
-    public ClientOrganizationKey(String corRegNo, String cusNo) {
+    public ClientKey(String corRegNo, String cusNo) {
 		this.corRegNo = corRegNo;
 		this.cusNo = cusNo;
 	}

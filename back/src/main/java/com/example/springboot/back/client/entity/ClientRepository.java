@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 // import org.springframework.data.jpa.repository.JpaRepository;
 
 @EnableJpaRepositories
-public interface ClientRepository extends JpaRepository<Client, ClientOrganizationKey>  {
+public interface ClientRepository extends JpaRepository<Client, ClientKey>  {
     // @Query(value = "SELECT * FROM TS_CUSTOMER c where c.cor_reg_no like '%'+':keyword+'%' OR customer_name like '%'+':keyword+'%'order by c.cor_reg_no" ,nativeQuery = true)
 
     Page<Client> findByCorRegNoContaining(Pageable pageable, @Param("keyword")String keyword);

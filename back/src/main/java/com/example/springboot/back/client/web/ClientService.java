@@ -2,7 +2,7 @@ package com.example.springboot.back.client.web;
 
 import com.example.springboot.back.client.entity.Client;
 import com.example.springboot.back.client.entity.ClientRepository;
-import com.example.springboot.back.client.entity.ClientOrganizationKey;
+import com.example.springboot.back.client.entity.ClientKey;
 import com.example.springboot.back.client.web.dtos.ClientDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +44,7 @@ public class ClientService {
     public Header<List<ClientDto>> getClientList(Pageable pageable,String searchKeyword,String searchType) {
 
         Page<Client> clientEntities = null;
-        // ClientOrganizationKey idKey = new ClientOrganizationKey();
+        // ClientKey idKey = new ClientKey();
         // clientEntities = repository.findAll(pageable);
         if(searchKeyword==null || searchKeyword.isEmpty()){
             clientEntities = repository.findAll(pageable);
@@ -68,8 +68,8 @@ public class ClientService {
         List<ClientDto> dtos = new ArrayList<>();
         for (Client entity : clientEntities) {
             ClientDto dto = ClientDto.builder()
-                    // .cor_reg_no(entity.getClientOrganizationKey().getCorRegNo())
-                    // .cus_no(entity.getClientOrganizationKey().getCusNo())
+                    // .cor_reg_no(entity.getClientKey().getCorRegNo())
+                    // .cus_no(entity.getClientKey().getCusNo())
                     .cor_reg_no(entity.getCorRegNo())
                     .cus_no(entity.getCusNo())
                     .name(entity.getName())
@@ -104,7 +104,7 @@ public class ClientService {
      */
     public ClientDto getClient(String corRegNo,String cusNo) {
         
-        ClientOrganizationKey idKey = new ClientOrganizationKey(corRegNo,cusNo);
+        ClientKey idKey = new ClientKey(corRegNo,cusNo);
         Client entity = repository.findById(idKey).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
 
         return ClientDto.builder()
@@ -161,7 +161,7 @@ public class ClientService {
      */
     public void update(ClientDto clientDto) {
 
-        ClientOrganizationKey idKey = new ClientOrganizationKey(clientDto.getCor_reg_no(),clientDto.getCus_no());
+        ClientKey idKey = new ClientKey(clientDto.getCor_reg_no(),clientDto.getCus_no());
         Client entity = repository.findById(idKey).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
             entity.setCorRegNo(clientDto.getCor_reg_no());
             entity.setCusNo(clientDto.getCus_no());
@@ -187,7 +187,7 @@ public class ClientService {
     /** 삭제     */
     public void delete(String corRegNo,String cusNo) {
 
-        ClientOrganizationKey idKey = new ClientOrganizationKey(corRegNo,cusNo);
+        ClientKey idKey = new ClientKey(corRegNo,cusNo);
         Client entity = repository.findById(idKey).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
 
         repository.delete(entity);
