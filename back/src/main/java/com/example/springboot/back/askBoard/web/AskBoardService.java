@@ -1,6 +1,9 @@
 package com.example.springboot.back.askBoard.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,41 @@ public class AskBoardService {
     private final EntityManager em;
     //private final AskBoardController AskBoardController;
     
+
+    public Page<AskBoard> boardSearchList(){
+    // public Page<AskBoard> boardSearchList(String searchKeyword,String searchType,Pageable pageable,int page ){
+        // System.out.println(searchType);
+        // Pageable pageable;
+        int page = 1;
+        Page<AskBoard> list = askBoardRepository.findAll(PageRequest.of(page, 10));
+
+            // if(key=="TOTAL"){
+            //     System.out.println("TOTAL진입");
+            //     list=askBoardRepository.findTotal(PageRequest.of(page, 10),searchKeyword);
+            // }else if (key =="CLASSCODE"){
+            //     System.out.println("CLASS_CODE진입");
+            //     list=askBoardRepository.findCode(PageRequest.of(page, 10),searchKeyword);
+            // }else{
+            //     System.out.println("CLASSName진입");
+            //     list=askBoardRepository.findName(PageRequest.of(page, 10),searchKeyword);
+            // }
+            // switch(searchType){
+            //     case "TOTAL":
+            //     list=askBoardRepository.findTotal(PageRequest.of(page, 10),searchKeyword);
+            //     break;
+            //     case "CLASSCODE":
+            //     list=askBoardRepository.findCode(PageRequest.of(page, 10),searchKeyword);
+            //     break;
+            //     case "CLASSNAME":
+            //     list=askBoardRepository.findName(PageRequest.of(page, 10),searchKeyword);
+            //     break;
+            //     default:
+            //     list=askBoardRepository.findTotal(PageRequest.of(page, 10),searchKeyword);
+            //     break;
+            // }
+
+        return list;
+    }
     
     public AskBoardDto getBoard(String id) {  //데이터 가져오기 함수, 데이터 전송
         AskBoard entity = askBoardRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));

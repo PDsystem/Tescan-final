@@ -23,32 +23,34 @@ public class AskBoardController {
 
     // 목록 가져오기
     @PostMapping("/askBoard/List")
-    public Page<AskBoard> askBoardList(Pageable pageable, @RequestBody Map<String,Object> params) {
-        int page=0;
-        if(params.get("searchKeyword")!=null){
-            page=(int) params.get("page");
-        }
+    public Page<AskBoard> askBoardList() {
+    // public Page<AskBoard> askBoardList(Pageable pageable, @RequestBody Map<String,Object> params) {
+        // int page=0;
+        // if(params.get("searchKeyword")!=null){
+        //     page=(int) params.get("page");
+        // }
 
-        String searchKeyword=(String) params.get("searchKeyword");
-        Page<AskBoard> list = null;
-        if(params.get("searchkeyWord")!=null){
-            searchKeyword=(String) params.get("searchKeyword");
-        }
+        // String searchKeyword=(String) params.get("searchKeyword");
+        // Page<AskBoard> list = null;
+        // if(params.get("searchkeyWord")!=null){
+        //     searchKeyword=(String) params.get("searchKeyword");
+        // }
 
-        String searchType="TOTAL";
-        if(params.get("searchType")!=null){
-            searchType=(String) params.get("searchType");
-        }
+        // String searchType="TOTAL";
+        // if(params.get("searchType")!=null){
+        //     searchType=(String) params.get("searchType");
+        // }
+        return askBoardService.boardSearchList();
 
     } 
 
-    @GetMapping("/askBoard/List")
-    public List<AskBoard> askBoardList(){
-        System.out.println("=============================================");
-        List<AskBoard> askBoard = askBoardRepository.findAll();
-        System.out.println(askBoard);
-        return askBoard;
-    }
+    // @GetMapping("/askBoard/List")
+    // public List<AskBoard> askBoardList(){
+    //     System.out.println("=============================================");
+    //     List<AskBoard> askBoard = askBoardRepository.findAll();
+    //     System.out.println(askBoard);
+    //     return askBoard;
+    // }
 
     @PostMapping("/askBoard")
     public void create(@RequestBody AskBoardDto AskBoardDto) {
