@@ -6,7 +6,6 @@ import com.example.springboot.back.customer.web.dtos.CustomerDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import com.example.springboot.back.model.*;
 
 import javax.persistence.EntityManager;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service

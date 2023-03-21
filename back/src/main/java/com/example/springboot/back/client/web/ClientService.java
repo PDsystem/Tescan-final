@@ -57,6 +57,9 @@ public class ClientService {
                     // clientEntities = repository.findByCorRegNoOrClientNameContaining(pageable,searchKeyword);
                     break;
                 case "CORREGNO": 
+                clientEntities = repository.findByCorRegNoContaining(pageable,searchKeyword);
+                break;
+                case "CUSNO": 
                     clientEntities = repository.findByCorRegNoContaining(pageable,searchKeyword);
                     break;
                 case "NAME": 

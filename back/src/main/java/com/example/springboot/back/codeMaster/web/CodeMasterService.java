@@ -21,9 +21,7 @@ import com.example.springboot.back.codeMaster.entity.CodeMasterRepository;
 import com.example.springboot.back.codeMaster.web.dtos.CodeMasterDto;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CodeMasterService {

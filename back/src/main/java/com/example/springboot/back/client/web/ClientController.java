@@ -39,12 +39,14 @@ public class ClientController {
 
     @PostMapping("/client")
     public void create(@RequestBody ClientDto clientDto) {
+        System.out.println(clientDto.getCor_reg_no());
+    
+        System.out.println(clientDto.getCus_no());
         clientService.create(clientDto);
     }
-
+    
     @PatchMapping("/client")
     public void update(@RequestBody ClientDto clientDto) {
-        System.out.println(clientDto.getCor_reg_no());
         clientService.update(clientDto);
     }
 
