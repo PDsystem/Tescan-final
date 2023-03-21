@@ -20,7 +20,7 @@ public class ClientOrganizationKey implements Serializable{
     @Column(name = "cor_reg_no",nullable = false, unique = true)
     private String corRegNo;
 
-    /* CUS_NO 고객번호(not null) */
+    /* CUS_NO 고객번호(not null) */ 
     // @Id
     @Column(name = "cus_no",nullable = false, unique = true)
     private String cusNo;
