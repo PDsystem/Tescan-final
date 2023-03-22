@@ -1,15 +1,18 @@
 package com.example.springboot.back.askBoard.web;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.springboot.back.askBoard.entity.AskBoard;
-import com.example.springboot.back.askBoard.entity.AskBoardRepository;
 import com.example.springboot.back.askBoard.web.dtos.AskBoardDto;
 
 import lombok.RequiredArgsConstructor;
@@ -29,10 +32,12 @@ import lombok.RequiredArgsConstructor;
         if(params.get("page")!=null){
             page=(int) params.get("page");
         }
-        String searchType= null;
+        // 검색어 분류코드
+        String searchType= "";
         if(params.get("searchType")!=null) {
             searchType=(String) params.get("searchType");
         }
+        // 검색란 
         String searchKeyword=(String) params.get("searchKeyword");
         Page<AskBoard> askList = null;
         if(searchKeyword ==null){
@@ -42,7 +47,6 @@ import lombok.RequiredArgsConstructor;
         }
 
         return askList;
-
     } 
     
     // @GetMapping("/askBoard/List")
@@ -53,6 +57,7 @@ import lombok.RequiredArgsConstructor;
     //     return askBoard;
     // }
 
+    //추가
     @PostMapping("/askBoard")
     public void create(@RequestBody AskBoardDto AskBoardDto) {
         System.out.println("######################");
@@ -60,6 +65,7 @@ import lombok.RequiredArgsConstructor;
         askBoardService.create(AskBoardDto);
     }
 
+    //수정
    @PatchMapping("/askBoard")
     public void update(@RequestBody AskBoardDto AskBoardDto) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -67,9 +73,9 @@ import lombok.RequiredArgsConstructor;
         askBoardService.update(AskBoardDto);
     }
 
+    //삭제
     @DeleteMapping("/askBoard/{id}")
     public void delete(@PathVariable String id) {
         askBoardService.delete(id);
     }
 }
-

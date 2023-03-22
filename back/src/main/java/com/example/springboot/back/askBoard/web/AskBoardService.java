@@ -33,14 +33,10 @@ public class AskBoardService {
      * @return
      */
     public Page<AskBoard> getaskBoardList(Pageable pageable, int page) {
-        
         return askBoardRepository.findAll(PageRequest.of(page, 10));
-       
     }
-    
 
     public Page<AskBoard> askBoardSearchList(String searchKeyword, Pageable pageable, int page, String searchType){
-
         Page<AskBoard> asklist = null;
         switch(searchType){
             case "CONTENT_NO":
@@ -59,10 +55,8 @@ public class AskBoardService {
 
         return asklist;
     }
-    
 
     public Page<AskBoard> boardSearchList(){
-   
     // public Page<AskBoard> boardSearchList(String searchKeyword,String searchType,Pageable pageable,int page ){
         // System.out.println(searchType);
         // Pageable pageable;
@@ -72,7 +66,8 @@ public class AskBoardService {
         return list;
     }
 
-    public AskBoardDto getBoard(String id) {  //데이터 가져오기 함수, 데이터 전송
+    //데이터 가져오기 함수, 데이터 전송
+    public AskBoardDto getBoard(String id) {  
         AskBoard entity = askBoardRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
         return AskBoardDto.builder()
             .content_no(entity.getContentNo())
@@ -83,12 +78,10 @@ public class AskBoardService {
             .content_date(entity.getContentDate())
             .disclosure(entity.getDisclosure())
             .build();
-        
     }
+
     //생성
-
     public void create(AskBoardDto askBoardDto) {
-
         AskBoard entity=AskBoard.builder().
                         contentNo(askBoardDto.getContent_no()).
                         contentTitle(askBoardDto.getContent_title()).
@@ -105,7 +98,6 @@ public class AskBoardService {
     //     System.out.println(askBoardRepository.askBoardMax());
     //     return askBoardRepository.askBoardMax();
     // }
-
 
     //수정
     public void update(AskBoardDto askBoardDto) {
@@ -125,9 +117,5 @@ public class AskBoardService {
     public void delete(String id) {
         AskBoard entity = askBoardRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
         askBoardRepository.delete(entity);
-
     }
-
-    
-
 }

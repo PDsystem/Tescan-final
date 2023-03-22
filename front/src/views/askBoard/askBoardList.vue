@@ -175,11 +175,13 @@ export default {
 
     this.requestBody = { // 데이터 전송
       searchKeyword: this.searchKeyword,
-      searchType:this.searchType,
+      searchType: this.searchType,
       page: currentPage-1,
       size: 10
+
 }
-this.$axios.post(this.$serverUrl+"/askBoard/List",
+console.log("메롱");
+this.$axios.post(this.$serverUrl + "/askBoard/List",
   this.requestBody
   
   ).then((res) => {
@@ -190,9 +192,9 @@ this.$axios.post(this.$serverUrl+"/askBoard/List",
     this.paging.total_list_cnt =res.data.total_elements;
     this.paging.page=res.data.pageable.page_number+1;
 
-}).catch(() => {
-  window.alert("네트워크 통신 이상");
-});
+  }).catch(() => {
+    window.alert("네트워크 통신 이상");
+  });
 },
 
 searchType(){
@@ -200,7 +202,7 @@ searchType(){
 },
 
     fnView(content_no) {
-      // console.log("딱딱")
+      console.log("딱딱")
       this.$axios.get(this.$serverUrl + '/askBoard/' + content_no)
       .then((res) => {
                     //console.log(res.data) // res.data 안에 데이터 잘 들어왔다
