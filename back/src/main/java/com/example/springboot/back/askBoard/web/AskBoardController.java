@@ -45,6 +45,9 @@ import lombok.RequiredArgsConstructor;
         }else{
             askList= askBoardService.askBoardSearchList(searchKeyword, pageable, page,searchType);
         }
+        System.out.println(searchKeyword);
+        System.out.println(page);
+        System.out.println(searchType);
 
         return askList;
     } 

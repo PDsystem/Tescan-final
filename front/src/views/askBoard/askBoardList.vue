@@ -8,6 +8,7 @@
         <div class="menu_left">
           <div>
             <select class="dropdown_list" @change="searchType()">
+              <option>선택</option>
               <option value="CONTENT_NO">글번호</option>
               <option value="CONTENT_TITLE">제목</option>
               <option value="CONTENT_ID">아이디</option>
@@ -172,15 +173,13 @@ export default {
   },
   methods: {
     codeSearch(currentPage){
-
     this.requestBody = { // 데이터 전송
       searchKeyword: this.searchKeyword,
-      searchType: this.searchType,
+      searchType: this.requestBody.searchType,
       page: currentPage-1,
       size: 10
-
 }
-console.log("메롱");
+
 this.$axios.post(this.$serverUrl + "/askBoard/List",
   this.requestBody
   
@@ -201,36 +200,36 @@ searchType(){
   this.requestBody.searchType=event.target.value;
 },
 
-    fnView(content_no) {
-      console.log("딱딱")
-      this.$axios.get(this.$serverUrl + '/askBoard/' + content_no)
-      .then((res) => {
-                    //console.log(res.data) // res.data 안에 데이터 잘 들어왔다
+    // fnView(content_no) {
+    //   console.log("딱딱")
+    //   this.$axios.get(this.$serverUrl + '/askBoard/' + content_no)
+    //   .then((res) => {
+    //                 //console.log(res.data) // res.data 안에 데이터 잘 들어왔다
 
-                    this.content_no = res.data.content_no
-                    this.content_title = res.data.content_title
-                    this.content_id = res.data.content_id
-                    this.content_pw = res.data.content_pw
-                    this.content_date = res.data.content_date
-                    this.disclosure = res.data.disclosure
-                    this.contents = res.data.contents
+    //                 this.content_no = res.data.content_no
+    //                 this.content_title = res.data.content_title
+    //                 this.content_id = res.data.content_id
+    //                 this.content_pw = res.data.content_pw
+    //                 this.content_date = res.data.content_date
+    //                 this.disclosure = res.data.disclosure
+    //                 this.contents = res.data.contents
                     
-                    console.log("content_no :" + this.content_no)
-                    console.log("content_title :" + this.content_title)
-                    console.log("content_id :" + this.content_id)
-                    console.log("content_pw :" + this.content_pw)
-                    console.log("content_date :" + this.content_date)
-                    console.log("disclosure :" + this.disclosure)
-                    console.log("contents :" + this.contents)
+    //                 console.log("content_no :" + this.content_no)
+    //                 console.log("content_title :" + this.content_title)
+    //                 console.log("content_id :" + this.content_id)
+    //                 console.log("content_pw :" + this.content_pw)
+    //                 console.log("content_date :" + this.content_date)
+    //                 console.log("disclosure :" + this.disclosure)
+    //                 console.log("contents :" + this.contents)
                     
-                    this.isModalOpened = false;
+    //                 this.isModalOpened = false;
 
-                }).catch((err) => {
-                    if (err.message > -1) {
-                        alert('네트워크가 원활하지 않습니다.\n 잠시 후 다시 시도해 주세요.')
-                    }
-                })
-        },
+    //             }).catch((err) => {
+    //                 if (err.message > -1) {
+    //                     alert('네트워크가 원활하지 않습니다.\n 잠시 후 다시 시도해 주세요.')
+    //                 }
+    //             })
+    //     },
     //     fnPage(n) {
     //   if (this.page !== n ) {
     //     this.page = n
