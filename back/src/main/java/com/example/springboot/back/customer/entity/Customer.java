@@ -2,12 +2,8 @@ package com.example.springboot.back.customer.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-// import javax.persistence.GeneratedValue;
-// import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-// import javax.persistence.JoinColumn;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,17 +39,11 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Customer{
 
-    // /* rowNum */
-    // private int row_num;
-
     /* cor_reg_no 사업자 등록번호(not null) */
     @Id
     @Column(name = "cor_reg_no",nullable = false, unique = true)
     private String corRegNo;
         
-    // /* CUS_NO 고객번호(not null) */
-    // private String cusNo;
-
     /* CUSTOMER_NAME 고객명(not null) */
     private String customerName;
 

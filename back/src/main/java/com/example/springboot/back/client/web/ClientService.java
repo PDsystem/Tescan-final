@@ -2,11 +2,11 @@ package com.example.springboot.back.client.web;
 
 import com.example.springboot.back.client.entity.Client;
 import com.example.springboot.back.client.entity.ClientRepository;
+import com.example.springboot.back.client.entity.ClientKey;
 import com.example.springboot.back.client.web.dtos.ClientDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import com.example.springboot.back.model.*;
 
 import javax.persistence.EntityManager;
@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @Transactional
 @Service
@@ -45,21 +44,22 @@ public class ClientService {
     public Header<List<ClientDto>> getClientList(Pageable pageable,String searchKeyword,String searchType) {
 
         Page<Client> clientEntities = null;
+        // ClientKey idKey = new ClientKey();
         // clientEntities = repository.findAll(pageable);
         if(searchKeyword==null || searchKeyword.isEmpty()){
             clientEntities = repository.findAll(pageable);
         }else{
             switch(searchType) {
                 case "": 
-                    // clientEntities = repository.findByCorRegNoOrClientNameContaining(pageable,searchKeyword);
+                    // clientEntities = repository.findByCorRegNoOrClientNameContaining(pageable,searchKeyword); clientOrganizationKey
                     break;
                 case "CORREGNO": 
                 clientEntities = repository.findByCorRegNoContaining(pageable,searchKeyword);
                 break;
                 case "CUSNO": 
-                    clientEntities = repository.findByCorRegNoContaining(pageable,searchKeyword);
+                    clientEntities = repository.findByCusNoContaining(pageable,searchKeyword);
                     break;
-                case "NAME": 
+                case "CUSTOMERNAME": 
                     clientEntities = repository.findByNameContaining(pageable,searchKeyword);
                     break;
             }
@@ -68,6 +68,8 @@ public class ClientService {
         List<ClientDto> dtos = new ArrayList<>();
         for (Client entity : clientEntities) {
             ClientDto dto = ClientDto.builder()
+                    // .cor_reg_no(entity.getClientKey().getCorRegNo())
+                    // .cus_no(entity.getClientKey().getCusNo())
                     .cor_reg_no(entity.getCorRegNo())
                     .cus_no(entity.getCusNo())
                     .name(entity.getName())
@@ -100,53 +102,31 @@ public class ClientService {
         /**
      * 단건 가져오기
      */
-    public ClientDto getClient(String id) {
+    public ClientDto getClient(String corRegNo,String cusNo) {
         
-        log.info("service : "+id);
-        
-        Client entity = repository.findById(id).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
-        ClientDto s = ClientDto.builder()
-        .cor_reg_no(entity.getCorRegNo())
-        .cus_no(entity.getCusNo())
-        .name(entity.getName())
-        .dept(entity.getDept())
-        .position(entity.getPosition())
-        .zip(entity.getZip())
-        .address1(entity.getAddress1())
-        .address2(entity.getAddress2())
-        .email(entity.getEmail())
-        .semail(entity.getSemail())
-        .tel(entity.getTel())
-        .phone(entity.getPhone())
-        .engineer(entity.getEngineer())
-        .reg_date(entity.getRegDate())
-        .reg_id(entity.getRegId())
-        .mod_date(entity.getModDate())
-        .mod_id(entity.getModId())
-        .note(entity.getNote())
-        .build();
-        System.out.println(s.getCus_no());
-        // return ClientDto.builder()
-        //                 .cor_reg_no(entity.getCorRegNo())
-        //                 .cus_no(entity.getCusNo())
-        //                 .name(entity.getName())
-        //                 .dept(entity.getDept())
-        //                 .position(entity.getPosition())
-        //                 .zip(entity.getZip())
-        //                 .address1(entity.getAddress1())
-        //                 .address2(entity.getAddress2())
-        //                 .email(entity.getEmail())
-        //                 .semail(entity.getSemail())
-        //                 .tel(entity.getTel())
-        //                 .phone(entity.getPhone())
-        //                 .engineer(entity.getEngineer())
-        //                 .reg_date(entity.getRegDate())
-        //                 .reg_id(entity.getRegId())
-        //                 .mod_date(entity.getModDate())
-        //                 .mod_id(entity.getModId())
-        //                 .note(entity.getNote())
-        //                 .build();
-   return s; 
+        ClientKey idKey = new ClientKey(corRegNo,cusNo);
+        Client entity = repository.findById(idKey).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
+
+        return ClientDto.builder()
+                        .cor_reg_no(entity.getCorRegNo())
+                        .cus_no(entity.getCusNo())
+                        .name(entity.getName())
+                        .dept(entity.getDept())
+                        .position(entity.getPosition())
+                        .zip(entity.getZip())
+                        .address1(entity.getAddress1())
+                        .address2(entity.getAddress2())
+                        .email(entity.getEmail())
+                        .semail(entity.getSemail())
+                        .tel(entity.getTel())
+                        .phone(entity.getPhone())
+                        .engineer(entity.getEngineer())
+                        .reg_date(entity.getRegDate())
+                        .reg_id(entity.getRegId())
+                        .mod_date(entity.getModDate())
+                        .mod_id(entity.getModId())
+                        .note(entity.getNote())
+                        .build();
     }
 
     /** 등록     */
@@ -180,7 +160,9 @@ public class ClientService {
      * 수정
      */
     public void update(ClientDto clientDto) {
-        Client entity = repository.findById(clientDto.getCus_no()).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
+
+        ClientKey idKey = new ClientKey(clientDto.getCor_reg_no(),clientDto.getCus_no());
+        Client entity = repository.findById(idKey).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
             entity.setCorRegNo(clientDto.getCor_reg_no());
             entity.setCusNo(clientDto.getCus_no());
             entity.setName(clientDto.getName());
@@ -202,11 +184,12 @@ public class ClientService {
     
     }
 
-    /**
-     * 삭제
-     */
-    public void delete(String id) {
-        Client entity = repository.findById(id).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
+    /** 삭제     */
+    public void delete(String corRegNo,String cusNo) {
+
+        ClientKey idKey = new ClientKey(corRegNo,cusNo);
+        Client entity = repository.findById(idKey).orElseThrow(() -> new RuntimeException("거래처 정보를 찾을 수 없습니다."));
+
         repository.delete(entity);
     
     }
