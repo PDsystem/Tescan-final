@@ -26,6 +26,41 @@ public class AskBoardService {
     private final EntityManager em;
     //private final AskBoardController AskBoardController;
 
+    /**
+     * findAll() 전체를 보여주는 리스트
+     * @param pageable
+     * @param page
+     * @return
+     */
+    public Page<AskBoard> getaskBoardList(Pageable pageable, int page) {
+        
+        return askBoardRepository.findAll(PageRequest.of(page, 10));
+       
+    }
+    
+
+    public Page<AskBoard> askBoardSearchList(String searchKeyword, Pageable pageable, int page, String searchType){
+
+        Page<AskBoard> asklist = null;
+        switch(searchType){
+            case "CONTENT_NO":
+            asklist=askBoardRepository.findByContentNoContaining(searchKeyword, PageRequest.of(page, 10));
+            break;
+            case "CONTENT_ID":
+            asklist=askBoardRepository.findByContentIdContaining(searchKeyword, PageRequest.of(page, 10));
+            break;
+            case "CONTENTS":
+            asklist=askBoardRepository.findByContentsContaining(searchKeyword, PageRequest.of(page, 10));
+            break;
+            // default:
+            // asklist=askBoardRepository.findTotal(PageRequest.of(page, 10),searchKeyword);
+            // break;
+        }
+
+        return asklist;
+    }
+    
+
     public Page<AskBoard> boardSearchList(){
    
     // public Page<AskBoard> boardSearchList(String searchKeyword,String searchType,Pageable pageable,int page ){
@@ -35,10 +70,8 @@ public class AskBoardService {
         Page<AskBoard> list = askBoardRepository.findAll(PageRequest.of(page, 10));
 
         return list;
-
     }
 
-    
     public AskBoardDto getBoard(String id) {  //데이터 가져오기 함수, 데이터 전송
         AskBoard entity = askBoardRepository.findById(id).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
         return AskBoardDto.builder()
@@ -94,5 +127,7 @@ public class AskBoardService {
         askBoardRepository.delete(entity);
 
     }
+
+    
 
 }

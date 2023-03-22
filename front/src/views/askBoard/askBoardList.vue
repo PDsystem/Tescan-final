@@ -7,10 +7,10 @@
       <div class="menu">
         <div class="menu_left">
           <div>
-            <select class="dropdown_list">
-              <option>선택</option>
-              <option>제목</option>
-              <option>아이디</option>
+            <select class="dropdown_list" @change="searchType()">
+              <option value="CONTENT_NO">글번호</option>
+              <option value="CONTENT_TITLE">제목</option>
+              <option value="CONTENT_ID">아이디</option>
             </select>
           </div>
           <input type="text" name="searchKeyword" v-model="searchKeyword"/>
@@ -95,20 +95,20 @@
     </div>
     <div class="pagination w3-bar w3-padding-16 w3-small" v-if="paging.total_list_cnt > 0">
     <span class="pg">
-    <a href="javascript:;" @click="fnPage(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
-    <a href="javascript:;" v-if="paging.start_page > 10" @click="fnPage(`${paging.start_page-1}`)"
+    <a href="javascript:;" @click="codeSearch(1)" class="first w3-button w3-bar-item w3-border">&lt;&lt;</a>
+    <a href="javascript:;" v-if="paging.start_page > 10" @click="codeSearch(`${paging.start_page-1}`)"
        class="prev w3-button w3-bar-item w3-border">&lt;</a>
     <template v-for=" (n,index) in paginavigation()">
         <template v-if="paging.page==n">
             <strong class="w3-button w3-bar-item w3-border w3-green" :key="index">{{ n }}</strong>
         </template>
         <template v-else>
-            <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="fnPage(`${n}`)" :key="index">{{ n }}</a>
+            <a class="w3-button w3-bar-item w3-border" href="javascript:;" @click="codeSearch(`${n}`)" :key="index">{{ n }}</a>
         </template>
     </template>
     <a href="javascript:;" v-if="paging.total_page_cnt > paging.end_page"
-       @click="fnPage(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
-    <a href="javascript:;" @click="fnPage(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
+       @click="codeSearch(`${paging.end_page+1}`)" class="next w3-button w3-bar-item w3-border">&gt;</a>
+    <a href="javascript:;" @click="codeSearch(`${paging.total_page_cnt}`)" class="last w3-button w3-bar-item w3-border">&gt;&gt;</a>
     </span>
   </div>
   </div>
@@ -175,6 +175,7 @@ export default {
 
     this.requestBody = { // 데이터 전송
       searchKeyword: this.searchKeyword,
+      searchType:this.searchType,
       page: currentPage-1,
       size: 10
 }
@@ -192,6 +193,10 @@ this.$axios.post(this.$serverUrl+"/askBoard/List",
 }).catch(() => {
   window.alert("네트워크 통신 이상");
 });
+},
+
+searchType(){
+  this.requestBody.searchType=event.target.value;
 },
 
     fnView(content_no) {
@@ -224,12 +229,12 @@ this.$axios.post(this.$serverUrl+"/askBoard/List",
                     }
                 })
         },
-        fnPage(n) {
-      if (this.page !== n ) {
-        this.page = n
-        this.codeSearch(n)
-      }
-    },
+    //     fnPage(n) {
+    //   if (this.page !== n ) {
+    //     this.page = n
+    //     this.codeSearch(n)
+    //   }
+    // },
 
       fnSave() {
       this.requestBody = {

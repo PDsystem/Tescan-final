@@ -16,34 +16,35 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @CrossOrigin
-@RestController
-public class AskBoardController {
-    private final AskBoardRepository askBoardRepository;
+@RestController 
+    public class AskBoardController {
+   // private final AskBoardRepository askBoardRepository;
     private final AskBoardService askBoardService;
 
     // 목록 가져오기
     @PostMapping("/askBoard/List")
-    public Page<AskBoard> askBoardList() {
-    // public Page<AskBoard> askBoardList(Pageable pageable, @RequestBody Map<String,Object> params) {
-        // int page=0;
-        // if(params.get("searchKeyword")!=null){
-        //     page=(int) params.get("page");
-        // }
+    // public Page<AskBoard> askBoardList() {
+    public Page<AskBoard> askBoardList(Pageable pageable, @RequestBody Map<String,Object> params) {
+        int page=0;
+        if(params.get("page")!=null){
+            page=(int) params.get("page");
+        }
+        String searchType= null;
+        if(params.get("searchType")!=null) {
+            searchType=(String) params.get("searchType");
+        }
+        String searchKeyword=(String) params.get("searchKeyword");
+        Page<AskBoard> askList = null;
+        if(searchKeyword ==null){
+            askList=askBoardService.getaskBoardList(pageable,page);
+        }else{
+            askList= askBoardService.askBoardSearchList(searchKeyword, pageable, page,searchType);
+        }
 
-        // String searchKeyword=(String) params.get("searchKeyword");
-        // Page<AskBoard> list = null;
-        // if(params.get("searchkeyWord")!=null){
-        //     searchKeyword=(String) params.get("searchKeyword");
-        // }
-
-        // String searchType="TOTAL";
-        // if(params.get("searchType")!=null){
-        //     searchType=(String) params.get("searchType");
-        // }
-        return askBoardService.boardSearchList();
+        return askList;
 
     } 
-
+    
     // @GetMapping("/askBoard/List")
     // public List<AskBoard> askBoardList(){
     //     System.out.println("=============================================");
