@@ -1,6 +1,6 @@
 <template>
     <div class="cn_headerline">
-        <h5>거래처 현황(Customer+CustomerInfo)</h5>
+        <h5>거래처 조회(Customer)</h5>
     </div>
     <div class="board-list">        
         <div class="cn_menu">

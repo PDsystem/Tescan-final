@@ -27,8 +27,8 @@
             </li>
             <li><a href="/customer/list">거래처 관리</a>
               <ul>
-                <li><a href="/client/list">거래처 등록</a></li>
-                <li><a href="/customer/list">거래처 현황</a></li>
+                <li><a href="/customer/list">거래처 목록</a></li>
+                <li><a href="/client/list">거래처 직원 목록</a></li>
               </ul>
             </li>
             <li><a href="/salesOppo/oppo">영업부관리</a>

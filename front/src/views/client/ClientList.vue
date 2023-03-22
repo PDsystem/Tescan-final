@@ -1,6 +1,6 @@
 <template>
     <div class="cn_headerline">
-        <h5>거래처 아이디 목록(Client)</h5>
+        <h5>거래처 직원 목록(Client)</h5>
     </div>
     <div class="board-list">        
         <div class="cn_menu">
