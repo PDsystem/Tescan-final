@@ -10,8 +10,9 @@
             <select class="dropdown_list" @change="searchType()">
               <option>선택</option>
               <option value="CONTENT_NO">글번호</option>
+              <option value="CONTENT_ID">작성자</option>
               <option value="CONTENT_TITLE">제목</option>
-              <option value="CONTENT_ID">아이디</option>
+
             </select>
           </div>
           <input type="text" name="searchKeyword" v-model="searchKeyword"/>
@@ -24,7 +25,7 @@
         <tr>
           <td class="col_name">글 번호</td>
           <td class="col_data">
-            <input v-model="content_no" class="inputcss" name="content_no">
+            <input v-model="content_no" class="inputcss" name="content_no" maxlength='5'>
           </td>
           <td class="col_name">ID</td>
           <td class="col_data">
@@ -32,7 +33,7 @@
           </td>
           <td class="col_name">PASSWORD</td>
           <td class="col_data">
-            <input v-model="content_pw" type="text" name="content_pw">
+            <input v-model="content_pw" type="password" name="content_pw">
           </td>
         </tr>
         <tr>
@@ -40,15 +41,14 @@
           <td class="col_data">
             <input v-model="content_title" type="text" name="content_title">
           </td>
-          <td class="col_name">등록날짜</td>
+          <td class="col_name">등록일자</td>
           <td class="col_data">
-            <input v-model="content_date" class="emp_cal" type="date" name="contnent_date">
+            <input v-model="content_date" class="emp_cal" name="input_date" readonly>
           </td>
-          <td class="col_name">공개여부</td>
-          <div>
-            <input type="checkbox" v-model='checkedValues' value="Y" @change="clickFunc" name="checkedValues">공개&nbsp;
-            <input type="checkbox" v-model='checkedValues' value="N" @change="clickFunc" name="checkedValues">비공개
-          </div>
+          <td class="col_name">수정날짜</td>
+          <td class="col_data">
+            <input class="emp_cal" type="date" name="input_date">
+          </td>
         </tr>
         <tr>
           <td class="col_name">내용</td>
@@ -69,16 +69,15 @@
           <button class="emp_btn mr_5" @click="fnReset">초기화</button>
         </div>
       </div>
-      <table>
+      <table class="contents">
         <thead>
           <tr>
             <th>번호</th>
             <th>제목</th>
             <th>작성자</th>
-            <th>비밀번호</th>
             <th>날짜</th>
-            <th>공개 여부</th>
             <th>내용</th>
+            <th>공개여부</th>
           </tr>
         </thead>
         <tbody>
@@ -86,7 +85,6 @@
             <td>{{ row.content_no }}</td>
             <td>{{ row.content_title }}</td>
             <td>{{ row.content_id }}</td>
-            <td>{{ row.content_pw }}</td>
             <td>{{ row.content_date }}</td>
             <td>{{ row.contents }}</td>
             <td>{{ row.disclosure }}</td>
@@ -143,9 +141,6 @@ export default {
         total_block_cnt: 0,
         total_list_cnt: 0,
         total_page_cnt: 0,
-        // requestBody: this.$route.query,
-        // content_no: this.$route.query.content_no,
-
       },
       
       paginavigation: function () { //페이징 처리 for문 커스텀
@@ -200,43 +195,6 @@ searchType(){
   this.requestBody.searchType=event.target.value;
 },
 
-    // fnView(content_no) {
-    //   console.log("딱딱")
-    //   this.$axios.get(this.$serverUrl + '/askBoard/' + content_no)
-    //   .then((res) => {
-    //                 //console.log(res.data) // res.data 안에 데이터 잘 들어왔다
-
-    //                 this.content_no = res.data.content_no
-    //                 this.content_title = res.data.content_title
-    //                 this.content_id = res.data.content_id
-    //                 this.content_pw = res.data.content_pw
-    //                 this.content_date = res.data.content_date
-    //                 this.disclosure = res.data.disclosure
-    //                 this.contents = res.data.contents
-                    
-    //                 console.log("content_no :" + this.content_no)
-    //                 console.log("content_title :" + this.content_title)
-    //                 console.log("content_id :" + this.content_id)
-    //                 console.log("content_pw :" + this.content_pw)
-    //                 console.log("content_date :" + this.content_date)
-    //                 console.log("disclosure :" + this.disclosure)
-    //                 console.log("contents :" + this.contents)
-                    
-    //                 this.isModalOpened = false;
-
-    //             }).catch((err) => {
-    //                 if (err.message > -1) {
-    //                     alert('네트워크가 원활하지 않습니다.\n 잠시 후 다시 시도해 주세요.')
-    //                 }
-    //             })
-    //     },
-    //     fnPage(n) {
-    //   if (this.page !== n ) {
-    //     this.page = n
-    //     this.codeSearch(n)
-    //   }
-    // },
-
       fnSave() {
       this.requestBody = {
         "content_no": this.content_no,
@@ -251,7 +209,7 @@ searchType(){
       alert("글을 저장하시겠습니까?")
       //INSERT
       this.$axios.post(this.$serverUrl + "/askBoard", this.requestBody)
-        .then((res) => {
+        .then(() => {
           alert('글이 저장되었습니다.')
         }).catch((err) => {
           if (err.message.indexOf('Network Error') > -1) {
@@ -273,7 +231,7 @@ searchType(){
       console.log(this.requestBody);
       //INSERT
       this.$axios.patch(this.$serverUrl + "/askBoard", this.requestBody )
-      .then((res) => {
+      .then(() => {
         alert('글이 저장되었습니다.')
       }).catch((err) => {
         if (err.message.indexOf('Network Error') > -1) {
@@ -303,16 +261,6 @@ searchType(){
       }
       this.$emit('checkClick', this.checkedValues)
     },
-
-    // fnList() {
-    //     delete this.requestBody.content_no
-    //     this.$router.push({
-    //       path: './list',
-    //       query: this.requestBody
-    //     })
-    //   },
-
-
 
     fnDelete() {
         if (!confirm("삭제하시겠습니까?")) return
@@ -352,12 +300,12 @@ searchType(){
             //데이터부분 초기화
             this.content_no="";
             this.content_title="";
+            this.contents="";
             this.content_id="";
             this.content_date="";
             this.content_pw="";
             this.disclosure="";
-            this.contents="";
-
+            
             //리스트 불러오기
             this.codeSearch();
         },
@@ -371,10 +319,6 @@ searchType(){
         this.list = res.data
         console.log(this.list);
 
-      }).catch((err) => {
-        if (err.message.indexOf('Network Error') > -1) {
-          alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
-        }
       })
     }
   }

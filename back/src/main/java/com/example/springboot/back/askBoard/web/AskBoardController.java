@@ -21,12 +21,10 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin
 @RestController 
     public class AskBoardController {
-   // private final AskBoardRepository askBoardRepository;
     private final AskBoardService askBoardService;
 
     // 목록 가져오기
     @PostMapping("/askBoard/List")
-    // public Page<AskBoard> askBoardList() {
     public Page<AskBoard> askBoardList(Pageable pageable, @RequestBody Map<String,Object> params) {
         int page=0;
         if(params.get("page")!=null){
@@ -52,14 +50,6 @@ import lombok.RequiredArgsConstructor;
         return askList;
     } 
     
-    // @GetMapping("/askBoard/List")
-    // public List<AskBoard> askBoardList(){
-    //     System.out.println("=============================================");
-    //     List<AskBoard> askBoard = askBoardRepository.findAll();
-    //     System.out.println(askBoard);
-    //     return askBoard;
-    // }
-
     //추가
     @PostMapping("/askBoard")
     public void create(@RequestBody AskBoardDto AskBoardDto) {

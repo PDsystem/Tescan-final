@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.EntityManager;
 
 import com.example.springboot.back.askBoard.entity.AskBoard;
@@ -26,6 +28,8 @@ public class AskBoardService {
     private final EntityManager em;
     //private final AskBoardController AskBoardController;
 
+    private LocalDateTime LocalDateTime;
+
     /**
      * findAll() 전체를 보여주는 리스트
      * @param pageable
@@ -35,18 +39,19 @@ public class AskBoardService {
     public Page<AskBoard> getaskBoardList(Pageable pageable, int page) {
         return askBoardRepository.findAll(PageRequest.of(page, 10));
     }
-
+    
+    // 검색분류(글번호, 제목, 아이디 선택박스조건으로 검색)
     public Page<AskBoard> askBoardSearchList(String searchKeyword, Pageable pageable, int page, String searchType){
         Page<AskBoard> asklist = null;
         switch(searchType){
             case "CONTENT_NO":
             asklist=askBoardRepository.findByContentNoContaining(searchKeyword, PageRequest.of(page, 10));
             break;
+            case "CONTENT_TITLE":
+            asklist=askBoardRepository.findByContentsContaining(searchKeyword, PageRequest.of(page, 10));
+            break;
             case "CONTENT_ID":
             asklist=askBoardRepository.findByContentIdContaining(searchKeyword, PageRequest.of(page, 10));
-            break;
-            case "CONTENTS":
-            asklist=askBoardRepository.findByContentsContaining(searchKeyword, PageRequest.of(page, 10));
             break;
             // default:
             // asklist=askBoardRepository.findTotal(PageRequest.of(page, 10),searchKeyword);
@@ -55,11 +60,8 @@ public class AskBoardService {
 
         return asklist;
     }
-
+    
     public Page<AskBoard> boardSearchList(){
-    // public Page<AskBoard> boardSearchList(String searchKeyword,String searchType,Pageable pageable,int page ){
-        // System.out.println(searchType);
-        // Pageable pageable;
         int page = 1;
         Page<AskBoard> list = askBoardRepository.findAll(PageRequest.of(page, 10));
 
@@ -88,16 +90,11 @@ public class AskBoardService {
                         contents(askBoardDto.getContents()).
                         contentId(askBoardDto.getContent_id()).
                         contentPw(askBoardDto.getContent_pw()).
-                        contentDate(askBoardDto.getContent_date()).
+                        contentDate(LocalDateTime.now()).
                         disclosure(askBoardDto.getDisclosure()).
                         build();
         em.persist(entity);
     }
-
-    // public String askBoardMax() {
-    //     System.out.println(askBoardRepository.askBoardMax());
-    //     return askBoardRepository.askBoardMax();
-    // }
 
     //수정
     public void update(AskBoardDto askBoardDto) {
@@ -107,7 +104,6 @@ public class AskBoardService {
         entity.setContents(askBoardDto.getContents());
         entity.setContentId(askBoardDto.getContent_id());
         entity.setContentPw(askBoardDto.getContent_pw());
-        entity.setContentDate(askBoardDto.getContent_date());
         entity.setDisclosure(askBoardDto.getDisclosure());
 
         askBoardRepository.save(entity);
