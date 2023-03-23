@@ -81,7 +81,9 @@ public class SalesOppoController {
 
     //삭제
     @DeleteMapping("/salesOppoDelete/{empno}/{corRegNo}/{regDate}")
-    public void delete(@PathVariable String empno, @PathVariable String corRegNo, @PathVariable LocalDateTime regDate) {
+    public void delete(@PathVariable String empno, @PathVariable String corRegNo, @PathVariable String regDate) {
+        System.out.println("-----------------------"+regDate);
+        
         salesOppoService.delete(empno, corRegNo, regDate);
     }
 }
