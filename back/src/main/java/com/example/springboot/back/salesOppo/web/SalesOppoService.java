@@ -2,6 +2,7 @@ package com.example.springboot.back.salesOppo.web;
 
 import java.time.LocalDateTime;
 // import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -27,6 +28,11 @@ public class SalesOppoService {
     private final SalesOppoRepository salesOppoRepository;
     private final EntityManager em;
 
+
+    private final LocalDateTime localDateTimeNow = LocalDateTime.now();//
+    private final String strNow = localDateTimeNow.format(DateTimeFormatter.ofPattern("yyyymmddhhmmss")); //
+
+
     public Page<SalesOppo> getSalesOppoList(Pageable pageable,int page) {
         return salesOppoRepository.findAll(PageRequest.of(page, 10));
     }
@@ -51,12 +57,15 @@ public class SalesOppoService {
     @Cacheable
     public SalesOppoDto getSalesOppo(String empno, String corRegNo, LocalDateTime regDate) {
 
+        String strRegDate = regDate.format(DateTimeFormatter.ofPattern("yyyymmddhhmmss"));
+       
+
         SalesOppoPK idKey = new SalesOppoPK(empno, corRegNo, regDate);
         SalesOppo entity = salesOppoRepository.findById(idKey).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
         
         return SalesOppoDto.builder()
             .empno(entity.getEmpno())
-            .reg_date(entity.getRegDate())
+            .reg_date(strRegDate) //
             .equip_no(entity.getEquipNo())
             .cor_reg_no(entity.getCorRegNo())
             .project_name(entity.getProjectName())
@@ -78,12 +87,15 @@ public class SalesOppoService {
     @Transactional
     public void create(SalesOppoDto salesOppoDto) {
        // codeMasterDto.setRegist_time(LocalDate.now());
-        salesOppoDto.setReg_date(LocalDateTime.now());
+
+    //    String strRegDate = localDateTimeNow.format(DateTimeFormatter.ofPattern("yyyymmddhhmmss"));
+       
+        // salesOppoDto.setReg_date(LocalDateTime.now());  //꼭 들어갈 필요 없어서 주석 
         String retire_date_to_save = parseDateToSave(salesOppoDto.getRetire_date());
         String end_date_to_save = parseDateToSave(salesOppoDto.getEnd_date());
         SalesOppo entity= SalesOppo.builder()
             .empno(salesOppoDto.getEmpno())
-            .regDate(salesOppoDto.getReg_date())
+            .regDate(LocalDateTime.now())
             .equipNo(salesOppoDto.getEquip_no())
             .corRegNo(salesOppoDto.getCor_reg_no())
             .projectName(salesOppoDto.getProject_name())
@@ -102,15 +114,21 @@ public class SalesOppoService {
 
     //수정
     public void update(SalesOppoDto salesOppoDto) {
-        salesOppoDto.setReg_date(LocalDateTime.now());
-        
-        String retire_date_to_save = parseDateToSave(salesOppoDto.getRetire_date());
-        String end_date_to_save = parseDateToSave(salesOppoDto.getEnd_date());
 
-        SalesOppoPK idKey = new SalesOppoPK(salesOppoDto.getEmpno(), salesOppoDto.getCor_reg_no(), salesOppoDto.getReg_date());
+
+        LocalDateTime ldRegDate =
+            LocalDateTime.parse(salesOppoDto.getReg_date(), DateTimeFormatter.ofPattern("yyyymmddhhmmss"));
+
+        salesOppoDto.setReg_date(strNow);
+
+
+        String retire_date_to_save = parseDateToSave(salesOppoDto.getRetire_date()); //
+        String end_date_to_save = parseDateToSave(salesOppoDto.getEnd_date());//
+
+        SalesOppoPK idKey = new SalesOppoPK(salesOppoDto.getEmpno(), salesOppoDto.getCor_reg_no(), ldRegDate);
         SalesOppo entity = salesOppoRepository.findById(idKey).orElseThrow(() -> new RuntimeException("거래처를 찾을 수 없습니다."));
             entity.setEmpno(salesOppoDto.getEmpno());
-            entity.setRegDate(salesOppoDto.getReg_date());
+            entity.setRegDate(ldRegDate);//
             entity.setCorRegNo(salesOppoDto.getCor_reg_no());
             entity.setEquipNo(salesOppoDto.getEquip_no());
             entity.setProjectName(salesOppoDto.getProject_name());
@@ -129,7 +147,10 @@ public class SalesOppoService {
 
     //삭제
     public void delete(String empno, String corRegNo, String regDate) {
-        SalesOppoPK idKey = new SalesOppoPK(empno, corRegNo, regDate);
+        LocalDateTime ldRegDate =
+        LocalDateTime.parse(regDate, DateTimeFormatter.ofPattern("yyyy-MM-ddHH:mm:ss"));//
+
+        SalesOppoPK idKey = new SalesOppoPK(empno, corRegNo, ldRegDate);
         SalesOppo entity = salesOppoRepository.findById(idKey).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
         
         salesOppoRepository.delete(entity);
