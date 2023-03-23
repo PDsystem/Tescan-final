@@ -18,10 +18,10 @@
                     
                     <!--날짜검색-->
                     <div class="startDate colText">시작일</div>
-                    <div style="margin-right: 10px;"><input type="date" name="startDate" v-model="startDate"></div>
+                    <div style="margin-right: 10px;"><input type="date" name="startDate" v-model="dateStart"></div>
                     <p>~</p>
                     <div class="endDate colText">종료일</div>
-                    <div style="margin-right: 10px;"><input type="date" name="endDate" v-model="endDate"></div>
+                    <div style="margin-right: 10px;"><input type="date" name="endDate" v-model="dateEnd"></div>
 
                     <!--검색관련 버튼-->
                     <button class="search_btn margin-left" @click="GetOppoList()">조회</button>
@@ -217,6 +217,9 @@ export default {
           
           this.requestBody = { // 데이터 전송
             empSearch: this.empSearch,
+            corSearch: this.corSearch,
+            dateStart: this.dateStart,
+            dateEnd: this.dateEnd,
             page: currentPage-1,
             size: 10
           }
@@ -248,8 +251,8 @@ export default {
             //검색부분 초기화
             this.empSearch="";
             this.corSearch="";
-            this.startDate="";
-            this.endDate="";
+            this.dateStart="";
+            this.dateEnd="";
 
             //데이터부분 초기화
             this.empno="";
@@ -294,7 +297,6 @@ export default {
                 "note": this.note
             }
             console.log(this.requestBody);
-            // console.log(this.requestBody);
 
                 //INSERT
                 this.$axios.post(this.$serverUrl + "/oppo/insert", this.requestBody)
@@ -312,10 +314,10 @@ export default {
         //삭제버튼 클릭시
         fnDelete() {
             if (!confirm("삭제하시겠습니까?")) return
-                this.$axios.delete(this.$serverUrl + '/salesOppoDelete/' + this.empno, this.cor_reg_no, this.reg_date, {})
+                this.$axios.delete(this.$serverUrl + '/salesOppoDelete/' + this.empno + '/' + this.cor_reg_no + '/' + this.reg_date)
                     .then(() => {
                         alert('삭제되었습니다.')
-                    
+                        this.GetOppoList();
                 }).catch((err) => {
             console.log(err);
             })
