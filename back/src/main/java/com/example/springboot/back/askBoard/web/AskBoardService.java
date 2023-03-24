@@ -1,15 +1,15 @@
 package com.example.springboot.back.askBoard.web;
 
+import java.time.LocalDateTime;
+
+import javax.persistence.EntityManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-
-import javax.persistence.EntityManager;
 
 import com.example.springboot.back.askBoard.entity.AskBoard;
 import com.example.springboot.back.askBoard.entity.AskBoardRepository;
@@ -37,7 +37,9 @@ public class AskBoardService {
      * @return
      */
     public Page<AskBoard> getaskBoardList(Pageable pageable, int page) {
-        return askBoardRepository.findAll(PageRequest.of(page, 10));
+        return askBoardRepository.findAllOrderByContentDateDesc(PageRequest.of(page, 10));
+        // return askBoardRepository.findAll(PageRequest.of(page, 10));
+     
     }
     
     // 검색분류(글번호, 제목, 아이디 선택박스조건으로 검색)
@@ -48,14 +50,12 @@ public class AskBoardService {
             asklist=askBoardRepository.findByContentNoContaining(searchKeyword, PageRequest.of(page, 10));
             break;
             case "CONTENT_TITLE":
-            asklist=askBoardRepository.findByContentsContaining(searchKeyword, PageRequest.of(page, 10));
+            asklist=askBoardRepository.findByContentTitleContaining(searchKeyword, PageRequest.of(page, 10));
+            // asklist=askBoardRepository.findByContentTitleContaining(searchKeyword, PageRequest.of(page, 10));
             break;
             case "CONTENT_ID":
             asklist=askBoardRepository.findByContentIdContaining(searchKeyword, PageRequest.of(page, 10));
             break;
-            // default:
-            // asklist=askBoardRepository.findTotal(PageRequest.of(page, 10),searchKeyword);
-            // break;
         }
 
         return asklist;

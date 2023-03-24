@@ -1,6 +1,7 @@
 package com.example.springboot.back.askBoard.web.dtos;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +18,6 @@ public class AskBoardDto implements Serializable {
     private String contents;
     private String content_id;
     private String content_pw;
-    private String content_date;
+    private LocalDateTime content_date;
     private String disclosure;
 }

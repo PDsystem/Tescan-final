@@ -1,3 +1,4 @@
+<!-- 게시판 헤드-->
 <template>
   <div class="emp_container">
     <div class="emp_header">
@@ -7,20 +8,21 @@
       <div class="menu">
         <div class="menu_left">
           <div>
+<!-- 게시판 dropdown list 선택 항목-->
             <select class="dropdown_list" @change="searchType()">
               <option>선택</option>
-              <option value="CONTENT_NO">글번호</option>
+              <option value="CONTENT_NO">No</option>
               <option value="CONTENT_ID">작성자</option>
               <option value="CONTENT_TITLE">제목</option>
-
             </select>
+<!--검색란-->
           </div>
           <input type="text" name="searchKeyword" v-model="searchKeyword"/>
           <button class="emp_btn"  @click="codeSearch()">검색</button>
         </div>
       </div>
-      <!-- 검색 및 CRUD 버튼 끝 -->
-      <!-- 데이터 입력 테이블 시작 -->
+
+<!--항목-->
       <div class="body_text">
         <tr>
           <td class="col_name">글 번호</td>
@@ -29,11 +31,11 @@
           </td>
           <td class="col_name">ID</td>
           <td class="col_data">
-            <input v-model="content_id" type="text" name="content_id">
+            <input v-model="content_id" type="text" name="content_id" maxlength='20'>
           </td>
           <td class="col_name">PASSWORD</td>
           <td class="col_data">
-            <input v-model="content_pw" type="password" name="content_pw">
+            <input v-model="content_pw" type="password" name="content_pw" maxlength='15'>
           </td>
         </tr>
         <tr>
@@ -51,13 +53,18 @@
           </td>
         </tr>
         <tr>
-          <td class="col_name">내용</td>
-        </tr>
-        <tr>
+          <td class="col_name" maxlength='2000'>내용</td>&nbsp;
+          <td class="col_name">공개여부</td>
+          <select class="dropdown_list" @change="fnDisclosure()">
+              <option>선택</option>
+              <option value="Y">Y</option>
+              <option value="N">N</option>
+          </select>
         </tr>
       </div>
+  <!-- 내용에 입력할 글-->
       <div class="board-contents">
-        <textarea id="" cols="265" rows="10" v-model="contents" class="w3-input w3-border" style="resize: none;">
+        <textarea id="" cols="265" rows="10" v-model="contents" class="w3-input w3-border" style="resize: none;" maxlength='2000'>
           </textarea>
       </div>
       <div class="emp_header" float="right">
@@ -72,16 +79,19 @@
       <table class="contents">
         <thead>
           <tr>
-            <th>번호</th>
+            <th>No</th>
+            <th>글 번호</th>
             <th>제목</th>
-            <th>작성자</th>
-            <th>날짜</th>
+            <th>ID</th>
+            <th>등록일자</th>
             <th>내용</th>
             <th>공개여부</th>
           </tr>
         </thead>
+  <!-- 게시판리스트 -->
         <tbody>
           <tr v-for="(row, content_no) in list" :key="content_no" @click="fnbind(row)">
+            <td>{{ content_no+1 }}</td>
             <td>{{ row.content_no }}</td>
             <td>{{ row.content_title }}</td>
             <td>{{ row.content_id }}</td>
@@ -167,6 +177,7 @@ export default {
     this.codeSearch();
   },
   methods: {
+    // 페이징처리 , 조건검색 , 조건항목
     codeSearch(currentPage){
     this.requestBody = { // 데이터 전송
       searchKeyword: this.searchKeyword,
@@ -181,7 +192,7 @@ this.$axios.post(this.$serverUrl + "/askBoard/List",
   ).then((res) => {
   console.log(res);
 
-    this.list = res.data.content //서버에서 데이터를 목록으로 보내므로 바로 할당하여 사용할 숴 있다.
+    this.list = res.data.content //서버에서 데이터를 목록으로 보내므로 바로 할당하여 사용할 수 있다.
     this.paging.total_page_cnt = res.data.total_pages;
     this.paging.total_list_cnt =res.data.total_elements;
     this.paging.page=res.data.pageable.page_number+1;
@@ -191,10 +202,16 @@ this.$axios.post(this.$serverUrl + "/askBoard/List",
   });
 },
 
+//게시판 선택항목 저장
 searchType(){
   this.requestBody.searchType=event.target.value;
 },
+//공개여부 저장
+fnDisclosure() {
+  this.disclosure=event.target.value
+},
 
+// 게시글 저장
       fnSave() {
       this.requestBody = {
         "content_no": this.content_no,
@@ -217,7 +234,8 @@ searchType(){
           }
         })
     },
-
+    
+  // 게시글 수정
     fnUpdate() {
     this.requestBody = {
         "content_no": this.content_no,
@@ -239,29 +257,7 @@ searchType(){
         }
       })        
     },
-
-    clickFunc(event) { // 하나의 버튼만 클릭
-      for (let i = 0; i < this.checkedValues.length; i++) {
-        if (this.checkedValues[i] !== event.target.value) {
-          console.log(this.checkedValues[i])
-          this.checkedValues.splice(i, 1);
-        }
-      }
-    },
-    allCheck() {
-      if (!this.isAllChecked) {
-        for (let i = 1; i < 4; i++) {
-          this.checkedValues.push(i)
-        }
-        this.isAllChecked = true;
-      } else {
-        this.checkedValues = []
-
-        this.isAllChecked = false;
-      }
-      this.$emit('checkClick', this.checkedValues)
-    },
-
+// 게시글 삭제
     fnDelete() {
         if (!confirm("삭제하시겠습니까?")) return
   
@@ -310,7 +306,7 @@ searchType(){
             this.codeSearch();
         },
 
-     
+// 게시판리스트 가져오기
     fnGetList() {
       this.$axios.get(this.$serverUrl + "/askBoard/List",
       
@@ -318,7 +314,7 @@ searchType(){
         console.log(res);
         this.list = res.data
         console.log(this.list);
-
+        
       })
     }
   }
@@ -340,7 +336,7 @@ searchType(){
 
 .emp_container {
   margin: 10px 0px 0px 0px;
-  /** 헤더 제작 끝나면 마진 수정하기 */
+
 }
 
 .body_text {

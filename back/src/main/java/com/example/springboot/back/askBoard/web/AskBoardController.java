@@ -23,19 +23,20 @@ import lombok.RequiredArgsConstructor;
     public class AskBoardController {
     private final AskBoardService askBoardService;
 
-    // 목록 가져오기
+    // 게시판리스트 가져오기
     @PostMapping("/askBoard/List")
     public Page<AskBoard> askBoardList(Pageable pageable, @RequestBody Map<String,Object> params) {
         int page=0;
         if(params.get("page")!=null){
             page=(int) params.get("page");
         }
-        // 검색어 분류코드
+        // 검색어 분류코드(글번호, 아이디, 제목)
         String searchType= "";
         if(params.get("searchType")!=null) {
             searchType=(String) params.get("searchType");
         }
-        // 검색란 
+
+        // 게시판리스트에 있는 값을 검색 
         String searchKeyword=(String) params.get("searchKeyword");
         Page<AskBoard> askList = null;
         if(searchKeyword ==null){
@@ -50,15 +51,15 @@ import lombok.RequiredArgsConstructor;
         return askList;
     } 
     
-    //추가
+    // 게시글 추가
     @PostMapping("/askBoard")
     public void create(@RequestBody AskBoardDto AskBoardDto) {
         System.out.println("######################");
-        System.out.println(AskBoardDto);
+        System.out.println(AskBoardDto.getDisclosure());
         askBoardService.create(AskBoardDto);
     }
 
-    //수정
+    //게시글 수정
    @PatchMapping("/askBoard")
     public void update(@RequestBody AskBoardDto AskBoardDto) {
         System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -66,7 +67,7 @@ import lombok.RequiredArgsConstructor;
         askBoardService.update(AskBoardDto);
     }
 
-    //삭제
+    //게시글 삭제
     @DeleteMapping("/askBoard/{id}")
     public void delete(@PathVariable String id) {
         askBoardService.delete(id);
