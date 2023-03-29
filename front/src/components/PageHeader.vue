@@ -10,7 +10,7 @@
             <li><a href="/">Home</a>
               <ul>
                 <li><router-link to="/board/list">board</router-link></li>
-                <li><router-link to="/attitudeBook/list">attitude book list</router-link></li>
+                <li><router-link to="/restaurant/list">attitude book list</router-link></li>
               </ul>
             </li>
             <li><a href="/codeMaster/codeMaster">공통기능</a>

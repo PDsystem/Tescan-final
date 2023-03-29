@@ -14,6 +14,8 @@ import ClientDetail from '@/views/client/ClientDetail.vue'
 import ClientWrite from '@/views/client/ClientWrite.vue'
 import codeMaster from '@/views/codeMaster/codeMaster.vue'
 import askBoard from '@/views/askBoard/askBoardList.vue'
+import RestaurantList from '@/views/rest/RestaurantList.vue'
+import RestRandom from '@/views/rest/RestRandom.vue'
 
 const routes = [
   {
@@ -57,8 +59,8 @@ const routes = [
     name: 'SalesOppo',
     component: SalesOppo
   },
-   //영업기회
-   {
+  //영업기회
+  {
     path: '/Sales/list',
     name: 'SalesList',
     component: SalesList
@@ -92,6 +94,16 @@ const routes = [
     path: '/client/detail',
     name: 'ClientDetail',
     component: ClientDetail
+  },
+  {
+    path: '/restaurant/list',
+    name: 'RestaurantList',
+    component: RestaurantList
+  },
+  {
+    path: '/restaurant/random',
+    name: 'RestRandom',
+    component: RestRandom
   },
   {
     path: '/codeMaster/codeMaster',
