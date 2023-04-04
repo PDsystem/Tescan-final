@@ -38,6 +38,9 @@ public class ClientController {
     public Header<List<ClientDto>> clientList(@PageableDefault(sort = {"corRegNo"}) Pageable pageable
                                                     ,HttpServletRequest request,String keyword,String searchType) { 
         HttpSession session = request.getSession();
+        // pageable = PageRequest.of(page, 10, Sort.by("contentDate").descending());
+        // Pageable sortedByPriceDescNameAsc =
+    // PageRequest.of(0, 5, Sort.by("price").descending().and(Sort.by("name")));
         return clientService.getClientList(pageable,keyword,searchType); 
     }
     /**

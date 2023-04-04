@@ -37,8 +37,8 @@ public class AskBoardService {
      * @return
      */
     public Page<AskBoard> getaskBoardList(Pageable pageable, int page) {
-        return askBoardRepository.findAllOrderByContentDateDesc(PageRequest.of(page, 10));
-        // return askBoardRepository.findAll(PageRequest.of(page, 10));
+        // return askBoardRepository.findAllOrderByContentDateDesc(PageRequest.of(page, 10));
+        return askBoardRepository.findAll(PageRequest.of(page, 10));
      
     }
     

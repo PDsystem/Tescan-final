@@ -1,7 +1,6 @@
 package com.example.springboot.back.customer.web;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import com.example.springboot.back.model.*;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-@Slf4j
 @RequiredArgsConstructor
 @CrossOrigin
 @RestController

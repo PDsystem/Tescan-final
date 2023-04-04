@@ -14,6 +14,6 @@ public interface AskBoardRepository extends JpaRepository<AskBoard,String>{
     Page<AskBoard> findByContentIdContaining(@Param(value="searchKeyword") String searchKeyword, Pageable pageable);
     Page<AskBoard> findByContentTitleContaining(@Param(value="searchKeyword") String searchKeyword, Pageable pageable);
 
-    @Query(value = "select * from TS_CONTENT ORDER BY CONTENT_DATE DESC",nativeQuery=true)
-    Page<AskBoard> findAllOrderByContentDateDesc(Pageable pageable);
+    // @Query(value = "select * from TS_CONTENT tc ORDER BY tc.CONTENT_DATE DESC",nativeQuery=true)
+    // Page<AskBoard> findAllOrderByContentDateDesc(Pageable pageable);
 }

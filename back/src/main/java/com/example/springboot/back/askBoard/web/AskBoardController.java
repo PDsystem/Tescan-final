@@ -3,7 +3,9 @@ package com.example.springboot.back.askBoard.web;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,9 +28,12 @@ import lombok.RequiredArgsConstructor;
     // 게시판리스트 가져오기
     @PostMapping("/askBoard/List")
     public Page<AskBoard> askBoardList(Pageable pageable, @RequestBody Map<String,Object> params) {
+
+        
         int page=0;
         if(params.get("page")!=null){
             page=(int) params.get("page");
+            pageable = PageRequest.of(page, 10, Sort.by("contentDate").descending());
         }
         // 검색어 분류코드(글번호, 아이디, 제목)
         String searchType= "";
@@ -41,6 +46,7 @@ import lombok.RequiredArgsConstructor;
         Page<AskBoard> askList = null;
         if(searchKeyword ==null){
             askList=askBoardService.getaskBoardList(pageable,page);
+            System.out.println("zzzzzzzzzzzzzzzzzzzzzz"+page);
         }else{
             askList= askBoardService.askBoardSearchList(searchKeyword, pageable, page,searchType);
         }
