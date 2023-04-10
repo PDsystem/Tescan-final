@@ -6,12 +6,60 @@
         <div class="cn_menu">              
             <button type="button" class="cn_btn common-buttons" v-on:click="fnRandom()">랜덤 뽑기</button>                
         </div>    
+        <div class="body_text">
+        <tr>
+            <td class="col_name">번호</td>
+            <td class="col_data">
+                <input v-model="rest_no" class="inputcss" name="rest_no" maxlength='5'>
+            </td>
+            <td class="col_name">상호명</td>
+            <td class="col_data">
+                <input v-model="content_id" type="text" name="content_id" maxlength='20'>
+            </td>
+            <td class="col_name">구분</td>
+            <td class="col_data">
+                <select class="dropdown_list" @change="fnDisclosure()">
+                    <option>선택</option>
+                    <option value="100">한식</option>
+                    <option value="200">일식</option>
+                    <option value="300">중식</option>
+                    <option value="400">패스트푸드</option>
+                    <option value="500">분식</option>
+                    <option value="600">기타</option>
+                </select>
+            </td>
+            <td class="col_name">평균 가격</td>   
+            <td>
+                <input v-model="price" type="text" name="price">
+            </td>
+        </tr>
+        <tr>
+            <td class="col_name">주소</td>
+            <td class="col_data">
+                <input v-model="address1" type="text" name="address1">
+            </td>
+            <td class="col_name">상세주소</td>
+            <td class="col_data">
+                <input v-model="address2" type="text" name="address2">
+            </td>
+            <td class="col_name">우편번호</td>
+            <td class="col_data">
+                <input class="zip" type="date" name="zip">
+            </td>
+        </tr>
+        <tr>
+            <td class="col_name">비고</td>&nbsp;
+        </tr>
+      </div>
+      <div>
+        <textarea id="" cols="265" rows="10" v-model="note" style="resize: none;" maxlength='2000'>
+          </textarea>
+      </div>
         <table class="table-all">
             <thead>
                 <tr class="cn_col_name">
-                    <th><input type="checkbox" value="{{row.cor_reg_no }}"></th>
+                    <!-- <th><input type="checkbox" value="{{row.cor_reg_no }}"></th> -->
                     <th>No</th>
-                    <th>음식점 번호</th>
                     <th>상호명</th>
                     <th>구분번호</th>
                     <th>가격</th>
@@ -26,21 +74,20 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(row,idx) in list" :key="idx">
-                    <td><input type="checkbox" value="{{row.rest_no }}"></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{idx+1}}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.rest_no }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.rest_name }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.division_no }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.price }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.address1 }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.address2 }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.zip }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.reg_date }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.reg_id }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.mod_date }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.mod_id }}</a></td>
-                    <td><a @dblclick="fnView(`${row.rest_no}`)">{{ row.note }}</a></td>
+                <tr v-for="(row,idx) in list" :key="idx"  @dbclick="fnView(row)">
+                    <!-- <td><input type="checkbox" value="{{row.rest_no }}"></td> -->
+                    <td>{{ idx+1 }}</td>
+                    <td>{{ row.rest_name }}</td>
+                    <td>{{ row.division_no }}</td>
+                    <td>{{ row.price }}</td>
+                    <td>{{ row.address1 }}</td>
+                    <td>{{ row.address2 }}</td>
+                    <td>{{ row.zip }}</td>
+                    <td>{{ row.reg_date }}</td>
+                    <td>{{ row.reg_id }}</td>
+                    <td>{{ row.mod_date }}</td>
+                    <td>{{ row.mod_id }}</td>
+                    <td>{{ row.note }}</td>
                 </tr>
             </tbody>
         </table>
@@ -71,7 +118,9 @@
             </select>
             <input type="text" v-model="keyword" class="w3-input w3-border">
             <button type="button" class="cn_btn common-buttons" @click="fnGetList()">검색</button>
+            <!-- <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                           -->
             <button type="button" class="cn_btn common-buttons" v-on:click="fnWrite">등록</button>                          
+            <button type="button" class="cn_btn common-buttons" v-on:click="fnDelete">삭제</button>                          
         </div>   
         <br><br><br>
     </div>
@@ -83,6 +132,14 @@
         return {
             requestBody: {}, //리스트 페이지 데이터전송
             list: {}, //리스트 데이터
+            rest_no:'',
+            rest_name:'',
+            division_no:'',
+            price:'',
+            address1:'',
+            address2:'',
+            zip:'',
+            note:'',
             paging: {
                 block: 0,
                 end_page: 0,
@@ -143,13 +200,30 @@
         setSelect(){
             this.requestBody.searchType=event.target.value;
         },
-        fnView(rest_no) {            
-            this.requestBody.rest_no = rest_no           
-            this.$router.push({
-            path: './detail',
-            query: this.requestBody
-            })
+        fnView(row) {
+            alert(rest_no);
+            this.rest_no=row.rest_no;
+            this.rest_name=row.rest_name;
+            this.division_no=row.division_no;
+            this.price=row.price;
+            this.address1=row.address1;
+            this.address2=row.address2;
+            this.zip=row.zip;
+            this.note=row.note;
         },
+        fnGetView() {
+        console.log(this.requestBody);
+        this.$axios.post(this.$serverUrl + '/restaurant/random', {
+          params: this.requestBody
+        }).then((res) => {
+          this.rest_no = res.data.rest_no
+          this.rest_name = res.data.rest_name
+        }).catch((err) => {
+          if (err.message.indexOf('Network Error') > -1) {
+            alert('네트워크가 원활하지 않습니다.\n잠시 후 다시 시도해주세요.')
+          }
+        })
+      },
         fnRandom(){       
             this.$router.push({
             path: './random'

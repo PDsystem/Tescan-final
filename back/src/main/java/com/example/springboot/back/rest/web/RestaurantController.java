@@ -31,15 +31,13 @@ public class RestaurantController {
 
         return restService.getRestList(pageable,keyword,searchType); 
     }
-    // @PostMapping("/restaurant/{x}")
-    // public RestDto getRest(@PathVariable String x) {
-    //     return restService.getRest(x);
-    // }
+    @PostMapping("/restaurant/{x}")
+    public RestDto getRest(@PathVariable Integer x) {
+        return restService.getRest(x);
+    }
     // @PostMapping("/restaurant/random")
     @PostMapping("/restaurant/random")
     public RestDto getRandomRest() {
-        System.out.println("zzzzzzzzzzzzzzzzzzzzz");
-
         return restService.getRandomRest();
     }
     // @PostMapping("/restaurant")
@@ -47,15 +45,14 @@ public class RestaurantController {
     //     restService.create(restDto);
     // }
 
-    // @PatchMapping("/restaurant")
-    // public void update(@RequestBody RestDto restDto) {
-    //     System.out.println(restDto.getRest_no());
-    //     restService.update(restDto);
-    // }
-
-    // @DeleteMapping("/restaurant/{id}")
-    // public void delete(@PathVariable String id) {
-    //     restService.delete(id);
-    // }
+    @PatchMapping("/restaurant")
+    public void update(@RequestBody RestDto restDto) {
+        System.out.println(restDto.getRest_no());
+        restService.update(restDto);
+    }
+    @DeleteMapping("/restaurant/{id}")
+    public void delete(@PathVariable Integer id) {
+        restService.delete(id);
+    }
     
 }
